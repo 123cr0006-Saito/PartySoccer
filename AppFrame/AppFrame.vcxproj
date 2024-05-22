@@ -159,6 +159,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\Mode\ModeFade.cpp" />
+    <ClCompile Include="source\Mode\ModeFadeComeBack.cpp" />
     <ClCompile Include="source\System\Source\Function\Vibration.cpp" />
     <ClCompile Include="source\System\Source\Collision\MyStructure.cpp" />
     <ClCompile Include="source\System\Source\Function\DrawGauge.cpp" />
@@ -183,6 +185,8 @@
     <ClCompile Include="source\System\Source\Sound\SoundServer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\Mode\ModeFade.h" />
+    <ClInclude Include="source\Mode\ModeFadeComeBack.h" />
     <ClInclude Include="source\System\Header\Function\DrawGauge.h" />
     <ClInclude Include="source\System\Header\Function\mymath.h" />
     <ClInclude Include="source\Application\Global.h" />

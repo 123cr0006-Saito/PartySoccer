@@ -28,6 +28,7 @@
 
 #define DXINPUT_BUTTON_MAX		16
 #define PAD_BUTTON_MAX		20
+const int PLAYER_MAX = 4;
 const int PLAYER_1 = 1;
 const int PLAYER_2 = 2;
 const int PLAYER_3 = 3;
@@ -43,9 +44,7 @@ public:
 
 	XInput(int number);
 	virtual bool Input();
-
-	static XInput* _instance;
-	static XInput* GetInstance() { return (XInput*)_instance; }
+	virtual bool UpdateJoyPad();
 
 	//ÉQÉbÉ^Å[
 	//-------------------------------------------------
@@ -60,9 +59,6 @@ public:
 	short GetLy() { return _input.ThumbLY; }
 	unsigned char GetLTrg() { return _input.LeftTrigger; }
 	unsigned char GetRTrg() { return _input.RightTrigger; }
-
-
-
 
 	STICK GetAdjustedStick_L() { return _adjustedLStick; }
 	STICK GetAdjustedStick_R() { return _adjustedRStick; }
@@ -86,5 +82,5 @@ private:
 	int pad_num;
 
 	unsigned char _stickInput[4];
-
+	static unsigned char _connectNum;
 };

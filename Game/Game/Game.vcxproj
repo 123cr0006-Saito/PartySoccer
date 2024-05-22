@@ -19,20 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\ApplicationMain.cpp" />
-    <ClCompile Include="source\Application\ApplicationMain.cpp" />
     <ClCompile Include="source\Application\Source\ApplicationMain.cpp" />
-    <ClCompile Include="source\ModeGame.cpp" />
-    <ClCompile Include="source\Mode\ModeGame.cpp" />
     <ClCompile Include="source\Mode\Source\ModeGame.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\ApplicationMain.h" />
-    <ClInclude Include="source\Application\ApplicationMain.h" />
     <ClInclude Include="source\Application\Header\ApplicationMain.h" />
-    <ClInclude Include="source\ModeGame.h" />
     <ClInclude Include="source\Mode\Header\ModeGame.h" />
-    <ClInclude Include="source\Mode\ModeGame.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

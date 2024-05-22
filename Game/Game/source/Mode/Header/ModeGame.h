@@ -7,7 +7,7 @@
 //----------------------------------------------------------------------
 #pragma once
 #include "appframe.h"
-
+#include "dxlib.h"
 class ModeGame : public ModeBase
 {
 	typedef ModeBase base;
@@ -21,5 +21,5 @@ public:
 	virtual bool Render();
 	
 protected:
-	
+	int debug;
 };

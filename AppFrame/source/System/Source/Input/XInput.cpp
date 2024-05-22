@@ -1,11 +1,9 @@
 #include "../../Header/Input/XInput.h"
 #include "../../Header/Function/mymath.h"
 
-XInput* XInput::_instance = NULL;
+unsigned char XInput::_connectNum = 0;
 
 XInput::XInput(int number) {
-	_instance = this;
-
 	pad_num = number;
 	for (int i = 0; i < DXINPUT_BUTTON_MAX; i++) {
 		_trg[i] = 0;
@@ -18,6 +16,8 @@ XInput::XInput(int number) {
 bool XInput::Input() {
 	// キーの入力、トリガ入力、リリース入力を得る
 	unsigned char keyold[PAD_BUTTON_MAX];
+
+	UpdateJoyPad();
 
 	for (int i = 0; i < DXINPUT_BUTTON_MAX; i++) {
 		keyold[i] = _input.Buttons[i];
@@ -83,5 +83,17 @@ bool XInput::Input() {
 		_rel[DXINPUT_BUTTON_MAX + i] = (_stickInput[i] ^ keyold[DXINPUT_BUTTON_MAX + i]) & ~_stickInput[i];
 	}
 
+
+
 	return true;
+};
+
+bool XInput::UpdateJoyPad() {
+	char connectNum = static_cast<char>(GetJoypadNum());
+	if (_connectNum != connectNum) {
+		ReSetupJoypad();
+		ReSetupInputSystem();
+		_connectNum = connectNum;
+	}
+	_connectNum = connectNum;
 };

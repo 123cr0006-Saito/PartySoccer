@@ -279,6 +279,7 @@ int ModeServer::ProcessFinish() {
 
 // 描画を回すための初期化
 int ModeServer::RenderInit() {
+	clsDx();
 	return 0;
 }
 

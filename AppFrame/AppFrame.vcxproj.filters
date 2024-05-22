@@ -61,6 +61,8 @@
     <ClCompile Include="source\System\Source\Function\Vibration.cpp" />
     <ClCompile Include="source\System\Source\Sound\SoundItem.cpp" />
     <ClCompile Include="source\System\Source\Sound\SoundServer.cpp" />
+    <ClCompile Include="source\Mode\ModeFade.cpp" />
+    <ClCompile Include="source\Mode\ModeFadeComeBack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Application\ApplicationBase.h">
@@ -103,5 +105,7 @@
     <ClInclude Include="source\System\Header\Sound\SoundItem.h" />
     <ClInclude Include="source\System\Header\Sound\SoundServer.h" />
     <ClInclude Include="source\System\Header\Input\XInput.h" />
+    <ClInclude Include="source\Mode\ModeFade.h" />
+    <ClInclude Include="source\Mode\ModeFadeComeBack.h" />
   </ItemGroup>
 </Project>

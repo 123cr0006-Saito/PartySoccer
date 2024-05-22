@@ -37,9 +37,10 @@ bool ModeGame::Process() {
 // @return ê¨å˜ÇµÇΩÇ©Ç«Ç§Ç©
 //----------------------------------------------------------------------
 bool ModeGame::Render() {
+
+	base::Render();
 	SetUseZBuffer3D(TRUE);
 	SetWriteZBuffer3D(TRUE);
 	SetUseBackCulling(TRUE);
-
 	return true;
 }
