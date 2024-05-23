@@ -42,10 +42,12 @@ public:
 		float x, y;
 	};
 
+	XInput();
 	XInput(int number);
+	~XInput();
 	virtual bool Input();
 	virtual bool UpdateJoyPad();
-
+	virtual void ReSet();
 	//ÉQÉbÉ^Å[
 	//-------------------------------------------------
 
@@ -79,7 +81,7 @@ private:
 
 	unsigned char	 _trg[PAD_BUTTON_MAX], _rel[PAD_BUTTON_MAX];
 
-	int pad_num;
+	int _padNum;
 
 	unsigned char _stickInput[4];
 	static unsigned char _connectNum;

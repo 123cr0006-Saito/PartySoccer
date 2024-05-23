@@ -3,65 +3,13 @@
   <ItemGroup>
     <ClCompile Include="source\Application\Source\ApplicationMain.cpp" />
     <ClCompile Include="source\Mode\Source\ModeGame.cpp" />
+    <ClCompile Include="source\Object\Base\Source\ObjectBase.cpp" />
+    <ClCompile Include="source\Object\Player\Source\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\ScreenVibration.cpp">
-      <Filter>Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="source\AnimationItem.cpp">
-      <Filter>Character\Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="source\AnimationManager.cpp">
-      <Filter>Character\Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="source\FrameData.cpp">
-      <Filter>Character\Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="source\MotionList.cpp">
-      <Filter>Character\Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ApplicationMain.cpp">
-      <Filter>Application</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ModelColor.cpp">
-      <Filter>Character</Filter>
-    </ClCompile>
-    <ClCompile Include="source\TimeLimit.cpp">
-      <Filter>Mode\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ModeGame.cpp">
-      <Filter>Mode\Game</Filter>
-    </ClCompile>
     <ClInclude Include="source\Application\Header\ApplicationMain.h" />
     <ClInclude Include="source\Mode\Header\ModeGame.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="source\ScreenVibration.h">
-      <Filter>Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="source\AnimationItem.h">
-      <Filter>Character\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="source\AnimationManager.h">
-      <Filter>Character\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="source\FrameData.h">
-      <Filter>Character\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="source\MotionList.h">
-      <Filter>Character\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ApplicationMain.h">
-      <Filter>Application</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ModelColor.h">
-      <Filter>Character</Filter>
-    </ClInclude>
-    <ClInclude Include="source\TimeLimit.h">
-      <Filter>Mode\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ModeGame.h">
-      <Filter>Mode\Game</Filter>
-    </ClInclude>
+    <ClInclude Include="source\Object\Base\Header\ObjectBase.h" />
+    <ClInclude Include="source\Object\Player\Header\Player.h" />
   </ItemGroup>
 </Project>

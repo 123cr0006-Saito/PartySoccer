@@ -19,10 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\Object\Player\Source\Player.cpp" />
+    <ClCompile Include="source\Object\Base\Source\ObjectBase.cpp" />
     <ClCompile Include="source\Application\Source\ApplicationMain.cpp" />
     <ClCompile Include="source\Mode\Source\ModeGame.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\Object\Player\Header\Player.h" />
+    <ClInclude Include="source\Object\Base\Header\ObjectBase.h" />
     <ClInclude Include="source\Application\Header\ApplicationMain.h" />
     <ClInclude Include="source\Mode\Header\ModeGame.h" />
   </ItemGroup>

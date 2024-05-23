@@ -1,17 +1,36 @@
 #include "../../Header/Input/XInput.h"
 #include "../../Header/Function/mymath.h"
 
-unsigned char XInput::_connectNum = 0;
+unsigned char XInput::_connectNum = 1;
 
-XInput::XInput(int number) {
-	pad_num = number;
+XInput::XInput() {
+	_padNum = _connectNum;
+	_connectNum++;
 	for (int i = 0; i < DXINPUT_BUTTON_MAX; i++) {
 		_trg[i] = 0;
 		_rel[i] = 0;
 		_input.Buttons[i] = 0;
 	}
+
+	ReSet();
+
 };
 
+XInput::XInput(int number) {
+	_padNum = number;
+	for (int i = 0; i < DXINPUT_BUTTON_MAX; i++) {
+		_trg[i] = 0;
+		_rel[i] = 0;
+		_input.Buttons[i] = 0;
+	}
+
+	ReSet();
+
+};
+
+XInput::~XInput() {
+	ReSet();
+}
 
 bool XInput::Input() {
 	// キーの入力、トリガ入力、リリース入力を得る
@@ -27,7 +46,7 @@ bool XInput::Input() {
 	}
 
 	// 入力状態を取得
-	GetJoypadXInputState(pad_num, &_input);
+	GetJoypadXInputState(_padNum, &_input);
 
 	for (int i = 0; i < DXINPUT_BUTTON_MAX; i++) {
 		// トリガ入力の取得
@@ -91,9 +110,13 @@ bool XInput::Input() {
 bool XInput::UpdateJoyPad() {
 	char connectNum = static_cast<char>(GetJoypadNum());
 	if (_connectNum != connectNum) {
-		ReSetupJoypad();
-		ReSetupInputSystem();
 		_connectNum = connectNum;
+		ReSet();
 	}
 	_connectNum = connectNum;
+};
+
+void XInput::ReSet() {
+	ReSetupJoypad();
+	ReSetupInputSystem();
 };
