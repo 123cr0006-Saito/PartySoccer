@@ -1,6 +1,9 @@
 #include "../../../Header/Object/Player/PlayerManeger.h"
-PlayerManeger::PlayerManeger(){
 
+PlayerManeger* PlayerManeger::_instance = nullptr;
+
+PlayerManeger::PlayerManeger(){
+	_instance = this;
 };
 
 PlayerManeger::~PlayerManeger(){
@@ -11,10 +14,9 @@ bool PlayerManeger::Update(){
 	return true;
 };
 
-bool PlayerManeger::SelectPlayer() {
-	return true;
-};
-
-bool PlayerManeger::Render(){
+bool PlayerManeger::CreatePlayer(std::vector<std::pair<XInput*, int>> param) {
+	for (int i = 0; i < param.size(); i++) {
+		_player.push_back(new Player(param));
+	}
 	return true;
 };
