@@ -7,4 +7,5 @@ bool InputManeger::UpdateJoyPad() {
 		_connectNum = connectNum;
 	}
 	_connectNum = connectNum;
+	return true;
 };

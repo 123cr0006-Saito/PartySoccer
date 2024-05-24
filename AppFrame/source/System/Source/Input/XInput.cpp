@@ -114,6 +114,7 @@ bool XInput::UpdateJoyPad() {
 		ReSet();
 	}
 	_connectNum = connectNum;
+	return true;
 };
 
 void XInput::ReSet() {
