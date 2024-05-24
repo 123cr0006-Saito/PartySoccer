@@ -4,20 +4,12 @@
 
 #include "DxLib.h"
 
-// メモリリーク検出用
-#define _CRTDBG_MAP_ALLOC
-#include <stdlib.h>
-#include <crtdbg.h>
-
-#ifdef _DEBUG
-#define NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
-#else
-#define NEW new
-#endif
+#include "../MemoryLeak.h"
 
 //Application
-#include "Application/ApplicationBase.h"
+
 #include "Application/UtilMacro.h"
+#include "Application/ApplicationBase.h"
 
 //CFile
 #include "CFile/CFile.h"

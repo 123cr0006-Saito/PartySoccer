@@ -1,5 +1,6 @@
 #include "../../Header/Application/ApplicationMain.h"
 #include "../../Header/Mode/ModeGame.h"
+#include "../../Header/Mode/ModeSelectPlayer.h"
 
 // 実体
 ApplicationMain				g_oApplicationMain;
@@ -9,7 +10,7 @@ bool ApplicationMain::Initialize(HINSTANCE hInstance) {
 	// 音声の読み込み
 	global.SoundLoad();
 	// モードの登録
-	ModeServer::GetInstance()->Add(NEW ModeGame(), 1, "Game");
+	ModeServer::GetInstance()->Add(NEW ModeSelectPlayer(), 1, "ModeSelectPlayer");
 	// コントローラーの初期化
 	_input = NEW XInput(DX_INPUT_PAD1);
 	// FPSを安定させるためのクラスを初期化

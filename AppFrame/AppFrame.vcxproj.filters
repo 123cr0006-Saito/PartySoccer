@@ -109,5 +109,6 @@
     <ClInclude Include="source\Mode\ModeFade.h" />
     <ClInclude Include="source\Mode\ModeFadeComeBack.h" />
     <ClInclude Include="source\System\Header\Input\InputManeger.h" />
+    <ClInclude Include="MemoryLeak.h" />
   </ItemGroup>
 </Project>

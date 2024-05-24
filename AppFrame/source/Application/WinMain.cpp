@@ -9,8 +9,6 @@
 #include "../appframe.h"
 #include "Global.h"
 
-
-
 //
 // WinMain(). ƒvƒƒOƒ‰ƒ€‹N“®ŠÖ”
 //

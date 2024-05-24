@@ -9,6 +9,7 @@
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Ball.cpp" />
     <ClCompile Include="Goal.cpp" />
+    <ClCompile Include="source\Source\Mode\ModeSelectPlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Header\Object\Player\Player.h" />
@@ -19,5 +20,6 @@
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Ball.h" />
     <ClInclude Include="Goal.h" />
+    <ClInclude Include="source\Header\Mode\ModeSelectPlayer.h" />
   </ItemGroup>
 </Project>

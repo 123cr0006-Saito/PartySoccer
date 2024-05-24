@@ -186,6 +186,7 @@
     <ClCompile Include="source\System\Source\Sound\SoundServer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MemoryLeak.h" />
     <ClInclude Include="source\System\Header\Input\InputManeger.h" />
     <ClInclude Include="source\Mode\ModeFade.h" />
     <ClInclude Include="source\Mode\ModeFadeComeBack.h" />
