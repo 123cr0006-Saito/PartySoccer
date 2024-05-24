@@ -6,6 +6,9 @@
     <ClCompile Include="source\Source\Object\Player\Player.cpp" />
     <ClCompile Include="source\Source\Object\Base\ObjectBase.cpp" />
     <ClCompile Include="source\Source\Object\Player\PlayerManeger.cpp" />
+    <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="Ball.cpp" />
+    <ClCompile Include="Goal.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Header\Object\Player\Player.h" />
@@ -13,5 +16,8 @@
     <ClInclude Include="source\Header\Application\ApplicationMain.h" />
     <ClInclude Include="source\Header\Mode\ModeGame.h" />
     <ClInclude Include="source\Header\Object\Player\PlayerManeger.h" />
+    <ClInclude Include="Stage.h" />
+    <ClInclude Include="Ball.h" />
+    <ClInclude Include="Goal.h" />
   </ItemGroup>
 </Project>

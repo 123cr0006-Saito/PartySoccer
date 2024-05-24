@@ -15,6 +15,6 @@ bool ObjectBase::Update(){
 	return true;
 };
 
-bool ObjectBase::Render(){
+bool ObjectBase::SetModelAndLayer(int modelHandle, int layer){
 	return true;
 };

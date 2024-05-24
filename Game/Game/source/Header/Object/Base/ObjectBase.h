@@ -8,7 +8,9 @@ public:
 	virtual ~ObjectBase();
 	virtual bool Init();
 	virtual bool Update();
-	virtual bool Render();
+
+	bool SetModelAndLayer(int modelHandle, int layer);
+
 protected:
 	Vector3D _pos;
 	Vector3D _size;
