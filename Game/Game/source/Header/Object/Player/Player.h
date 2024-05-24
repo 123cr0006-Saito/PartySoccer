@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Base/Header/ObjectBase.h"
+#include "../Base/ObjectBase.h"
 class Player : public ObjectBase
 {
 	public:

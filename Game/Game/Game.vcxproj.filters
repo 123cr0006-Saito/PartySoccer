@@ -1,15 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="source\Application\Source\ApplicationMain.cpp" />
-    <ClCompile Include="source\Mode\Source\ModeGame.cpp" />
-    <ClCompile Include="source\Object\Base\Source\ObjectBase.cpp" />
-    <ClCompile Include="source\Object\Player\Source\Player.cpp" />
+    <ClCompile Include="source\Source\Application\ApplicationMain.cpp" />
+    <ClCompile Include="source\Source\Mode\ModeGame.cpp" />
+    <ClCompile Include="source\Source\Object\Player\Player.cpp" />
+    <ClCompile Include="source\Source\Object\Base\ObjectBase.cpp" />
+    <ClCompile Include="source\Source\Object\Player\PlayerManeger.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\Application\Header\ApplicationMain.h" />
-    <ClInclude Include="source\Mode\Header\ModeGame.h" />
-    <ClInclude Include="source\Object\Base\Header\ObjectBase.h" />
-    <ClInclude Include="source\Object\Player\Header\Player.h" />
+    <ClInclude Include="source\Header\Object\Player\Player.h" />
+    <ClInclude Include="source\Header\Object\Base\ObjectBase.h" />
+    <ClInclude Include="source\Header\Application\ApplicationMain.h" />
+    <ClInclude Include="source\Header\Mode\ModeGame.h" />
+    <ClInclude Include="source\Header\Object\Player\PlayerManeger.h" />
   </ItemGroup>
 </Project>

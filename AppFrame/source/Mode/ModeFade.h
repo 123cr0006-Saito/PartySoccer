@@ -6,7 +6,7 @@
 // ステージ遷移時にフェードイン、フェードアウトを行うためのクラス
 //----------------------------------------------------------------------
 #pragma once
-#include "appframe.h"
+#include "../appframe.h"
 
 class ModeFade : public ModeBase
 {

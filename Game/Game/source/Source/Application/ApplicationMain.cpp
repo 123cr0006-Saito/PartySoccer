@@ -1,5 +1,5 @@
-#include "../Header/ApplicationMain.h"
-#include "../../Mode/Header/ModeGame.h"
+#include "../../Header/Application/ApplicationMain.h"
+#include "../../Header/Mode/ModeGame.h"
 
 // ŽÀ‘Ì
 ApplicationMain				g_oApplicationMain;
