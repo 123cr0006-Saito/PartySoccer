@@ -46,8 +46,9 @@ public:
 	XInput(int number);
 	~XInput();
 	virtual bool Input();
-	virtual bool UpdateJoyPad();
-	virtual void ReSet();
+	static bool UpdateJoyPad();
+	static void ReSet();
+
 	//ÉQÉbÉ^Å[
 	//-------------------------------------------------
 
@@ -64,6 +65,8 @@ public:
 
 	STICK GetAdjustedStick_L() { return _adjustedLStick; }
 	STICK GetAdjustedStick_R() { return _adjustedRStick; }
+
+	static int GetConnectNum() { return _connectNum; }
 
 	//-----------------------------------------------------
 
@@ -84,5 +87,5 @@ private:
 	int _padNum;
 
 	unsigned char _stickInput[4];
-	static unsigned char _connectNum;
+	static  int _connectNum;
 };
