@@ -78,6 +78,31 @@ public:
 		return left.x * right.x + left.y * right.y + left.z * right.z;
 	}
 
+	float Dot(const Vector3D& vec)
+	{
+		return x * vec.x + y * vec.y + z * vec.z;
+	}
+
+	//äOêœ
+	Vector3D Cross(const Vector3D& left, const Vector3D& right)
+	{
+		Vector3D tmp;
+		tmp.x = left.y * right.z - left.z * right.y;
+		tmp.y = left.z * right.x - left.x * right.z;
+		tmp.z = left.x * right.y - left.y * right.x;
+		return tmp;
+	};
+
+	Vector3D Cross(const Vector3D& vec)
+	{
+		Vector3D tmp;
+		tmp.x = y * vec.z - z * vec.y;
+		tmp.y = z * vec.x - x * vec.z;
+		tmp.z = x * vec.y - y * vec.x;
+		return tmp;
+	};
+
+
 	// +=
 	Vector3D operator+=(const Vector3D& vec)
 	{
