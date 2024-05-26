@@ -9,11 +9,16 @@ class PlayerManeger : public ManagerBase
 	public:
 	PlayerManeger();
 	~PlayerManeger();
+
+	static PlayerManeger* GetInstance() { return _instance; }
+	bool CreatePlayer(std::vector<std::pair<XInput*, int>> param);
+	std::string GetListName(std::string name)override;
+	int GetListSize()override;
+
 	bool Update()override;
 	bool Draw()override;
-	bool CreatePlayer(std::vector<std::pair<XInput*,int>> param);
-	static PlayerManeger* GetInstance() {return _instance;}
+	
 protected:
-	std::vector<Player*> _player;
+	std::vector<std::pair<std::string,Player*>> _player;
 };
 

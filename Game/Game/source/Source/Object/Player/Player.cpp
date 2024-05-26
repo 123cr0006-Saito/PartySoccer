@@ -1,5 +1,6 @@
 #include "../../../Header/Object/Player/Player.h"
-Player::Player(std::pair<XInput*, int> param) : ObjectBase() {
+Player::Player(std::string name, std::pair<XInput*, int> param) : ObjectBase() {
+	_name = name;
 	_Input = param.first;
 	_modelHandle = param.second;
 };
