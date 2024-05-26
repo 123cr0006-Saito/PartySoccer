@@ -2,9 +2,10 @@
 #include "../../../AppFrame/source/Mode/ModeBase.h"
 #include "../../../AppFrame/source/System/Header/Input/XInput.h"
 #include "../../../AppFrame/source/System/Header/Function/Vector3D.h"
-#include "../Object/Player/PlayerManeger.h"
+#include "../Manager/PlayerManeger.h"
 #include <utility>
 #include <algorithm>
+
 class ModeSelectPlayer : public ModeBase
 {
 public:

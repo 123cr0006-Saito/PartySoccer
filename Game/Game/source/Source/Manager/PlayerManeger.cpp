@@ -1,9 +1,9 @@
-#include "../../../Header/Object/Player/PlayerManeger.h"
+#include "../../Header/Manager/PlayerManeger.h"
 #include "../MemoryLeak.h"
 
 PlayerManeger* PlayerManeger::_instance = nullptr;
 
-PlayerManeger::PlayerManeger(){
+PlayerManeger::PlayerManeger() : ManagerBase(){
 	_instance = this;
 };
 
@@ -21,3 +21,7 @@ bool PlayerManeger::CreatePlayer(std::vector<std::pair<XInput*, int>> param) {
 	}
 	return true;
 };
+
+bool PlayerManeger::Draw(){
+	return true;
+}
