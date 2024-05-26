@@ -6,15 +6,16 @@
 #include <algorithm>
 class Player : public ObjectBase
 {
-	public:
+public:
 	Player(std::string name, std::pair<XInput*,int> param);
 	~Player();
 	virtual bool Init() override;
 	virtual bool Update()override;
 	std::string GetName() { return _name; }
-	protected:
+protected:
 	XInput* _Input;
 	int _stamina;
 	std::string _name;
+	Vector3D _forwardVec;
 };
 
