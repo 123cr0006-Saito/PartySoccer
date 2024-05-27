@@ -2,7 +2,7 @@
 class Stage : public ObjectBase
 {
 public:
-	Stage();
+	Stage(std::string name);
 	~Stage();
 	virtual bool Init()override;
 	virtual bool Update()override;
