@@ -11,11 +11,9 @@ public:
 	~Player();
 	virtual bool Init() override;
 	virtual bool Update()override;
-	std::string GetName() { return _name; }
 protected:
 	XInput* _Input;
 	int _stamina;
-	std::string _name;
 	Vector3D _forwardVec;
 };
 

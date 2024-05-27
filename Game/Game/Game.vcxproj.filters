@@ -7,8 +7,8 @@
     <ClCompile Include="source\Source\Object\Base\ObjectBase.cpp" />
     <ClCompile Include="source\Source\Manager\PlayerManeger.cpp" />
     <ClCompile Include="source\Source\Object\Stage\Stage.cpp" />
-    <ClCompile Include="Ball.cpp" />
-    <ClCompile Include="Goal.cpp" />
+    <ClCompile Include="source\Source\Object\Stage\Ball.cpp" />
+    <ClCompile Include="source\Source\Object\Stage\Goal.cpp" />
     <ClCompile Include="source\Source\Mode\ModeSelectPlayer.cpp" />
     <ClCompile Include="source\Source\Manager\RenderManager.cpp" />
     <ClCompile Include="source\Source\Manager\SuperManager.cpp" />
@@ -21,8 +21,8 @@
     <ClInclude Include="source\Header\Mode\ModeGame.h" />
     <ClInclude Include="source\Header\Manager\PlayerManeger.h" />
     <ClInclude Include="source\Header\Object\Stage\Stage.h" />
-    <ClInclude Include="Ball.h" />
-    <ClInclude Include="Goal.h" />
+    <ClInclude Include="source\Header\Object\Stage\Ball.h" />
+    <ClInclude Include="source\Header\Object\Stage\Goal.h" />
     <ClInclude Include="source\Header\Mode\ModeSelectPlayer.h" />
     <ClInclude Include="source\Header\Manager\RenderManager.h" />
     <ClInclude Include="source\Header\Manager\SuperManager.h" />

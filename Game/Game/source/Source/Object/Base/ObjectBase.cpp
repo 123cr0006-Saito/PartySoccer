@@ -1,6 +1,6 @@
 #include "../../../Header/Object/Base/ObjectBase.h"
-ObjectBase::ObjectBase(){
-
+ObjectBase::ObjectBase(std::string name){
+	_name = name;
 };
 
 ObjectBase::~ObjectBase(){

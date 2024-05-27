@@ -1,7 +1,6 @@
 #include "../../../Header/Object/Player/Player.h"
 #include "../../../Header/Manager/RenderManager.h"
-Player::Player(std::string name, std::pair<XInput*, int> param) : ObjectBase() {
-	_name = name;
+Player::Player(std::string name, std::pair<XInput*, int> param) : ObjectBase(name) {
 	_Input = param.first;
 	_modelHandle = param.second;
 	_forwardVec = Vector3D(0.0f, 0.0f, -1.0f);
