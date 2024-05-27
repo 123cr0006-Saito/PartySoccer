@@ -6,7 +6,7 @@
     <ClCompile Include="source\Source\Object\Player\Player.cpp" />
     <ClCompile Include="source\Source\Object\Base\ObjectBase.cpp" />
     <ClCompile Include="source\Source\Manager\PlayerManeger.cpp" />
-    <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="source\Source\Object\Stage\Stage.cpp" />
     <ClCompile Include="Ball.cpp" />
     <ClCompile Include="Goal.cpp" />
     <ClCompile Include="source\Source\Mode\ModeSelectPlayer.cpp" />
@@ -20,7 +20,7 @@
     <ClInclude Include="source\Header\Application\ApplicationMain.h" />
     <ClInclude Include="source\Header\Mode\ModeGame.h" />
     <ClInclude Include="source\Header\Manager\PlayerManeger.h" />
-    <ClInclude Include="Stage.h" />
+    <ClInclude Include="source\Header\Object\Stage\Stage.h" />
     <ClInclude Include="Ball.h" />
     <ClInclude Include="Goal.h" />
     <ClInclude Include="source\Header\Mode\ModeSelectPlayer.h" />

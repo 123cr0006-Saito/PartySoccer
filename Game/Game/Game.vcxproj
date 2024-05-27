@@ -29,7 +29,7 @@
     <ClCompile Include="source\Source\Mode\ModeGame.cpp" />
     <ClCompile Include="source\Source\Object\Base\ObjectBase.cpp" />
     <ClCompile Include="source\Source\Object\Player\Player.cpp" />
-    <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="source\Source\Object\Stage\Stage.cpp" />
     <ClCompile Include="source\Source\Manager\SuperManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -43,7 +43,7 @@
     <ClInclude Include="source\Header\Object\Base\ObjectBase.h" />
     <ClInclude Include="source\Header\Application\ApplicationMain.h" />
     <ClInclude Include="source\Header\Mode\ModeGame.h" />
-    <ClInclude Include="Stage.h" />
+    <ClInclude Include="source\Header\Object\Stage\Stage.h" />
     <ClInclude Include="source\Header\Manager\SuperManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
