@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\Source\Manager\ObjectManager.cpp" />
     <ClCompile Include="source\Source\Object\Stage\Ball.cpp" />
     <ClCompile Include="source\Source\Object\Stage\Goal.cpp" />
     <ClCompile Include="source\Source\Manager\ManagerBase.cpp" />
@@ -33,6 +34,7 @@
     <ClCompile Include="source\Source\Manager\SuperManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\Header\Manager\ObjectManager.h" />
     <ClInclude Include="source\Header\Object\Stage\Ball.h" />
     <ClInclude Include="source\Header\Object\Stage\Goal.h" />
     <ClInclude Include="source\Header\Manager\ManagerBase.h" />
