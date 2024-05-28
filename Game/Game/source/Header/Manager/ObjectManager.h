@@ -7,6 +7,12 @@ class ObjectManager : public ManagerBase
 	ObjectManager();
 	~ObjectManager();
 	bool Init() override;
+
+	void Add(std::string name,ObjectBase* object);
+	void Del(std::string name);
+	void DelAll();
+	void Sort();
+
 	bool Update() override;
 	bool Draw() override;
 

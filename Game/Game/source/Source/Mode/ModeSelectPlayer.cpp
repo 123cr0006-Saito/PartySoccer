@@ -91,7 +91,7 @@ bool ModeSelectPlayer::PlayerSelect(){
 			//誰かがBボタンを押したときに次に進む
 			if(_playerParam[i].first->GetTrg(XINPUT_BUTTON_B)){
 				// プレイヤーの生成
-				_playerManeger->CreatePlayer(_playerParam);
+				_playerManeger->Add(_playerParam);
 				// モードの変更
 				ModeServer::GetInstance()->Add(NEW ModeGame(), 1, "Main");
 				ModeServer::GetInstance()->Del(this);

@@ -11,7 +11,8 @@ class PlayerManeger : public ManagerBase
 	~PlayerManeger();
 
 	static PlayerManeger* GetInstance() { return _instance; }
-	bool CreatePlayer(std::vector<std::pair<XInput*, int>> param);
+	bool Add(std::vector<std::pair<XInput*, int>> param);
+	
 	std::string GetListName(std::string name)override;
 	int GetListSize()override;
 
