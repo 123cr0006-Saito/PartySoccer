@@ -1,6 +1,6 @@
 #pragma once
 #include "appframe.h"
-
+#include "../Manager/SuperManager.h"
 class ApplicationMain : public ApplicationBase
 {
 	typedef ApplicationBase base;
@@ -16,4 +16,6 @@ public:
 protected:
 	XInput* _input;
 	Fps* _fpsController;
+	SuperManager* _superManager;
+	RenderManager* _renderManager;
 }; 

@@ -24,5 +24,6 @@ protected:
 	std::vector<std::pair<XInput*,int>> _playerParam; // <コントローラー,選択キャラクター>
 	std::vector<std::pair<bool,int>> _selectCharacter; // <選択終了チェック,選択済みキャラクター>
 	PlayerManeger* _playerManeger;
+	SuperManager* _superManager;
 };
 

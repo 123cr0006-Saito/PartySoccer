@@ -8,10 +8,11 @@
 #pragma once
 #include "appframe.h"
 #include "dxlib.h"
+#include "../Manager/SuperManager.h"
+#include "../Manager/RenderManager.h"
 class ModeGame : public ModeBase
 {
 	typedef ModeBase base;
-
 
 public:
 
@@ -22,4 +23,5 @@ public:
 	
 protected:
 	int debug;
+	SuperManager* _superManager;
 };

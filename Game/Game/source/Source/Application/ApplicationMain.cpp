@@ -10,9 +10,12 @@ bool ApplicationMain::Initialize(HINSTANCE hInstance) {
 	// 音声の読み込み
 	global.SoundLoad();
 	// モードの登録
+	_superManager = NEW SuperManager();
+	_renderManager = NEW RenderManager();
 	ModeServer::GetInstance()->Add(NEW ModeSelectPlayer(), 1, "ModeSelectPlayer");
+
 	// コントローラーの初期化
-	_input = NEW XInput(DX_INPUT_PAD1);
+	//_input = NEW XInput(DX_INPUT_PAD1);
 	// FPSを安定させるためのクラスを初期化
 	_fpsController = NEW Fps();
 	return true;
@@ -28,6 +31,7 @@ bool ApplicationMain::Terminate() {
 
 bool ApplicationMain::Input() {
 	base::Input();
+	
 	_input->Input();
 	return true;
 }

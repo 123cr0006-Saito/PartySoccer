@@ -41,6 +41,7 @@ std::string RenderManager::GetListName(std::string name){
 	}
 	return "";
 };
+
 int RenderManager::GetListSize(){
 	return _modelList.size();
 };

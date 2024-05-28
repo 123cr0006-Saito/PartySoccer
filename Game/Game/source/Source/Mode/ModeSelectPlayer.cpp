@@ -3,7 +3,7 @@
 #include "../MemoryLeak.h"
 
 ModeSelectPlayer::ModeSelectPlayer(){
-
+	_superManager = SuperManager::GetInstance();
 };
 
 ModeSelectPlayer::~ModeSelectPlayer(){
@@ -91,12 +91,14 @@ bool ModeSelectPlayer::PlayerSelect(){
 			//誰かがBボタンを押したときに次に進む
 			if(_playerParam[i].first->GetTrg(XINPUT_BUTTON_B)){
 				// プレイヤーの生成
-				PlayerManeger::GetInstance()->CreatePlayer(_playerParam);
+				_playerManeger->CreatePlayer(_playerParam);
 				// モードの変更
 				ModeServer::GetInstance()->Add(NEW ModeGame(), 1, "Main");
 				ModeServer::GetInstance()->Del(this);
+				break;
 			}
 		}
+		_superManager->AddManager(0,_playerManeger);
 	}
 	return true;
 };
