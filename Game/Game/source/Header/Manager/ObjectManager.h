@@ -16,8 +16,9 @@ class ObjectManager : public ManagerBase
 	bool Update() override;
 	bool Draw() override;
 
-	bool AddObject(int id, ObjectBase* object);
 	std::string GetListName(std::string name)override;
 	int GetListSize()override;
+protected:
+	std::vector<std::pair<std::string, ObjectBase*>> _objectList;
 };
 
