@@ -98,7 +98,7 @@ bool ModeSelectPlayer::PlayerSelect(){
 				break;
 			}
 		}
-		_superManager->AddManager(0,_playerManeger);
+		_superManager->AddManager("playerManager",0,_playerManeger);
 	}
 	return true;
 };

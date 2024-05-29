@@ -14,9 +14,9 @@ bool ModeGame::Initialize() {
 		Goal* goal = new Goal(name, goalPos[i], goalRot[i]);
 		objectManager->Add(name,goal);
 	}
-	objectManager->Add("Stage", NEW Stage("Stage");
+	objectManager->Add("Stage", NEW Stage("Stage"));
 
-	_superManager->AddManager(1, objectManager);
+	_superManager->AddManager("objectManager",1, objectManager);
 	return true;
 }
 

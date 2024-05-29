@@ -1,5 +1,7 @@
 #pragma once
-#include "ManagerBase.h"
+#include <vector>
+#include <string>
+#include <tuple>
 class SuperManager 
 {
 	static SuperManager* _instance;
@@ -7,11 +9,11 @@ class SuperManager
 	SuperManager();
 	~SuperManager();
 	bool Init();
-	bool AddManager(int id, ManagerBase* manager);
+	bool AddManager(std::string name, int id, class ManagerBase* manager);
 	bool Update();
 	bool Draw();
 	static SuperManager* GetInstance() {return _instance;}
 	protected:
-	std::vector<std::pair<int,ManagerBase*>> _superManager;
+	std::vector<std::tuple<std::string,int,class ManagerBase*>> _superManager;
 };
 

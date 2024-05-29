@@ -11,8 +11,8 @@ bool SuperManager::Init() {
 	return true;
 };
 
-bool SuperManager::AddManager(int id, ManagerBase* manager){
-	_superManager.push_back(std::make_pair(id,manager));
+bool SuperManager::AddManager(std::string name,int id, ManagerBase* manager){
+	_superManager.push_back(std::make_tuple(name,id,manager));
 	return true;
 };
 
