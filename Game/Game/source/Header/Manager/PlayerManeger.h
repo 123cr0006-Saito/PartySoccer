@@ -11,9 +11,11 @@ class PlayerManeger : public ManagerBase
 	~PlayerManeger();
 
 	static PlayerManeger* GetInstance() { return _instance; }
+	bool Add(Player* player);
 	bool Add(std::vector<std::pair<XInput*, int>> param);
 	
 	std::string GetListName(std::string name)override;
+	std::vector<std::pair<std::string, Player*>> GetList() { return _player; }
 	int GetListSize()override;
 
 	bool Update()override;

@@ -52,6 +52,6 @@ bool Player::Update(){
 	MV1SetPosition(_modelHandle, _pos.toVECTOR());
 	//--------------------------------------------------------------------------------------------------
 
-	SetCameraPositionAndTarget_UpVecY((_pos + Vector3D(0,3000,-3000)).toVECTOR(), _pos.toVECTOR());
+	//SetCameraPositionAndTarget_UpVecY((_pos + Vector3D(0,3000,-3000)).toVECTOR(), _pos.toVECTOR());
 	return true;
 };
