@@ -1,5 +1,7 @@
 #include "../../Header/Function/Timer.h"
+Timer* Timer::_instance= nullptr;
 Timer::Timer() {
+	_instance = this;
 	_lastTime = 0;
 	_elapsedTime = 0.0f;
 }

@@ -3,9 +3,7 @@
 Global global;
 
 Global::Global() {
-	_timer = new Timer();
 	_soundServer = new SoundServer();
-	_timer->Start();
 	exit_count = false;
 	_stageNum = 1;
 	_allExp = 0;
@@ -14,7 +12,6 @@ Global::Global() {
 };
 
 Global::~Global() {
-	delete _timer;
 	delete _soundServer;
 };
 

@@ -9,13 +9,18 @@ bool ApplicationMain::Initialize(HINSTANCE hInstance) {
 	if (!base::Initialize(hInstance)) { return false; }
 	// 音声の読み込み
 	global.SoundLoad();
+	
+	// 前の処理から今の処理の計算時間を得るクラス
+	_timer = NEW Timer();
+	_timer->Start();
+	// FPSを安定させるためのクラスを初期化
+	_fpsController = NEW Fps();
+
 	// モードの登録
 	_superManager = NEW SuperManager();
 	_renderManager = NEW RenderManager();
 	_superManager->AddManager("renderManager", 0, _renderManager);
-	ModeServer::GetInstance()->Add(NEW ModeSelectPlayer(), 1, "ModeSelectPlayer");
-	// FPSを安定させるためのクラスを初期化
-	_fpsController = NEW Fps();
+	ModeServer::GetInstance()->Add(NEW ModeGame(), 1, "ModeSelectPlayer");
 	return true;
 }
 

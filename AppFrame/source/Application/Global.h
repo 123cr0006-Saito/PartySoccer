@@ -26,7 +26,6 @@ public:
 	void SetVibration() { IsVibration = 1 - IsVibration; }
 
 //変数・クラス
-	Timer* _timer;
 	SoundServer* _soundServer;
 	bool exit_count; //ゲーム終了フラグ
 	int IsVibration; //振動の有無を格納します。0 :振動なし 1:振動あり

@@ -2,6 +2,7 @@
 #include "appframe.h"
 #include "../Manager/SuperManager.h"
 #include "../Manager/RenderManager.h"
+#include "../../../AppFrame/source/System/Header/Function/Timer.h"
 class ApplicationMain : public ApplicationBase
 {
 	typedef ApplicationBase base;
@@ -15,6 +16,7 @@ public:
 	virtual bool AppWindowed() { return true; }
 
 protected:
+	Timer* _timer;
 	Fps* _fpsController;
 	SuperManager* _superManager;
 	RenderManager* _renderManager;
