@@ -2,6 +2,8 @@
 #include <vector>
 #include <string>
 #include <tuple>
+#include <utility>
+
 class SuperManager 
 {
 	static SuperManager* _instance;
@@ -9,7 +11,7 @@ class SuperManager
 	SuperManager();
 	~SuperManager();
 	bool Init();
-	bool AddManager(std::string name, int id, class ManagerBase* manager);
+	bool AddManager(std::string name, int id,class ManagerBase* manager);
 	bool Update();
 	bool Draw();
 	static SuperManager* GetInstance() {return _instance;}

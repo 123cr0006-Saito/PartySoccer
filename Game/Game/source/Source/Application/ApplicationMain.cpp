@@ -13,7 +13,7 @@ bool ApplicationMain::Initialize(HINSTANCE hInstance) {
 	_superManager = NEW SuperManager();
 	_renderManager = NEW RenderManager();
 	_superManager->AddManager("renderManager", 0, _renderManager);
-	ModeServer::GetInstance()->Add(NEW ModeGame(), 1, "ModeSelectPlayer");
+	ModeServer::GetInstance()->Add(NEW ModeSelectPlayer(), 1, "ModeSelectPlayer");
 	// FPS‚ğˆÀ’è‚³‚¹‚é‚½‚ß‚ÌƒNƒ‰ƒX‚ğ‰Šú‰»
 	_fpsController = NEW Fps();
 	return true;

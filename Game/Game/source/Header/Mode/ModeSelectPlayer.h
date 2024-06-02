@@ -26,5 +26,7 @@ protected:
 	std::vector<std::pair<bool,int>> _selectCharacter; // <選択終了チェック,選択済みキャラクター>
 	PlayerManeger* _playerManager;
 	SuperManager* _superManager;
+
+	std::array<int,4> _modelHandle;
 };
 

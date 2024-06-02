@@ -2,20 +2,26 @@
 #include "../../Header/Mode/ModeGame.h"
 #include "../MemoryLeak.h"
 
-ModeSelectPlayer::ModeSelectPlayer(){
+ModeSelectPlayer::ModeSelectPlayer() {
 	_superManager = SuperManager::GetInstance();
+	_playerManager = nullptr;
 };
 
-ModeSelectPlayer::~ModeSelectPlayer(){
-	
+ModeSelectPlayer::~ModeSelectPlayer() {
+
 };
 
-bool ModeSelectPlayer::Initialize(){
+bool ModeSelectPlayer::Initialize() {
 	_playerManager = NEW PlayerManeger();
 
 	//コントローラーと同じ数になるまで追加する
 	for (int i = 0; i < GetJoypadNum(); i++) {
-			_playerParam.push_back(std::make_pair(NEW XInput(), 0));
+		_playerParam.push_back(std::make_pair(NEW XInput(), 0));
+	}
+	std::string path[4] ={"Cat/cat","Fox/fox","Kappa/kappa","Rabbit/rabbit"};
+	for (int i = 0; i < 4; i++){
+		std::string modelPath = "Res/Model/Player/" + path[i] + ".mv1";
+		_modelHandle[i] = MV1LoadModel(modelPath.c_str());
 	}
 
 	return true;
@@ -111,10 +117,28 @@ bool ModeSelectPlayer::Process(){
 	PlayerSelect();
 	// コントローラーの数を更新
 	XInput::UpdateJoyPad();
+
+	// カメラの設定
+	SetupCamera_Ortho(100);
+	SetCameraPositionAndTarget_UpVecY(VGet(0, 0, -100), VGet(0, 0, 0));
 	return true;
 };
 
 bool ModeSelectPlayer::Render(){
+	int playerNum = _playerParam.size();
 
+	for(int i = 0; i < playerNum; i++) {
+		if(playerNum == 1){
+			// プレイヤーが一人の場合　中心
+			MV1SetPosition(_modelHandle[_playerParam[i].second], VGet(0, 0, 0));
+		}
+		else{
+			// プレイヤーが複数の場合　等間隔
+			float length = 140.0f / (playerNum - 1);
+		    MV1SetPosition(_modelHandle[_playerParam[i].second], VGet(-70 + length * i, 0, 0));
+		}
+		// モデルの描画
+		MV1DrawModel(_modelHandle[_playerParam[i].second]);
+	}
 	return true;
 };
