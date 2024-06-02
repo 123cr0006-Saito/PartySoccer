@@ -201,6 +201,7 @@ public:
 		tmp.z = z;
 		return tmp;
 	}
+
 };
 
 inline Vector3D operator*(const float scale, const Vector3D& vec)
@@ -234,3 +235,10 @@ inline Vector3D operator%(const Vector3D& left, const Vector3D& right)
 	tmp.z = left.x * right.y - left.y * right.x;
 	return tmp;
 };
+
+inline Vector3D Lerp(const Vector3D& start, const Vector3D& end, float t)
+{
+	Vector3D tmp;
+	tmp = start + (end - start) * t;
+	return tmp;
+}
