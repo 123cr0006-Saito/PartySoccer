@@ -3,6 +3,7 @@
 #include "../../../AppFrame/source/System/Header/Input/XInput.h"
 #include "../../../AppFrame/source/System/Header/Function/Vector3D.h"
 #include "../Manager/PlayerManeger.h"
+#include "../Manager/SuperManager.h"
 #include <utility>
 #include <algorithm>
 
@@ -23,7 +24,7 @@ public:
 protected:
 	std::vector<std::pair<XInput*,int>> _playerParam; // <コントローラー,選択キャラクター>
 	std::vector<std::pair<bool,int>> _selectCharacter; // <選択終了チェック,選択済みキャラクター>
-	PlayerManeger* _playerManeger;
+	PlayerManeger* _playerManager;
 	SuperManager* _superManager;
 };
 
