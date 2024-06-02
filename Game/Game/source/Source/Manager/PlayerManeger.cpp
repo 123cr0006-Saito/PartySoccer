@@ -15,6 +15,11 @@ bool PlayerManeger::Update(){
 	return true;
 };
 
+bool PlayerManeger::Add(Player* player){
+	_player.push_back(std::make_pair("player",player));
+    return true;
+};
+
 bool PlayerManeger::Add(std::vector<std::pair<XInput*, int>> param) {
 	for (int i = 0; i < param.size(); i++) {
 		std::string name = "Player" + std::to_string(i + 1);

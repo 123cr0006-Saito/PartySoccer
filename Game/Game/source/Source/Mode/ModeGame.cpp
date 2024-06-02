@@ -19,6 +19,10 @@ bool ModeGame::Initialize() {
 
 	_superManager->AddManager("objectManager",1, objectManager);
 	_player = NEW Player("player1",std::make_pair(NEW XInput(),MV1LoadModel("Res/Model/Player/Cat/cat.mv1")));
+	PlayerManeger* playerManager = NEW PlayerManeger();
+	playerManager->Add(_player);
+	_superManager->AddManager("playerManager", 2, playerManager);
+	_camera = NEW Camera();
 	return true;
 }
 
@@ -31,6 +35,7 @@ bool ModeGame::Process() {
 	base::Process();
 	_superManager->Update();
 	_player->Update();
+	_camera->Update();
 	return true;
 }
 
@@ -41,5 +46,6 @@ bool ModeGame::Render() {
 	SetUseBackCulling(TRUE);
 
 	_superManager->Draw();
+	_camera->Draw();
 	return true;
 }

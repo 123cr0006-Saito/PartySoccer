@@ -12,6 +12,7 @@
 #include "../Manager/RenderManager.h"
 
 #include "../../Header/Object/Player/Player.h"
+#include "../../Header/Other/Camera/Camera.h"
 class ModeGame : public ModeBase
 {
 	typedef ModeBase base;
@@ -27,4 +28,5 @@ protected:
 	int debug;
 	SuperManager* _superManager;
 	Player* _player;
+	Camera* _camera;
 };
