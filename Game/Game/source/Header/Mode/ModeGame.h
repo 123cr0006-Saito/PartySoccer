@@ -10,6 +10,8 @@
 #include "dxlib.h"
 #include "../Manager/SuperManager.h"
 #include "../Manager/RenderManager.h"
+
+#include "../../Header/Object/Player/Player.h"
 class ModeGame : public ModeBase
 {
 	typedef ModeBase base;
@@ -24,4 +26,5 @@ public:
 protected:
 	int debug;
 	SuperManager* _superManager;
+	Player* _player;
 };

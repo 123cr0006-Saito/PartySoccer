@@ -3,6 +3,7 @@
 #include "../../Header/Object/Stage/Stage.h"
 #include "../../Header/Object/Stage/Ball.h"
 #include "../../Header/Object/Stage/Goal.h"
+#include "../../Header/Manager/RenderManager.h"
 bool ModeGame::Initialize() {
 	if (!base::Initialize()) { return false; }
 	_superManager = SuperManager::GetInstance();
@@ -17,6 +18,7 @@ bool ModeGame::Initialize() {
 	objectManager->Add("Stage", NEW Stage("Stage"));
 
 	_superManager->AddManager("objectManager",1, objectManager);
+	_player = NEW Player("player1",std::make_pair(NEW XInput(),MV1LoadModel("Res/Model/Player/Cat/cat.mv1")));
 	return true;
 }
 
@@ -28,6 +30,7 @@ bool ModeGame::Terminate() {
 bool ModeGame::Process() {
 	base::Process();
 	_superManager->Update();
+	_player->Update();
 	return true;
 }
 

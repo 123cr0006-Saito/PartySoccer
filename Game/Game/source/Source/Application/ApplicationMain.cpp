@@ -12,10 +12,8 @@ bool ApplicationMain::Initialize(HINSTANCE hInstance) {
 	// モードの登録
 	_superManager = NEW SuperManager();
 	_renderManager = NEW RenderManager();
-	ModeServer::GetInstance()->Add(NEW ModeSelectPlayer(), 1, "ModeSelectPlayer");
-
-	// コントローラーの初期化
-	//_input = NEW XInput(DX_INPUT_PAD1);
+	_superManager->AddManager("renderManager", 0, _renderManager);
+	ModeServer::GetInstance()->Add(NEW ModeGame(), 1, "ModeSelectPlayer");
 	// FPSを安定させるためのクラスを初期化
 	_fpsController = NEW Fps();
 	return true;
@@ -23,7 +21,6 @@ bool ApplicationMain::Initialize(HINSTANCE hInstance) {
 
 bool ApplicationMain::Terminate() {
 	base::Terminate();
-	delete _input;
 	delete _fpsController;
 	ResourceServer::DeleteResourceAll();
 	return true;
@@ -31,8 +28,6 @@ bool ApplicationMain::Terminate() {
 
 bool ApplicationMain::Input() {
 	base::Input();
-	
-	_input->Input();
 	return true;
 }
 

@@ -12,7 +12,7 @@ bool ObjectManager::Init() {
 };
 
 void ObjectManager::Add(std::string name, ObjectBase* object){
-
+	_objectList.push_back(std::make_pair(name, object));
 };
 
 void ObjectManager::Del(std::string name){
@@ -32,9 +32,6 @@ bool ObjectManager::Update(){
 };
 
 bool ObjectManager::Draw() {
-	for (auto&& list : _objectList) {
-		list.second;
-	}
 	return true;
 };
 
@@ -48,5 +45,5 @@ std::string ObjectManager::GetListName(std::string name){
 };
 
 int ObjectManager::GetListSize() {
-	_objectList.size();
+	return _objectList.size();
 };

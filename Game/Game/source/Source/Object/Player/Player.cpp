@@ -5,6 +5,7 @@ Player::Player(std::string name, std::pair<XInput*, int> param) : ObjectBase(nam
 	_modelHandle = param.second;
 	_forwardVec = Vector3D(0.0f, 0.0f, -1.0f);
 	RenderManager::GetInstance()->Add(name,10,_modelHandle);
+	MV1SetScale(_modelHandle, VScale(VGet(1.0f,1.0f,1.0f),30.0f));
 };
 
 Player::~Player(){
@@ -16,7 +17,7 @@ bool Player::Init(){
 };
 
 bool Player::Update(){
-	float speed = 10.0f;
+	float speed = 50.0f;
 	// スティックの入力を取得
 	_Input->Input();
 	auto inputStick = _Input->GetAdjustedStick_L();
@@ -51,6 +52,6 @@ bool Player::Update(){
 	MV1SetPosition(_modelHandle, _pos.toVECTOR());
 	//--------------------------------------------------------------------------------------------------
 
-	SetCameraPositionAndTarget_UpVecY((_pos + Vector3D(0,200,-250)).toVECTOR(), _pos.toVECTOR());
+	SetCameraPositionAndTarget_UpVecY((_pos + Vector3D(0,3000,-3000)).toVECTOR(), _pos.toVECTOR());
 	return true;
 };
