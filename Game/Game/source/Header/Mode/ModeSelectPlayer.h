@@ -6,7 +6,6 @@
 #include "../Manager/SuperManager.h"
 #include <utility>
 #include <algorithm>
-
 class ModeSelectPlayer : public ModeBase
 {
 public:
@@ -17,10 +16,9 @@ public:
 	virtual bool	Terminate();
 	virtual bool	Process();
 	virtual bool	Render();
-
+	
 	bool PlayerNumAdjust();
 	bool PlayerSelect();
-
 protected:
 	std::vector<std::pair<XInput*,int>> _playerParam; // <コントローラー,選択キャラクター>
 	std::vector<std::pair<bool,int>> _selectCharacter; // <選択終了チェック,選択済みキャラクター>
@@ -28,5 +26,8 @@ protected:
 	SuperManager* _superManager;
 
 	std::array<int,4> _modelHandle;
+	std::array<VERTEX2D, 4> _vertex;
+	int _scrollSpeed;
+	int textureHandle;
 };
 

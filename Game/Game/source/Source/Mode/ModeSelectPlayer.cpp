@@ -17,13 +17,27 @@ bool ModeSelectPlayer::Initialize() {
 	//コントローラーと同じ数になるまで追加する
 	for (int i = 0; i < GetJoypadNum(); i++) {
 		_playerParam.push_back(std::make_pair(NEW XInput(), 0));
+		_selectCharacter.push_back(std::make_pair(false, -1));
 	}
-	std::string path[4] ={"Cat/cat","Fox/fox","Kappa/kappa","Rabbit/rabbit"};
+
+	// モデルの読み込み
+	std::string path[4] = {"Cat/cat","Fox/fox","Kappa/kappa","Rabbit/rabbit"};
 	for (int i = 0; i < 4; i++){
 		std::string modelPath = "Res/Model/Player/" + path[i] + ".mv1";
 		_modelHandle[i] = MV1LoadModel(modelPath.c_str());
 	}
 
+	VECTOR pos[4] = {VGet(0,0,0),VGet(1920,0,0),VGet(0,1080,0),VGet(1920,1080,0)};
+	std::pair<int,int> uv[4] = {std::make_pair(0,0),std::make_pair(1,0),std::make_pair(0,1),std::make_pair(1,1)};
+	for(int i = 0; i < 4; i++){
+		_vertex[i].dif = GetColorU8(255, 255, 255, 255);
+		_vertex[i].pos = pos[i];
+		_vertex[i].rhw = 1.0f;
+		_vertex[i].u = uv[i].first;
+		_vertex[i].v = uv[i].second;
+	}
+	_scrollSpeed = 5;
+	textureHandle = LoadGraph("Res/wal056_s.jpg");
 	return true;
 };
 
@@ -32,14 +46,14 @@ bool ModeSelectPlayer::Terminate(){
 };
 
 bool ModeSelectPlayer::PlayerNumAdjust(){
-	int playerNum = _playerParam.size();
-	int controllerNum = XInput::GetConnectNum();
+	int connectNum = XInput::GetConnectNum();
+	int controllerNum = GetJoypadNum();
 	// プレイヤー数がコントローラーと違う場合
-	if(playerNum != controllerNum){
+	if(controllerNum != connectNum){
 		// プレイヤー数がコントローラーより少ない場合
-		if (playerNum < controllerNum) {
+		if (controllerNum > connectNum) {
 			//コントローラーと同じ数になるまで追加する
-			for (int i = playerNum; i < controllerNum; i++) {
+			for (int i = connectNum; i < controllerNum; i++) {
 				_playerParam.push_back(std::make_pair(NEW XInput(),0));
 				_selectCharacter.push_back(std::make_pair(false,-1));
 			}
@@ -47,12 +61,14 @@ bool ModeSelectPlayer::PlayerNumAdjust(){
 		// プレイヤー数がコントローラーより多い場合
 		else {
 			// コントローラーと同じ数になるまで削除する
-			for (int i = playerNum; i > controllerNum; i--) {
+			for (int i = connectNum; i > controllerNum; i--) {
 				delete _playerParam[i-1].first;
 				_playerParam.pop_back();
 				_selectCharacter.pop_back();
+				XInput::SetConnectNum(controllerNum);
 			}
 		}
+		XInput::ReSet();
 	}
 	return true;
 };
@@ -116,7 +132,7 @@ bool ModeSelectPlayer::Process(){
 	// プレイヤーの選択
 	PlayerSelect();
 	// コントローラーの数を更新
-	XInput::UpdateJoyPad();
+	//XInput::UpdateJoyPad();
 
 	// カメラの設定
 	SetupCamera_Ortho(100);
@@ -126,6 +142,8 @@ bool ModeSelectPlayer::Process(){
 
 bool ModeSelectPlayer::Render(){
 	int playerNum = _playerParam.size();
+	unsigned short textureIndex[6] = {0,1,2,2,1,3};
+	DrawPrimitiveIndexed2D(_vertex.data(), 4, textureIndex, 6, DX_PRIMTYPE_TRIANGLELIST, textureHandle, TRUE);
 
 	for(int i = 0; i < playerNum; i++) {
 		if(playerNum == 1){
