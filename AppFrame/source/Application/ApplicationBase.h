@@ -38,7 +38,6 @@ public:
 	virtual int GetKey() { return _gKey; }
 	virtual int GetTrg(int index) { return _gTrg[index]; }
 	virtual int GetRel(int index) { return _gRel[index]; }
-	virtual XINPUT_STATE GetInput() { return input; }
 
 protected:
 	static	ApplicationBase	*_lpInstance;
@@ -46,7 +45,5 @@ protected:
 	int	_gKey, _gTrg[PAD_BUTTON_MAX], _gRel[PAD_BUTTON_MAX];
 
 	ModeServer* _serverMode;
-
-	XINPUT_STATE input;
 
 };

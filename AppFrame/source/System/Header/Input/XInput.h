@@ -67,6 +67,7 @@ public:
 	STICK GetAdjustedStick_R() { return _adjustedRStick; }
 
 	static int GetConnectNum() { return _connectNum; }
+	static int SetConnectNum(int num) { return _connectNum = num; }
 
 	//-----------------------------------------------------
 

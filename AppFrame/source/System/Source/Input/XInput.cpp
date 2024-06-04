@@ -105,11 +105,12 @@ bool XInput::Input() {
 };
 
 bool XInput::UpdateJoyPad() {
-	char connectNum = static_cast<char>(GetJoypadNum());
+	int connectNum = GetJoypadNum();
 	if (_connectNum != connectNum) {
 		_connectNum = connectNum;
 		ReSet();
 	}
+
 	return true;
 };
 
