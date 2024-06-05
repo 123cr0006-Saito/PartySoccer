@@ -12,6 +12,9 @@ PlayerManeger::~PlayerManeger(){
 };
 
 bool PlayerManeger::Update(){
+	for (auto&& list : _player) {
+		list.second->Update();
+	}
 	return true;
 };
 

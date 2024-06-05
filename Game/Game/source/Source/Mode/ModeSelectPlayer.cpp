@@ -17,7 +17,7 @@ bool ModeSelectPlayer::Initialize() {
 	//コントローラーと同じ数になるまで追加する
 	for (int i = 0; i < GetJoypadNum(); i++) {
 		_playerParam.push_back(std::make_pair(NEW XInput(), 0));
-		_selectCharacter.push_back(std::make_pair(false, -1));
+		_selectCharacter.push_back(std::make_pair(false, 0));
 	}
 
 	// モデルの読み込み
@@ -37,7 +37,7 @@ bool ModeSelectPlayer::Initialize() {
 		_vertex[i].v = uv[i].second;
 	}
 	_scrollSpeed = 5;
-	textureHandle = LoadGraph("Res/wal056_s.jpg");
+	textureHandle = LoadGraph("Res/Grass_col.JPG");
 	return true;
 };
 
@@ -55,7 +55,7 @@ bool ModeSelectPlayer::PlayerNumAdjust(){
 			//コントローラーと同じ数になるまで追加する
 			for (int i = connectNum; i < controllerNum; i++) {
 				_playerParam.push_back(std::make_pair(NEW XInput(),0));
-				_selectCharacter.push_back(std::make_pair(false,-1));
+				_selectCharacter.push_back(std::make_pair(false,0));
 			}
 		}
 		// プレイヤー数がコントローラーより多い場合
@@ -81,10 +81,10 @@ bool ModeSelectPlayer::PlayerSelect(){
 
 		// キャラクターの選択
 		if(_playerParam[i].first->GetTrg(XINPUT_BUTTON_STICK_RIGHT)){
-			_playerParam[i].second = (4 + _playerParam[i].second + 1) % 4;
+			_selectCharacter[i].second = (4 + _selectCharacter[i].second + 1) % 4;
 		}
 		else if(_playerParam[i].first->GetTrg(XINPUT_BUTTON_STICK_LEFT)){
-			_playerParam[i].second = (4 + _playerParam[i].second - 1) % 4;
+			_selectCharacter[i].second = (4 + _selectCharacter[i].second - 1) % 4;
 		}
 
 
@@ -101,7 +101,7 @@ bool ModeSelectPlayer::PlayerSelect(){
 			}
 			else{
 				_selectCharacter[i].first = !_selectCharacter[i].first;
-				_selectCharacter[i].second = -1;
+				_playerParam[i].second = _modelHandle[_selectCharacter[i].second];
 			}
 		}
 	}
@@ -111,16 +111,16 @@ bool ModeSelectPlayer::PlayerSelect(){
 	if(allTrue){
 		for (int i = 0; i < _playerParam.size(); i++) {
 			//誰かがBボタンを押したときに次に進む
-			if(_playerParam[i].first->GetTrg(XINPUT_BUTTON_B)){
+			if(_playerParam[i].first->GetTrg(XINPUT_BUTTON_A)){
 				// プレイヤーの生成
 				_playerManager->Add(_playerParam);
+				_superManager->AddManager("playerManager",2,_playerManager);
 				// モードの変更
 				ModeServer::GetInstance()->Add(NEW ModeGame(), 1, "Main");
 				ModeServer::GetInstance()->Del(this);
 				break;
 			}
 		}
-		_superManager->AddManager("playerManager",0,_playerManager);
 	}
 	return true;
 };
@@ -131,8 +131,6 @@ bool ModeSelectPlayer::Process(){
 	PlayerNumAdjust();
 	// プレイヤーの選択
 	PlayerSelect();
-	// コントローラーの数を更新
-	//XInput::UpdateJoyPad();
 
 	// カメラの設定
 	SetupCamera_Ortho(100);
@@ -148,15 +146,17 @@ bool ModeSelectPlayer::Render(){
 	for(int i = 0; i < playerNum; i++) {
 		if(playerNum == 1){
 			// プレイヤーが一人の場合　中心
-			MV1SetPosition(_modelHandle[_playerParam[i].second], VGet(0, 0, 0));
+			MV1SetPosition(_modelHandle[_selectCharacter[i].second], VGet(0, 0, 0));
 		}
 		else{
 			// プレイヤーが複数の場合　等間隔
-			float length = 140.0f / (playerNum - 1);
-		    MV1SetPosition(_modelHandle[_playerParam[i].second], VGet(-70 + length * i, 0, 0));
+			float dis = 100.0f;
+			float length = dis / (playerNum - 1);
+		    MV1SetPosition(_modelHandle[_selectCharacter[i].second], VGet(-dis/2 + length * i, 0, 0));
 		}
 		// モデルの描画
-		MV1DrawModel(_modelHandle[_playerParam[i].second]);
+		MV1DrawModel(_modelHandle[_selectCharacter[i].second]);
+		printfDx("\n\nPlayer%d : %s",i+1,(_selectCharacter[i].first) ? "選択完了" : "選択中");
 	}
 	return true;
 };

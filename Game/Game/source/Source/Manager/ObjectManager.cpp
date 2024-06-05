@@ -28,6 +28,9 @@ void ObjectManager::Sort() {
 };
 
 bool ObjectManager::Update(){
+	for (auto&& list : _objectList) {
+		list.second->Update();
+	}
 	return true;
 };
 

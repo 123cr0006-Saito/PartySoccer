@@ -54,7 +54,7 @@ bool Fps::WaitFps() {
 bool Fps::DrawFps(int x, int y) {
     if (ave != 0) {
         DrawBox(0, 0, 120, 20, GetColor(128, 128, 128), true);
-        DrawFormatString(x, y, GetColor(255, 255, 255), "fps:%lf", 1000 / ave); //doubleå^ÇÕ%lf
+        DrawFormatString(x, y, GetColor(255, 255, 255), "fps:%lf\n", 1000 / ave); //doubleå^ÇÕ%lf
     }
     return true;
 }
