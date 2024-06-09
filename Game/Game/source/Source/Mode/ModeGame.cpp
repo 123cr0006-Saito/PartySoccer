@@ -7,6 +7,7 @@
 bool ModeGame::Initialize() {
 	if (!base::Initialize()) { return false; }
 	_superManager = SuperManager::GetInstance();
+	SetupCamera_Perspective(60.0f * 180.0f / 3.141592f);
 	ObjectManager* objectManager = NEW ObjectManager();
 	Vector3D goalPos[2] = { Vector3D(0, 0, 0), Vector3D(0, 0, 0) };
 	Vector3D goalRot[2] = { Vector3D(0, 90, 0), Vector3D(0, -90, 0) };
@@ -18,10 +19,6 @@ bool ModeGame::Initialize() {
 	objectManager->Add("Stage", NEW Stage("Stage"));
 
 	_superManager->AddManager("objectManager",1, objectManager);
-	_player = NEW Player("player1",std::make_pair(NEW XInput(),MV1LoadModel("Res/Model/Player/Cat/cat.mv1")));
-	PlayerManeger* playerManager = NEW PlayerManeger();
-	playerManager->Add(_player);
-	_superManager->AddManager("playerManager", 2, playerManager);
 	_camera = NEW Camera();
 	return true;
 }
@@ -34,7 +31,6 @@ bool ModeGame::Terminate() {
 bool ModeGame::Process() {
 	base::Process();
 	_superManager->Update();
-	_player->Update();
 	_camera->Update();
 	return true;
 }

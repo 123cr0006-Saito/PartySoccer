@@ -79,12 +79,15 @@ bool ModeSelectPlayer::PlayerSelect(){
 		// コントローラーの更新
 		_playerParam[i].first->Input();
 
+		
 		// キャラクターの選択
-		if(_playerParam[i].first->GetTrg(XINPUT_BUTTON_STICK_RIGHT)){
-			_selectCharacter[i].second = (4 + _selectCharacter[i].second + 1) % 4;
-		}
-		else if(_playerParam[i].first->GetTrg(XINPUT_BUTTON_STICK_LEFT)){
-			_selectCharacter[i].second = (4 + _selectCharacter[i].second - 1) % 4;
+		if(!_selectCharacter[i].first){
+			if(_playerParam[i].first->GetTrg(XINPUT_BUTTON_STICK_RIGHT)){
+				_selectCharacter[i].second = (4 + _selectCharacter[i].second + 1) % 4;
+			}
+			else if(_playerParam[i].first->GetTrg(XINPUT_BUTTON_STICK_LEFT)){
+				_selectCharacter[i].second = (4 + _selectCharacter[i].second - 1) % 4;
+			}
 		}
 
 
@@ -96,7 +99,6 @@ bool ModeSelectPlayer::PlayerSelect(){
 			    // すべてのプレイヤーが選択していない場合
 			    if(allTrue){
 			        _selectCharacter[i].first = !_selectCharacter[i].first;
-			        _selectCharacter[i].second = _playerParam[i].second;
 			    }
 			}
 			else{

@@ -16,30 +16,26 @@ bool Camera::Update(){
 		pos += player[i].second->GetPos();
 	}
 
-	_pos.second = pos / player.size();
-	SpringDamperSystem(_pos.second + Vector3D(0, 3500, -3000));
+	Vector3D targetPos = pos / player.size();
+	_pos.first = targetPos + Vector3D(0, 3500, -3000);
+	SpringDamperSystem(targetPos);
 
-	SetCameraPositionAndTarget_UpVecY(_pos.first.toVECTOR(), _pos.second.toVECTOR());
+	SetCameraPositionAndTarget_UpVecY(_pos.first.toVECTOR(), (_pos.second + (targetPos - _pos.second)/1.3f).toVECTOR());
 	return true;
 };
 
 bool Camera::SpringDamperSystem(Vector3D targetPos){
-	float springConstant = 25.0f;
-	float dampingConstant = 10.0f;
+	float springConstant = 100.0f;
+	float dampingConstant = 20.0f;
 	double elapsedTime = Timer::GetInstance()->TimeElapsed();
 
-	Vector3D pos = _pos.first - targetPos;
-	Vector3D springForce = pos * -springConstant;
-	Vector3D dampingForce = _speed * -dampingConstant;
-	Vector3D force = springForce + dampingForce;
+	Vector3D pos = _pos.second - targetPos;
+	Vector3D springForce = pos * -springConstant; // バネの力 -kx 弾性力
+	Vector3D dampingForce = _speed * -dampingConstant; // ダンパの力 -cv 抵抗力
+	Vector3D force = springForce + dampingForce; // 合力
 
 	_speed += force * elapsedTime;
-	_pos.first += _speed * elapsedTime;
-	
-	bool isSlide = true;
-	if(isSlide){
-	    _pos.first.z = _pos.second.z -3000;
-    }
+	_pos.second += _speed * elapsedTime;
 
 	return true;
 };
