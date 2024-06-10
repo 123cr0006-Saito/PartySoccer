@@ -1,10 +1,20 @@
 #pragma once
-class CollisionManager
+#include "ManagerBase.h"
+#include "../Object/Base/ObjectBase.h"
+#include "../../AppFrame/source/System/Header/Collision/MyStructure.h"
+class CollisionManager:public ManagerBase
 {
+public:
 	CollisionManager();
 	~CollisionManager();
-	public:
 	static CollisionManager* GetInstance();
+	void Add(ObjectBase* object, CollisionBase* collision);
+	bool Update();
 
+	bool CollisionCheckForPlayer(std::pair<ObjectBase*, CollisionBase*>);
+	bool CollisionCheckForBall(std::pair<ObjectBase*, CollisionBase*>);
+protected:
+	static CollisionManager* _instance;	
+	std::vector<std::pair<ObjectBase*,CollisionBase*>> _collisionList;
 };
 

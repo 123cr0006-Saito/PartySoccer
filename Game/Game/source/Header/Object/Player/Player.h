@@ -15,5 +15,6 @@ protected:
 	XInput* _Input;
 	int _stamina;
 	Vector3D _forwardVec;
+	Capsule* _capsule;
 };
 

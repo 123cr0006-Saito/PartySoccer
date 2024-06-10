@@ -3,7 +3,7 @@
 // ï`âÊèàóù
 void Sphere::Render(unsigned int color)
 {
-	DrawSphere3D(centerPos.toVECTOR(), r, 6, color, color, false);
+	DrawSphere3D(pos.toVECTOR(), r, 6, color, color, false);
 }
 
 
@@ -74,5 +74,5 @@ void OBB::Render(unsigned int color)
 
 void Capsule::Render(unsigned int color)
 {
-	DrawCapsule3D(down_pos.toVECTOR(), up_pos.toVECTOR(), r, 16, color, color, false);
+	DrawCapsule3D(pos.toVECTOR(), up_pos.toVECTOR(), r, 16, color, color, false);
 }

@@ -6,10 +6,14 @@ Player::Player(std::string name, std::pair<XInput*, int> param) : ObjectBase(nam
 	_forwardVec = Vector3D(0.0f, 0.0f, -1.0f);
 	RenderManager::GetInstance()->Add(name,10,_modelHandle);
 	MV1SetScale(_modelHandle, VScale(VGet(1.0f,1.0f,1.0f),30.0f));
+
+	_capsule->SetName("player");
+	_capsule->up = 150.0f;
+	_capsule->r = 50.0f;
 };
 
 Player::~Player(){
-	
+	MV1DeleteModel(_modelHandle);
 };
 
 bool Player::Init(){
@@ -48,10 +52,10 @@ bool Player::Update(){
 	//--------------------------------------------------------------------------------------------------
 
 	// Ý’è-------------------------------------------------------------------------------------------
+	_capsule->pos = _pos;
 	Math::SetModelForward_RotationY(_modelHandle, _forwardVec.toVECTOR());
 	MV1SetPosition(_modelHandle, _pos.toVECTOR());
 	//--------------------------------------------------------------------------------------------------
 
-	//SetCameraPositionAndTarget_UpVecY((_pos + Vector3D(0,3000,-3000)).toVECTOR(), _pos.toVECTOR());
 	return true;
 };

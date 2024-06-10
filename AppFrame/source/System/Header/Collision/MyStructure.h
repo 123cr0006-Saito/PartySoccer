@@ -2,6 +2,7 @@
 #include "dxlib.h"
 #include "../Function/Vector3D.h"
 #include <vector>
+#include <string>
 
 // ‰~ü—¦
 #define	PI				(3.141592653589793)
@@ -42,31 +43,38 @@ struct TWOLINE_SHORT {
 	float length = 0.0f;
 };
 
-class Sphere
+class CollisionBase
 {
 public:
-	Sphere() {
-		centerPos = VGet(0.0f, 0.0f, 0.0f);
+	CollisionBase() { name = ""; };
+	virtual ~CollisionBase() {};
+	void SetName(std::string name) { this->name = name; }
+	Vector3D pos;
+	std::string name;
+};
+
+class Sphere : public CollisionBase
+{
+public:
+	Sphere() : CollisionBase(){
+		pos = VGet(0.0f, 0.0f, 0.0f);
 		r = 0.0f;
 	}
-	Sphere(Vector3D pos, float r) {
-		centerPos = pos;
+	Sphere(Vector3D pos, float r) : CollisionBase() {
+		pos = pos;
 		this->r = r;
 	}
 
 	// •`‰æˆ—
 	void Render(unsigned int color);
 
-	Vector3D centerPos;
 	float r;
 };
 
-class OBB
+class OBB : public CollisionBase
 {
 public:
-	OBB() {
-		pos = VGet(0.0f, 0.0f, 0.0f);
-
+	OBB() : CollisionBase() {
 		// ‰Šúó‘Ô‚Å‚Íƒ[ƒ‹ƒh‚Ì²‚Æ•½s‚Èó‘Ô‚É‚·‚éiAABBj
 		dir_vec[0] = Vector3D(1.0f, 0.0f, 0.0f);
 		dir_vec[1] = Vector3D(0.0f, 1.0f, 0.0f);
@@ -87,14 +95,13 @@ public:
 	// •`‰æˆ—
 	void Render(unsigned int color);
 
-	Vector3D pos;
 	Vector3D dir_vec[3];//xv,yv,zv
 	float length[3]; //0:w 1:h 3:d
 };
 
-class Capsule {
+class Capsule : public CollisionBase {
 public:
-	Capsule() {
+	Capsule() : CollisionBase() {
 		up = 0.0f;
 		r = 0.0f;
 		for (int i = 0; i < 3; i++) {
@@ -103,14 +110,13 @@ public:
 	};
 
 	void Update() {
-		up_pos = down_pos + Vector3D(0,up,0);
+		up_pos = pos + Vector3D(0,up,0);
 	};
 
 	// •`‰æˆ—
 	void Render(unsigned int color);
 
-	Vector3D up_pos = VGet(0, 0, 0);
-	Vector3D down_pos = VGet(0, 0, 0);
+	Vector3D up_pos;
 	float up = 0.0f;
 	float r = 0.0f;
 	float direction[3] = { 0.0f,0.0f, 0.0f };

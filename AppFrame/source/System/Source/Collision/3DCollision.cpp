@@ -378,7 +378,7 @@ bool Collision3D::SphereCol(Vector3D pos1, float r1, Vector3D pos2, float r2) {
 
 bool Collision3D::SphereCol(const Sphere& sphere1, const Sphere& sphere2)
 {
-	return Collision3D::SphereCol(sphere1.centerPos, sphere1.r, sphere2.centerPos, sphere2.r);
+	return Collision3D::SphereCol(sphere1.pos, sphere1.r, sphere2.pos, sphere2.r);
 }
 
 bool Collision3D::TwoCapsuleCol(Vector3D line_1_start, Vector3D line_1_end, float r_1, Vector3D line_2_start, Vector3D line_2_end, float r_2) {
@@ -388,7 +388,7 @@ bool Collision3D::TwoCapsuleCol(Vector3D line_1_start, Vector3D line_1_end, floa
 
 bool Collision3D::TwoCapsuleCol(const Capsule& capsule1, const Capsule& capsule2)
 {
-	return Collision3D::TwoCapsuleCol(capsule1.down_pos.toVECTOR(), capsule1.up_pos.toVECTOR(), capsule1.r, capsule2.down_pos.toVECTOR(), capsule2.up_pos.toVECTOR(), capsule2.r);
+	return Collision3D::TwoCapsuleCol(capsule1.pos.toVECTOR(), capsule1.up_pos.toVECTOR(), capsule1.r, capsule2.pos.toVECTOR(), capsule2.up_pos.toVECTOR(), capsule2.r);
 }
 
 bool Collision3D::SphereCapsuleCol(Vector3D spherePos, float sphereR, Vector3D capsuleStartPos, Vector3D capsuleEndPos, float capsuleR, Vector3D* shortestPos)
@@ -402,7 +402,7 @@ bool Collision3D::SphereCapsuleCol(Vector3D spherePos, float sphereR, Vector3D c
 
 bool Collision3D::SphereCapsuleCol(const Sphere& sphere, const Capsule& capsule, Vector3D* shortestPos)
 {
-	return Collision3D::SphereCapsuleCol(sphere.centerPos, sphere.r, capsule.down_pos, capsule.up_pos, capsule.r, shortestPos);
+	return Collision3D::SphereCapsuleCol(sphere.pos, sphere.r, capsule.pos, capsule.up_pos, capsule.r, shortestPos);
 }
 
 Vector3D Collision3D::PointOBB(Vector3D point, OBB obb) {
@@ -441,7 +441,7 @@ bool Collision3D::OBBSphereCol(OBB obb, Vector3D point, float r, Vector3D* hitPo
 
 bool Collision3D::OBBSphereCol(const OBB& obb, const Sphere& sphere, Vector3D* hitPos)
 {
-	return Collision3D::OBBSphereCol(obb, sphere.centerPos, sphere.r, hitPos);
+	return Collision3D::OBBSphereCol(obb, sphere.pos, sphere.r, hitPos);
 }
 
 bool Collision3D::OBBCapsuleCol(OBB obb, Vector3D line_start, Vector3D line_end, float r, Vector3D* hitPos) {
@@ -462,5 +462,5 @@ bool Collision3D::OBBCapsuleCol(OBB obb, Vector3D line_start, Vector3D line_end,
 }
 
 bool Collision3D::OBBCapsuleCol(OBB obb, Capsule capsule, Vector3D* hitPos) {
-	return OBBCapsuleCol(obb, capsule.down_pos, capsule.up_pos, capsule.r, hitPos);
+	return OBBCapsuleCol(obb, capsule.pos, capsule.up_pos, capsule.r, hitPos);
 }

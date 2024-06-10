@@ -15,6 +15,7 @@ class SuperManager
 	bool Update();
 	bool Draw();
 	static SuperManager* GetInstance() {return _instance;}
+
 	protected:
 	std::vector<std::tuple<std::string,int,class ManagerBase*>> _superManager;
 };
