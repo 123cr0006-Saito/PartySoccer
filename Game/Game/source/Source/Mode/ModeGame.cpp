@@ -4,6 +4,8 @@
 #include "../../Header/Object/Stage/Ball.h"
 #include "../../Header/Object/Stage/Goal.h"
 #include "../../Header/Manager/RenderManager.h"
+
+
 bool ModeGame::Initialize() {
 	if (!base::Initialize()) { return false; }
 	_superManager = SuperManager::GetInstance();

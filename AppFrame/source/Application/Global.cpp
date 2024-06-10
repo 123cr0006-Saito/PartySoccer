@@ -1,5 +1,6 @@
 #include "Global.h"
 
+
 Global global;
 
 Global::Global() {
@@ -234,4 +235,9 @@ bool Global::SoundLoad() {
 
 
 	return true;
+}
+
+void DebugErrar(const std::source_location location) {
+	std::string errar = "ファイル名:" + std::string(location.file_name()) + "\n" + "行:" + std::to_string(location.line()) + "でエラー発生";
+	MessageBox(NULL, errar.c_str(), "", MB_OK);
 }

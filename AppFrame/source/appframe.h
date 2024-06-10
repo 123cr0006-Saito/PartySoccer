@@ -8,7 +8,6 @@
 
 //Application
 
-#include "Application/UtilMacro.h"
 #include "Application/ApplicationBase.h"
 
 //CFile

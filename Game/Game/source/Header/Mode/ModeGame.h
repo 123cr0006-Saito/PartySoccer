@@ -10,7 +10,7 @@
 #include "dxlib.h"
 #include "../Manager/SuperManager.h"
 #include "../Manager/RenderManager.h"
-
+#include "../../../AppFrame/source/Application/UtilMacro.h"
 #include "../../Header/Object/Player/Player.h"
 #include "../../Header/Other/Camera/Camera.h"
 class ModeGame : public ModeBase
