@@ -1,4 +1,5 @@
 #include "dxlib.h"
+#include <source_location>
 
 #define	SAFE_DELETE(x)	if(x){delete x;x=nullptr;}
 #define S_Draw(y,value) DrawFormatString(0,y*15,GetColor(255,255,255),"%u",value);
@@ -12,3 +13,11 @@
 #define COLOR_GREEN (0x00FF00)
 #define COLOR_BLUE  (0x0000FF)
 #define COLOR_BLACK (0x000000)
+
+void DebugErrar(const std::source_location location = std::source_location::current()) {
+	std::string errar = "ファイル名:" + std::string(location.file_name()) + "\n" + "行:" + std::to_string(location.line()) + "でエラー発生";
+	MessageBox(NULL, errar.c_str(), "", MB_OK);
+}
+
+// デバッグ用エラー表示
+#define DebugErrar DebugErrar();
