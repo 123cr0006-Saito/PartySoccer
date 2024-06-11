@@ -49,6 +49,7 @@ public:
 	CollisionBase() { name = ""; };
 	virtual ~CollisionBase() {};
 	void SetName(std::string name) { this->name = name; }
+	std::string GetName() { return name; }
 	Vector3D pos;
 	std::string name;
 };

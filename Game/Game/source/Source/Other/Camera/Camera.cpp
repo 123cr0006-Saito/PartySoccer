@@ -17,7 +17,7 @@ bool Camera::Update(){
 	}
 
 	Vector3D targetPos = pos / player.size();
-	_pos.first = targetPos + Vector3D(0, 3500, -3000);
+	_pos.first = targetPos + Vector3D(0, 3500, -3000)*2;
 	SpringDamperSystem(targetPos);
 
 	SetCameraPositionAndTarget_UpVecY(_pos.first.toVECTOR(), (_pos.second + (targetPos - _pos.second)/1.3f).toVECTOR());

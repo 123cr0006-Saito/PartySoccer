@@ -1,7 +1,9 @@
 #include "../../Header/Application/ApplicationMain.h"
 #include "../../Header/Mode/ModeGame.h"
 #include "../../Header/Mode/ModeSelectPlayer.h"
-
+#include "../../Header/Manager/SuperManager.h"
+#include "../../Header/Manager/RenderManager.h"
+#include "../../Header/Manager/CollisionManager.h"
 // ŽÀ‘Ì
 ApplicationMain				g_oApplicationMain;
 
@@ -17,9 +19,11 @@ bool ApplicationMain::Initialize(HINSTANCE hInstance) {
 	_fpsController = NEW Fps();
 
 	// ƒ‚[ƒh‚Ì“o˜^
-	_superManager = NEW SuperManager();
-	_renderManager = NEW RenderManager();
-	_superManager->AddManager("renderManager", 0, _renderManager);
+	SuperManager* superManager = NEW SuperManager();
+	RenderManager* renderManager = NEW RenderManager();
+	CollisionManager* collisionManager = NEW CollisionManager();
+	superManager->AddManager("renderManager", 0, renderManager);
+	superManager->AddManager("renderManager", 0, collisionManager);
 	ModeServer::GetInstance()->Add(NEW ModeSelectPlayer(), 1, "ModeSelectPlayer");
 	return true;
 }

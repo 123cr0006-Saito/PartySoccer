@@ -19,6 +19,7 @@ bool ModeGame::Initialize() {
 	//	objectManager->Add(name,goal);
 	//}
 	objectManager->Add("Stage", NEW Stage("Stage"));
+	objectManager->Add("Ball", NEW Ball("Ball"));
 
 	_superManager->AddManager("objectManager",1, objectManager);
 	_camera = NEW Camera();

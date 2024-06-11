@@ -10,11 +10,12 @@ public:
 	virtual ~ObjectBase();
 	virtual bool Init();
 	virtual bool Update();
+	virtual bool DebugDraw();
 
 	bool SetModelAndLayer(int modelHandle, int layer);
 	std::string GetName() { return _name; }
 	Vector3D GetPos() { return _pos; }
-	int GetPower() { return _power; }
+	
 protected:
 	Vector3D _pos;
 	Vector3D _size;
@@ -22,6 +23,6 @@ protected:
 	std::string _name;
 	int _modelHandle;
 
-	int _power;
+
 };
 

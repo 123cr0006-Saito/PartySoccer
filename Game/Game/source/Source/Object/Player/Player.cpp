@@ -1,5 +1,7 @@
 #include "../../../Header/Object/Player/Player.h"
 #include "../../../Header/Manager/RenderManager.h"
+#include "../../../Header/Manager/CollisionManager.h"
+#include "../../../AppFrame/MemoryLeak.h"
 Player::Player(std::string name, std::pair<XInput*, int> param) : ObjectBase(name) {
 	_Input = param.first;
 	_modelHandle = param.second;
@@ -7,9 +9,16 @@ Player::Player(std::string name, std::pair<XInput*, int> param) : ObjectBase(nam
 	RenderManager::GetInstance()->Add(name,10,_modelHandle);
 	MV1SetScale(_modelHandle, VScale(VGet(1.0f,1.0f,1.0f),30.0f));
 
+	_capsule = NEW Capsule();
 	_capsule->SetName("player");
-	_capsule->up = 150.0f;
-	_capsule->r = 50.0f;
+	_capsule->up = 500.0f;
+	_capsule->r = 170.0f;
+	CollisionManager::GetInstance()->Add(this, _capsule);
+
+	_stamina = 100;
+	_isTired = false;
+	_dash = 0;
+	_power = 0;
 };
 
 Player::~Player(){
@@ -21,18 +30,53 @@ bool Player::Init(){
 };
 
 bool Player::Update(){
+	// 球の設定
+	auto SetSphere = [&](Sphere* sphere) {
+		sphere->pos = _pos +Vector3D(0,_capsule->up/2,0) + (_forwardVec * 350);
+		sphere->r = 100.0f;
+		sphere->name = "shoot";
+	};
+	// パラメータの加算
+	auto AddParam = [](int* param,int max,int value){
+		if ((*param) < max) (*param)+=value;
+	};
+	// パラメータの減算
+	auto SubParam = [](int* param, int min, int value) {
+		if ((*param) > min) (*param)-=value;
+	};
+
+	static bool isShoot = false;
 	float speed = 50.0f;
 	// スティックの入力を取得
 	_Input->Input();
 	auto inputStick = _Input->GetAdjustedStick_L();
 
+	// ノックバック処理が終了している場合は初期化-------------------------------------
+	if (_isKnockBack) {
+		_pos += _knockBackVec * _knockBack;
+		SubParam(&_knockBack, 0, 5);
+		if(_knockBack <= 0){
+			_knockBack = 0;
+			_isKnockBack = false;
+		}
+	}
+	//-----------------------------------------------------------------------------------------------
+
+	// シュート処理が終了している場合は初期化-------------------------------------
+	if (isShoot) {
+		CollisionManager::GetInstance()->Del("shoot");
+		isShoot = false;
+		_power = 0;
+		_dash = 0;
+	}
+	//-----------------------------------------------------------------------------------------------
 	// 移動処理-------------------------------------
 	// 移動方向を計算
 	Vector3D moveDir(inputStick.x,0,inputStick.y);
 	// 正規化
 	Vector3D normalDir = moveDir.Normalize();
 	// 移動値として加算
-	_pos += normalDir * speed;
+	_pos += normalDir * (speed + _dash);
 	// -------------------------------------------------
 
 	// 回転処理------------------------------------------------------------------------------------
@@ -54,23 +98,59 @@ bool Player::Update(){
 	//shootの設定-------------------------------------------------------------------------------------
 	if (_Input->GetKey(XINPUT_BUTTON_B)) {
 		// パワーが50未満の場合は増加
-		if (_power < 50) {
-			_power++;
-		}
+		AddParam(&_power, 50, 1);
+		SubParam(&_dash,-25,1);
 	}
 
 	if (_Input->GetRel(XINPUT_BUTTON_B)) {
-		// パワーが50以上の場合はシュート
 		// シュート処理
-		_power = 0;
+		Sphere* sphere = NEW Sphere();
+		SetSphere(sphere);
+		CollisionManager::GetInstance()->Add(this, sphere);
+		isShoot = true;
+	}
+	//--------------------------------------------------------------------------------------------------
+
+	// dashの設定-------------------------------------------------------------------------------------
+	if (_Input->GetKey(XINPUT_BUTTON_A) && !_isTired) {
+		// スタミナが0以上の場合は減少
+		SubParam(&_stamina, 0, 1);
+		AddParam(&_dash, 25, 1);
+		if (_stamina == 0) {
+			_isTired = true;
+		}
+	}
+	else {
+		// スタミナが100未満の場合は増加
+		AddParam(&_stamina, 100, 1);
+		SubParam(&_dash, 0, 1);
+		if (_stamina >= 100) {
+			_isTired = false;
+		}
 	}
 	//--------------------------------------------------------------------------------------------------
 
 	// 設定-------------------------------------------------------------------------------------------
+	// カプセルの設定
 	_capsule->pos = _pos;
+	_capsule->Update();
+	// モデルの設定
 	Math::SetModelForward_RotationY(_modelHandle, _forwardVec.toVECTOR());
 	MV1SetPosition(_modelHandle, _pos.toVECTOR());
 	//--------------------------------------------------------------------------------------------------
 
 	return true;
 };
+
+void Player::SetKnockBack(int knockBack, Vector3D knockBackVec){
+	_knockBack = knockBack;
+	_knockBackVec = knockBackVec.Normalize(); _knockBackVec.y = 0;
+	_isKnockBack = true;
+};
+
+bool Player::DebugDraw(){
+	printfDx("\n\n\nstamina : %d\ndash : %d\npower : %d",_stamina,_dash,_power);
+	DrawCapsule3D(_capsule->pos.toVECTOR(), _capsule->up_pos.toVECTOR(), _capsule->r, 12,GetColor(255, 0, 0), GetColor(0, 0, 0), false);
+	DrawSphere3D((_pos + Vector3D(0, _capsule->up / 2, 0) + (_forwardVec * 350)).toVECTOR(), 50.0f, 12, GetColor(255, 0, 0), GetColor(0, 0, 0), false);
+	return true;
+}

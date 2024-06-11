@@ -18,3 +18,7 @@ bool ObjectBase::Update(){
 bool ObjectBase::SetModelAndLayer(int modelHandle, int layer){
 	return true;
 };
+
+bool ObjectBase::DebugDraw() {
+	return true;
+};

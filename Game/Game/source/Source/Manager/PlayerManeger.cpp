@@ -32,7 +32,7 @@ bool PlayerManeger::Add(std::vector<std::pair<XInput*, int>> param) {
 };
 
 std::string PlayerManeger::GetListName(std::string name){
-	for (auto list : _player) {
+	for (auto&& list : _player) {
 		std::string str = list.first;
 		if (str == name) {
 			return str;
@@ -46,5 +46,8 @@ int PlayerManeger::GetListSize(){
 };
 
 bool PlayerManeger::Draw(){
+	for(auto&& list : _player){
+		list.second->DebugDraw();
+	}
 	return true;
 }

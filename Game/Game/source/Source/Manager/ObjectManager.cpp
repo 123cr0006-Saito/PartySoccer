@@ -35,6 +35,9 @@ bool ObjectManager::Update(){
 };
 
 bool ObjectManager::Draw() {
+	for (auto&& list : _objectList) {
+		list.second->DebugDraw();
+	}
 	return true;
 };
 
