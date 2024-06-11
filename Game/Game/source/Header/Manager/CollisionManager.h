@@ -11,8 +11,9 @@ public:
 	void Add(ObjectBase* object, CollisionBase* collision);
 	bool Update();
 
-	bool CollisionCheckForPlayer(std::pair<ObjectBase*, CollisionBase*>);
-	bool CollisionCheckForBall(std::pair<ObjectBase*, CollisionBase*>);
+	bool CollisionCheckForCapsule(std::pair<ObjectBase*, CollisionBase*>);
+	bool CollisionCheckForSphere(std::pair<ObjectBase*, CollisionBase*>);
+
 protected:
 	static CollisionManager* _instance;	
 	std::vector<std::pair<ObjectBase*,CollisionBase*>> _collisionList;

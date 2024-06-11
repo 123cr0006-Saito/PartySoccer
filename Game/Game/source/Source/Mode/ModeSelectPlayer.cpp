@@ -25,7 +25,6 @@ bool ModeSelectPlayer::Initialize() {
 		std::string modelPath = "Res/Model/Player/" + path[i] + ".mv1";
 		_modelHandle[i] = MV1LoadModel(modelPath.c_str());
 	}
-	DebugErrar();
 	VECTOR pos[4] = {VGet(0,0,0),VGet(1920,0,0),VGet(0,1080,0),VGet(1920,1080,0)};
 	std::pair<int,int> uv[4] = {std::make_pair(0,0),std::make_pair(1,0),std::make_pair(0,1),std::make_pair(1,1)};
 	for(int i = 0; i < 4; i++){

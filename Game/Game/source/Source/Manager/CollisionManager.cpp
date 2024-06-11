@@ -1,6 +1,7 @@
 #include "../../Header/Manager/CollisionManager.h"
 #include "../../AppFrame/source/Application/UtilMacro.h"
 #include "../../AppFrame/source/System/Header/Collision/3DCollision.h"
+#include "../../Header/Object/Stage/Ball.h"
 CollisionManager* CollisionManager::_instance = nullptr;
 CollisionManager::CollisionManager(){
 	_instance = this;
@@ -16,11 +17,17 @@ void CollisionManager::Add(ObjectBase* object, CollisionBase* collision){
 
 bool CollisionManager::Update(){
 	for(auto&& first :_collisionList){
+
+		if (first.second->name == "shoot" || first.second->name == "gool") {
+			// shootとgoolの判定はballとのみ行うためballのほうで処理をする
+			continue;
+		}
+
 		if(first.second->name == "player"){
-			CollisionCheckForPlayer(first);
+			CollisionCheckForCapsule(first);
 		}
 		else if(first.second->name == "ball"){
-			CollisionCheckForBall(first);
+			CollisionCheckForSphere(first);
 		}
 		else{
 			DebugErrar();
@@ -30,7 +37,7 @@ bool CollisionManager::Update(){
 	return true;
 };
 
-bool CollisionManager::CollisionCheckForPlayer(std::pair<ObjectBase*, CollisionBase*> first){
+bool CollisionManager::CollisionCheckForCapsule(std::pair<ObjectBase*, CollisionBase*> first){
 
 	Capsule* capsule = dynamic_cast<Capsule*>(first.second);
 
@@ -41,6 +48,10 @@ bool CollisionManager::CollisionCheckForPlayer(std::pair<ObjectBase*, CollisionB
 	}
 
 	for (auto&& second : _collisionList) {
+
+		if (first == second)continue;
+		if (second.second->name == "shoot" || second.second->name == "gool")continue;
+
 		if(second.second->name == "player"){
 			Capsule* capsule2 = dynamic_cast<Capsule*>(second.second);
 			// キャスト失敗
@@ -51,6 +62,16 @@ bool CollisionManager::CollisionCheckForPlayer(std::pair<ObjectBase*, CollisionB
 
 			if (Collision3D::TwoCapsuleCol((*capsule), (*capsule2))) {
 				//衝突処理
+				int power = first.first->GetPower() - second.first->GetPower();
+				if (power > 0) {
+					// player2を吹き飛ばす
+				}
+				else if(power < 0){
+					// player1を吹き飛ばす
+				}
+				else {
+					//押し出し処理
+				}
 			}
 		}
 		else if (second.second->name == "ball") {
@@ -62,6 +83,14 @@ bool CollisionManager::CollisionCheckForPlayer(std::pair<ObjectBase*, CollisionB
 			}
 			if (Collision3D::SphereCapsuleCol((*sphere),(*capsule))) {
 				//衝突処理
+				bool IsShoot = dynamic_cast<Ball*>(second.first)->GetIsShoot();
+
+				if (IsShoot) {
+					// player1を吹き飛ばす
+				}
+				else {
+					// 球を飛ばす
+				}
 			}
 		}
 		else {
@@ -72,13 +101,25 @@ bool CollisionManager::CollisionCheckForPlayer(std::pair<ObjectBase*, CollisionB
 	return true;
 };
 
-bool CollisionManager::CollisionCheckForBall(std::pair<ObjectBase*, CollisionBase*> first){
+bool CollisionManager::CollisionCheckForSphere(std::pair<ObjectBase*, CollisionBase*> first){
+
+	Sphere* sphere = dynamic_cast<Sphere*>(first.second);
+
+	// キャスト失敗
+	if (!sphere) {
+		DebugErrar();
+		return false;
+	}
+
 	for (auto&& second : _collisionList) {
 		if (second.second->name == "player") {
 
 		}
-		else if (second.second->name == "ball") {
+		else if (second.second->name == "shoot") {
 
+		}
+		else if (second.second->name == "gool") {
+			
 		}
 		else {
 			DebugErrar();

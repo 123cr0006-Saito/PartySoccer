@@ -5,4 +5,7 @@ class Ball : public ObjectBase {
 	~Ball();
 	bool Init()override;
 	bool Update()override;
+	bool GetIsShoot() { return _isShoot; }
+protected: 	
+	bool _isShoot;
 };

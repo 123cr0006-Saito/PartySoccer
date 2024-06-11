@@ -14,12 +14,14 @@ public:
 	bool SetModelAndLayer(int modelHandle, int layer);
 	std::string GetName() { return _name; }
 	Vector3D GetPos() { return _pos; }
-	
+	int GetPower() { return _power; }
 protected:
 	Vector3D _pos;
 	Vector3D _size;
 	Vector3D _rot;
 	std::string _name;
 	int _modelHandle;
+
+	int _power;
 };
 
