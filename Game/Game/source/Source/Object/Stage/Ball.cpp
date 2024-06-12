@@ -66,7 +66,6 @@ bool Ball::Update() {
 };
 
 bool Ball::DebugDraw(){
-	DrawSphere3D(_sphere->pos.toVECTOR(), _sphere->r, 16, GetColor(0,255,0), GetColor(0, 255, 0), false);
 	return true;
 };
 

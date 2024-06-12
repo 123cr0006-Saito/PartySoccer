@@ -1,5 +1,6 @@
 #include "../../../Header/Object/Stage/Goal.h"
 #include "../../../Header/Manager/RenderManager.h"
+#include "../../../Header/Manager/CollisionManager.h"
 #include "../AppFrame/MemoryLeak.h"
 Goal::Goal(std::string name, Vector3D pos, Vector3D rotation) : ObjectBase(name) {
 	_modelHandle = MV1LoadModel("Res/Model/Goal/goal.mv1");
@@ -13,6 +14,7 @@ Goal::Goal(std::string name, Vector3D pos, Vector3D rotation) : ObjectBase(name)
 	_obb->pos = pos;
 	_obb->Rotate(rotation);
 	_obb->SetLength(Vector3D(1300, 1800, 2500));
+	CollisionManager::GetInstance()->Add(this, _obb);
 };
 
 Goal::~Goal(){
@@ -29,6 +31,5 @@ bool Goal::Update() {
 };
 
 bool Goal::DebugDraw() {
-	_obb->Render(0x0000ff);
 	return true;
 }

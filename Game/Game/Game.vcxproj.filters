@@ -16,6 +16,7 @@
     <ClCompile Include="source\Source\Manager\ObjectManager.cpp" />
     <ClCompile Include="source\Source\Other\Camera\Camera.cpp" />
     <ClCompile Include="source\Source\Manager\CollisionManager.cpp" />
+    <ClCompile Include="source\Source\Object\Stage\Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Header\Object\Player\Player.h" />
@@ -33,5 +34,6 @@
     <ClInclude Include="source\Header\Manager\ObjectManager.h" />
     <ClInclude Include="source\Header\Other\Camera\Camera.h" />
     <ClInclude Include="source\Header\Manager\CollisionManager.h" />
+    <ClInclude Include="source\Header\Object\Stage\Wall.h" />
   </ItemGroup>
 </Project>

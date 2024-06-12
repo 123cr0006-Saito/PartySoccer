@@ -49,6 +49,7 @@ public:
 	CollisionBase() { name = ""; };
 	virtual ~CollisionBase() {};
 	void SetName(std::string name) { this->name = name; }
+	virtual void Render(unsigned int color) =0;
 	std::string GetName() { return name; }
 	Vector3D pos;
 	std::string name;
@@ -67,7 +68,7 @@ public:
 	}
 
 	// •`‰æˆ—
-	void Render(unsigned int color);
+	void Render(unsigned int color)override;
 
 	float r;
 };
@@ -100,7 +101,7 @@ public:
 	void GetVertexPos(std::vector<Vector3D>& vertexPosList);
 
 	// •`‰æˆ—
-	void Render(unsigned int color);
+	void Render(unsigned int color)override;
 
 	Vector3D dir_vec[3];//xv,yv,zv
 	float length[3]; //0:w 1:h 3:d
@@ -121,7 +122,7 @@ public:
 	};
 
 	// •`‰æˆ—
-	void Render(unsigned int color);
+	void Render(unsigned int color)override;
 
 	Vector3D up_pos;
 	float up = 0.0f;

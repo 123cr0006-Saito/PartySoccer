@@ -166,7 +166,6 @@ void Player::SetKnockBack(int knockBack, Vector3D knockBackVec){
 
 bool Player::DebugDraw(){
 	printfDx("\n\n\nstamina : %d\ndash : %d\npower : %d",_stamina,_dash,_power);
-	DrawCapsule3D(_capsule->pos.toVECTOR(), _capsule->up_pos.toVECTOR(), _capsule->r, 12,GetColor(255, 0, 0), GetColor(0, 0, 0), false);
 	DrawSphere3D((_pos + Vector3D(0, _capsule->up / 2, 0) + (_forwardVec * 350)).toVECTOR(), 50.0f, 12, GetColor(255, 0, 0), GetColor(0, 0, 0), false);
 	return true;
 }

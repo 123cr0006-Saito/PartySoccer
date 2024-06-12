@@ -34,6 +34,7 @@
     <ClCompile Include="source\Source\Object\Player\Player.cpp" />
     <ClCompile Include="source\Source\Object\Stage\Stage.cpp" />
     <ClCompile Include="source\Source\Manager\SuperManager.cpp" />
+    <ClCompile Include="source\Source\Object\Stage\Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Header\Manager\CollisionManager.h" />
@@ -51,6 +52,7 @@
     <ClInclude Include="source\Header\Mode\ModeGame.h" />
     <ClInclude Include="source\Header\Object\Stage\Stage.h" />
     <ClInclude Include="source\Header\Manager\SuperManager.h" />
+    <ClInclude Include="source\Header\Object\Stage\Wall.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

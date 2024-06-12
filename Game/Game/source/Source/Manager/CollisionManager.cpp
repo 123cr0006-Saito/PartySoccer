@@ -2,6 +2,7 @@
 #include "../../AppFrame/source/Application/UtilMacro.h"
 #include "../../AppFrame/source/System/Header/Collision/3DCollision.h"
 #include "../../Header/Object/Stage/Ball.h"
+#include "../../Header/Object/Stage/Wall.h"
 #include "../../Header/Object/Player/Player.h"
 CollisionManager* CollisionManager::_instance = nullptr;
 CollisionManager::CollisionManager(){
@@ -59,7 +60,7 @@ bool CollisionManager::Update(){
 	// Õ“Ë”»’è
 	for(auto&& first :_collisionList){
 
-		if (first.second->name == "shoot" || first.second->name == "goal") {
+		if (first.second->name == "shoot" || first.second->name == "goal" || first.second->name == "wall") {
 			// shoot‚Ægoal‚Ì”»’è‚Íball‚Æ‚Ì‚Ýs‚¤‚½‚ßball‚Ì‚Ù‚¤‚Åˆ—‚ð‚·‚é
 			continue;
 		}
@@ -70,6 +71,13 @@ bool CollisionManager::Update(){
 		else if(first.second->name == "ball"){
 			CollisionCheckForSphere(first);
 		}
+	}
+	return true;
+};
+
+bool CollisionManager::Draw(){
+	for (auto&& list : _collisionList) {
+		list.second->Render(0xff0000);
 	}
 	return true;
 };
@@ -207,18 +215,27 @@ bool CollisionManager::CollisionCheckForSphere(std::pair<ObjectBase*, CollisionB
 		else if (second.second->name == "goal") {
 			
 		}
-	}
+		else if(second.second->name == "wall"){
+			OBB* obb = dynamic_cast<OBB*>(second.second);
+			Vector3D hitPos;
+			if (Collision3D::OBBSphereCol((*obb), (*sphere1),&hitPos)) {
+				Ball* ball = dynamic_cast<Ball*>(first.first);
+				Wall* wall = dynamic_cast<Wall*>(second.first);
+				if (!wall) {
+					DebugErrar();
+					return false;
+				}
 
+				ball->SetForwardVec(ball->GetForwardVec().Cross(Vector3D(0,1,0).Normalize()));
+				ball->AddSpeed(10);
+			}
+		}
+	}
 	// •Ç‚Ì”»’è •Ç‚Í•½–Ê‚Ì“–‚½‚è”»’è‚Ål‚¦‚é
 	Vector3D pos1 = sphere1->pos;
 	Vector3D normal = Vector3D(0, 0, 0);
-	if (pos1.x < -6335) {
-		normal = Vector3D(1, 0, 0);
-	}
-	else if (pos1.x > 6335) {
-		normal = Vector3D(-1, 0, 0);
-	}
-	else if (pos1.z < -3180) {
+
+	if (pos1.z < -3180) {
 		normal = Vector3D(0, 0, 1);
 	}
 	else if (pos1.z > 4876) {
@@ -228,7 +245,7 @@ bool CollisionManager::CollisionCheckForSphere(std::pair<ObjectBase*, CollisionB
 	if(normal.Sqlen() > 0){
 		Ball* ball = dynamic_cast<Ball*>(first.first);
 		ball->SetForwardVec(Reflect(ball->GetForwardVec(), normal));
-		ball->AddSpeed(25);
+		ball->AddSpeed(10);
 	}
 
 	return true;

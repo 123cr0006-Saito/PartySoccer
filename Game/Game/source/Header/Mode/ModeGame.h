@@ -23,7 +23,8 @@ public:
 	virtual bool Terminate();
 	virtual bool Process();
 	virtual bool Render();
-	
+
+	std::vector<std::tuple<Vector3D, Vector3D, Vector3D>> WallLoad();
 protected:
 	int debug;
 	SuperManager* _superManager;
