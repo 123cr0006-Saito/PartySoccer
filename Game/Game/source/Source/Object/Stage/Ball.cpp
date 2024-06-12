@@ -33,9 +33,11 @@ bool Ball::Update() {
 	// ‹…‚Ìİ’è
 	auto AddParam = [](float* param, float max, float value) {
 		if ((*param) < max) (*param) += value;
+		else if ((*param) > max) (*param) = max;
 	};
 	auto SubParam = [](float* param, float min, float value) {
 		if ((*param) > min) (*param) -= value;
+		else if((*param) < 0) (*param) = 0;
 	};
 
 	if (PlayerManeger::GetInstance()->GetList()[0].second->GetInput()->GetTrg(XINPUT_BUTTON_START)) {

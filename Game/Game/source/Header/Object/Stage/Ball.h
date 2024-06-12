@@ -9,6 +9,7 @@ class Ball : public ObjectBase {
 	bool DebugDraw()override;
 	bool GetIsShoot() { return _isShoot; }
 	void SetSpeed(float speed) { _speed = speed; }
+	void AddSpeed(float speed) { _speed += speed; }
 	void SetForwardVec(Vector3D forwardVec) ;
 protected: 	
 	bool _isShoot;

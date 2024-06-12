@@ -19,6 +19,7 @@ Player::Player(std::string name, std::pair<XInput*, int> param) : ObjectBase(nam
 	_isTired = false;
 	_dash = 0;
 	_power = 0;
+	_glavity = 0.0f;
 };
 
 Player::~Player(){
@@ -130,6 +131,15 @@ bool Player::Update(){
 	}
 	//--------------------------------------------------------------------------------------------------
 
+	_glavity += 3;
+	_pos.y -= _glavity;
+
+	if (_pos.y < 0.0f) {
+		_pos.y = 0.0f;
+		_glavity = 0.0f;
+	}
+
+
 	// Ý’è-------------------------------------------------------------------------------------------
 	// ƒJƒvƒZƒ‹‚ÌÝ’è
 	_capsule->pos = _pos;
@@ -144,7 +154,7 @@ bool Player::Update(){
 
 void Player::SetKnockBack(int knockBack, Vector3D knockBackVec){
 	_knockBack = knockBack;
-	_knockBackVec = knockBackVec.Normalize(); _knockBackVec.y = 0;
+	_knockBackVec = knockBackVec.Normalize();_knockBackVec.y *= -1;
 	_isKnockBack = true;
 };
 

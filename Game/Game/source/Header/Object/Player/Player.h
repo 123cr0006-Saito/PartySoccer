@@ -25,6 +25,7 @@ protected:
 	int _stamina;
 	bool _isTired;
 	int _power;
+	int _glavity;
 	Vector3D _forwardVec;
 	Capsule* _capsule;
 
