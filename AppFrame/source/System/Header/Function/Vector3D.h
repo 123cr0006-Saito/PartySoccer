@@ -243,6 +243,13 @@ inline Vector3D Lerp(const Vector3D& start, const Vector3D& end, float t)
 	return tmp;
 }
 
+inline Vector3D WallSlide(const Vector3D& vec, const Vector3D& normal)
+{
+	Vector3D tmp;
+	tmp = vec - (normal * vec.Dot(normal));
+	return tmp;
+}
+
 inline Vector3D Reflect(const Vector3D& vec, const Vector3D& normal) 
 {
 	Vector3D tmp;

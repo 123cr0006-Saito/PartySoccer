@@ -149,6 +149,18 @@ bool CollisionManager::CollisionCheckForCapsule(std::pair<ObjectBase*, Collision
 			}
 		}
 	}
+
+	// •Ç‚Ì”»’è •Ç‚Í•½–Ê‚Ì“–‚½‚è”»’è‚Ål‚¦‚é
+	Player* player = dynamic_cast<Player*>(first.first);
+	auto PositionLimit = [](float& pos, int max, int min) {
+		if (pos < min) pos = min;
+		else if (pos > max) pos = max;
+	};
+	Vector3D pos = capsule->pos;
+	PositionLimit(pos.x, 6335, -6335);
+	PositionLimit(pos.z, 4876, -3180);
+	player->SetPos(pos);
+
 	return true;
 };
 

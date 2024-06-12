@@ -15,6 +15,7 @@ public:
 	bool SetModelAndLayer(int modelHandle, int layer);
 	std::string GetName() { return _name; }
 	Vector3D GetPos() { return _pos; }
+	void SetPos(Vector3D pos) { _pos = pos; }
 	
 protected:
 	Vector3D _pos;
