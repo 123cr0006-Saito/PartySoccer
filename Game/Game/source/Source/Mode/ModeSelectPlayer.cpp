@@ -77,7 +77,6 @@ bool ModeSelectPlayer::PlayerSelect(){
 		// コントローラーの更新
 		_playerParam[i].first->Input();
 
-		
 		// キャラクターの選択
 		if(!_selectCharacter[i].first){
 			if(_playerParam[i].first->GetTrg(XINPUT_BUTTON_STICK_RIGHT)){
@@ -88,20 +87,23 @@ bool ModeSelectPlayer::PlayerSelect(){
 			}
 		}
 
-
 		// 選択終了・解除
 		if (_playerParam[i].first->GetTrg(XINPUT_BUTTON_B)) {
 			if(_selectCharacter[i].first){
 			    // 選択したキャラクターを使用しているか？
-			    bool allTrue = std::all_of(_selectCharacter.begin(), _selectCharacter.end(), [&](std::pair<bool, int> value) { return value.second  != _playerParam[i].second;});
-			    // すべてのプレイヤーが選択していない場合
-			    if(allTrue){
-			        _selectCharacter[i].first = !_selectCharacter[i].first;
-			    }
+			    _selectCharacter[i].first = !_selectCharacter[i].first;
+				_playerParam[i].second = 0;
 			}
 			else{
-				_selectCharacter[i].first = !_selectCharacter[i].first;
-				_playerParam[i].second = _modelHandle[_selectCharacter[i].second];
+				// 選択したキャラクターを使用しているか？
+				bool allTrue = std::all_of(_selectCharacter.begin(), _selectCharacter.end(), [&](std::pair<bool, int> value) { 
+					if (!value.first)return true;
+					return _selectCharacter[i].second != value.second; });
+				// すべてのプレイヤーが選択していない場合
+				if (allTrue) {
+					_selectCharacter[i].first = !_selectCharacter[i].first;
+					_playerParam[i].second = _modelHandle[_selectCharacter[i].second];
+				}
 			}
 		}
 	}

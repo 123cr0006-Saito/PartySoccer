@@ -128,7 +128,7 @@ bool CollisionManager::CollisionCheckForCapsule(std::pair<ObjectBase*, Collision
 				if (IsShoot) {
 					// player1‚ð‚«”ò‚Î‚·
 					Vector3D dirVec = pos1 - pos2;
-					dynamic_cast<Player*>(first.first)->SetKnockBack(350, dirVec);	
+					dynamic_cast<Player*>(first.first)->SetKnockBack(250, dirVec);	
 				}
 				else {
 					// ‹…‚ð”ò‚Î‚·
@@ -174,7 +174,12 @@ bool CollisionManager::CollisionCheckForSphere(std::pair<ObjectBase*, CollisionB
 				}
 				ball->SetForwardVec(dirVec);
 				int power = player->GetPower();
-				ball->SetSpeed(10*power);
+				if (!ball->GetIsShoot()) {
+					ball->SetSpeed(10 * power);
+				}
+				else {
+					ball->AddSpeed(10 * (power/2));
+				}
 			}
 		}
 		else if (second.second->name == "goal") {
