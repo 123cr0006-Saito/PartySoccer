@@ -11,6 +11,7 @@ class Ball : public ObjectBase {
 	void SetSpeed(float speed) { _speed = speed; }
 	void AddSpeed(float speed) { _speed += speed; }
 	void SetForwardVec(Vector3D forwardVec) ;
+	Vector3D GetForwardVec() { return _forwardVec; }
 protected: 	
 	bool _isShoot;
 	Sphere* _sphere;

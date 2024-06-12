@@ -138,10 +138,13 @@ bool CollisionManager::CollisionCheckForCapsule(std::pair<ObjectBase*, Collision
 					Vector3D dirVec = pos2 - pos1;
 					ball->SetForwardVec(dirVec);
 
-					/*float angle = Math::CalcVectorAngle(player->GetForwardVec(), ball->GetPos().Normalize());
-					if (angle < Math::DegToRad(90)) {*/
+					Vector3D forwardVec = player->GetForwardVec();
+					Vector3D ballVec = ball->GetPos() - player->GetPos();
+					float angle = Math::CalcVectorAngle(forwardVec, ballVec.Normalize());
+					// 正面からぶつかったときだけスピードを上げる
+					if (angle < Math::DegToRad(90)) {
 						ball->SetSpeed(130);
-					//}
+					}
 				}
 			}
 		}
@@ -193,5 +196,28 @@ bool CollisionManager::CollisionCheckForSphere(std::pair<ObjectBase*, CollisionB
 			
 		}
 	}
+
+	// 壁の判定 壁は平面の当たり判定で考える
+	Vector3D pos1 = sphere1->pos;
+	Vector3D normal = Vector3D(0, 0, 0);
+	if (pos1.x < -6335) {
+		normal = Vector3D(1, 0, 0);
+	}
+	else if (pos1.x > 6335) {
+		normal = Vector3D(-1, 0, 0);
+	}
+	else if (pos1.z < -3180) {
+		normal = Vector3D(0, 0, 1);
+	}
+	else if (pos1.z > 4876) {
+		normal = Vector3D(0, 0, -1);
+	}
+	// 壁に当たったときの処理
+	if(normal.Sqlen() > 0){
+		Ball* ball = dynamic_cast<Ball*>(first.first);
+		ball->SetForwardVec(Reflect(ball->GetForwardVec(), normal));
+		ball->AddSpeed(25);
+	}
+
 	return true;
 };

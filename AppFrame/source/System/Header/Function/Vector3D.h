@@ -73,12 +73,12 @@ public:
 		return x * vec.x + y * vec.y + z * vec.z;
 	}
 
-	float Dot(const Vector3D& left, const Vector3D right)
+	float Dot(const Vector3D& left, const Vector3D right) const 
 	{
 		return left.x * right.x + left.y * right.y + left.z * right.z;
 	}
 
-	float Dot(const Vector3D& vec)
+	float Dot(const Vector3D& vec) const 
 	{
 		return x * vec.x + y * vec.y + z * vec.z;
 	}
@@ -240,5 +240,12 @@ inline Vector3D Lerp(const Vector3D& start, const Vector3D& end, float t)
 {
 	Vector3D tmp;
 	tmp = start + (end - start) * t;
+	return tmp;
+}
+
+inline Vector3D Reflect(const Vector3D& vec, const Vector3D& normal) 
+{
+	Vector3D tmp;
+	tmp = vec - normal * (2.0f * vec.Dot(normal));
 	return tmp;
 }
