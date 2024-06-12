@@ -60,6 +60,12 @@ bool Player::Update(){
 			_knockBack = 0;
 			_isKnockBack = false;
 		}
+		_capsule->pos = _pos;
+		_capsule->Update();
+		// ÉÇÉfÉãÇÃê›íË
+		Math::SetModelForward_RotationY(_modelHandle, _forwardVec.toVECTOR());
+		MV1SetPosition(_modelHandle, _pos.toVECTOR());
+		return true;
 	}
 	//-----------------------------------------------------------------------------------------------
 

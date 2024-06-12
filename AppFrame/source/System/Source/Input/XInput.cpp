@@ -66,12 +66,12 @@ bool XInput::Input() {
 	// リリース入力の取得
 	_rel[XINPUT_BUTTON_RT] = (triggerButton ^ keyold[XINPUT_BUTTON_RT]) & ~triggerButton;
 
-
-	// スティック入力値が5%以下なら入力をカットする（デッドゾーン設定）
-	_input.ThumbLX = abs(_input.ThumbLX) > SHRT_MAX * 0.05f ? _input.ThumbLX : 0;
-	_input.ThumbLY = abs(_input.ThumbLY) > SHRT_MAX * 0.05f ? _input.ThumbLY : 0;
-	_input.ThumbRX = abs(_input.ThumbRX) > SHRT_MAX * 0.05f ? _input.ThumbRX : 0;
-	_input.ThumbRY = abs(_input.ThumbRY) > SHRT_MAX * 0.05f ? _input.ThumbRY : 0;
+	float deadZone = 0.05f;
+	// スティック入力値が50%以下なら入力をカットする（デッドゾーン設定）
+	_input.ThumbLX = abs(_input.ThumbLX) > SHRT_MAX * deadZone ? _input.ThumbLX : 0;
+	_input.ThumbLY = abs(_input.ThumbLY) > SHRT_MAX * deadZone ? _input.ThumbLY : 0;
+	_input.ThumbRX = abs(_input.ThumbRX) > SHRT_MAX * deadZone ? _input.ThumbRX : 0;
+	_input.ThumbRY = abs(_input.ThumbRY) > SHRT_MAX * deadZone ? _input.ThumbRY : 0;
 
 	_adjustedLStick.x = (float)_input.ThumbLX / (float)SHRT_MAX;
 	_adjustedLStick.y = (float)_input.ThumbLY / (float)SHRT_MAX;

@@ -14,10 +14,11 @@ public:
 	virtual bool DebugDraw()override;
 
 	void SetKnockBack(int knockBack, Vector3D knockBackVec);
-
+	const bool GetIsKnockBack() { return _isKnockBack; }
 	const int GetPower() { return _power; }
 	const int GetStamina() { return _stamina; }
 	const int GetDash() { return _dash; }
+	const Vector3D GetForwardVec() { return _forwardVec; }
 	XInput* GetInput() { return _Input; }
 protected:
 	XInput* _Input;

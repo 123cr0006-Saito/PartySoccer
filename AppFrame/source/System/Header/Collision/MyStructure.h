@@ -86,6 +86,12 @@ public:
 		}
 	}
 
+	void SetLength(Vector3D value) {
+		length[0] = value.x;
+		length[1] = value.y;
+		length[2] = value.z;
+	}
+
 	// ‰ñ“]ˆ—
 	// xŽ²->yŽ²->zŽ²‚Ì‡”Ô‚Å, ŠeŽ²‚ð‰ñ“]‚³‚¹‚é
 	void Rotate(Vector3D vRot);

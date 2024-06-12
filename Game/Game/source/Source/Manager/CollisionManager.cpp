@@ -125,16 +125,23 @@ bool CollisionManager::CollisionCheckForCapsule(std::pair<ObjectBase*, Collision
 				Vector3D pos1 = capsule->pos;
 				Vector3D pos2 = sphere->pos;
 				Ball* ball = dynamic_cast<Ball*>(second.first);
+				Player* player = dynamic_cast<Player*>(first.first);
 				if (IsShoot) {
 					// player1‚ğ‚«”ò‚Î‚·
 					Vector3D dirVec = pos1 - pos2;
-					dynamic_cast<Player*>(first.first)->SetKnockBack(250, dirVec);	
+					if (!player->GetIsKnockBack()) {
+						player->SetKnockBack(250, dirVec);
+					}
 				}
 				else {
 					// ‹…‚ğ”ò‚Î‚·
 					Vector3D dirVec = pos2 - pos1;
 					ball->SetForwardVec(dirVec);
-					ball->SetSpeed(130);
+
+					/*float angle = Math::CalcVectorAngle(player->GetForwardVec(), ball->GetPos().Normalize());
+					if (angle < Math::DegToRad(90)) {*/
+						ball->SetSpeed(130);
+					//}
 				}
 			}
 		}

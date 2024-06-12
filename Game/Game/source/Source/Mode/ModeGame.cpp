@@ -11,13 +11,13 @@ bool ModeGame::Initialize() {
 	_superManager = SuperManager::GetInstance();
 	SetupCamera_Perspective(60.0f * 180.0f / 3.141592f);
 	ObjectManager* objectManager = NEW ObjectManager();
-	Vector3D goalPos[2] = { Vector3D(0, 0, 0), Vector3D(0, 0, 0) };
-	Vector3D goalRot[2] = { Vector3D(0, 90, 0), Vector3D(0, -90, 0) };
-	//for (int i = 0; i < 2; i++) {
-	//	std::string name = "Goal_" + std::to_string(i + 1);
-	//	Goal* goal = new Goal(name, goalPos[i], goalRot[i]);
-	//	objectManager->Add(name,goal);
-	//}
+	Vector3D goalPos[2] = { Vector3D(6300, 0, 800), Vector3D(-6300, 0, 800) };
+	Vector3D goalRot[2] = { Vector3D(0, 180 * 3.141592f / 180.0f, 0), Vector3D(0, 0, 0) };
+	for (int i = 0; i < 2; i++) {
+		std::string name = "Goal_" + std::to_string(i + 1);
+		Goal* goal = new Goal(name, goalPos[i], goalRot[i]);
+		objectManager->Add(name,goal);
+	}
 	objectManager->Add("Stage", NEW Stage("Stage"));
 	objectManager->Add("Ball", NEW Ball("Ball"));
 
