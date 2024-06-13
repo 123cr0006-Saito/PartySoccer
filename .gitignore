@@ -406,4 +406,4 @@ FodyWeavers.xsd
 *.mp4
 *.efkefc
 *.bmp
-Game/Game/Data/WallParam.csv
+*.csv
