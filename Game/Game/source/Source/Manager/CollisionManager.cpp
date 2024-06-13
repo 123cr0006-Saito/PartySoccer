@@ -225,8 +225,7 @@ bool CollisionManager::CollisionCheckForSphere(std::pair<ObjectBase*, CollisionB
 					DebugErrar();
 					return false;
 				}
-
-				ball->SetForwardVec(ball->GetForwardVec().Cross(Vector3D(0,1,0).Normalize()));
+				ball->SetForwardVec(Reflect(ball->GetForwardVec(),(hitPos - ball->GetPos()).Normalize()));
 				ball->AddSpeed(10);
 			}
 		}
