@@ -16,7 +16,7 @@ Ball::Ball(std::string name) : ObjectBase(name){
 	_speed = 0.0f;
 	_dirVec = Vector3D(0.0f, 0.0f, 0.0f);
 	_glavity = 0.0f;
-
+	_oldPos = _pos;
 	RenderManager::GetInstance()->Add(name, 10, _modelHandle);
 	CollisionManager::GetInstance()->Add(this, _sphere);
 };
@@ -30,6 +30,7 @@ bool Ball::Init(){
 };
 
 bool Ball::Update() {
+	_oldPos = _pos;
 	// ‹…‚Ìİ’è
 	auto AddParam = [](float* param, float max, float value) {
 		if ((*param) < max) (*param) += value;

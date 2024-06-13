@@ -59,9 +59,13 @@ bool CollisionManager::Update(){
 
 	// 衝突判定
 	for(auto&& first :_collisionList){
+		std::vector<std::string> name = { "shoot", "goal","wall","GoalNet"};
+		auto itr = std::find_if(name.begin(), name.end(),[=](std::string temp){
+			return temp == first.second->name;
+		});
 
-		if (first.second->name == "shoot" || first.second->name == "goal" || first.second->name == "wall") {
-			// shootとgoalの判定はballとのみ行うためballのほうで処理をする
+		if (itr != name.end()) {
+			// nameに書いてあるものはballのみと判定を行うためballのほうで処理をする
 			continue;
 		}
 
@@ -227,6 +231,20 @@ bool CollisionManager::CollisionCheckForSphere(std::pair<ObjectBase*, CollisionB
 				}
 				ball->SetForwardVec(Reflect(ball->GetForwardVec(),(hitPos - ball->GetPos()).Normalize()));
 				ball->AddSpeed(10);
+			}
+		}
+		else if (second.second->name == "GoalNet") {
+			OBB* obb = dynamic_cast<OBB*>(second.second);
+			Vector3D hitPos;
+			if (Collision3D::OBBSphereCol((*obb), (*sphere1), &hitPos)) {
+				Ball* ball = dynamic_cast<Ball*>(first.first);
+				Wall* wall = dynamic_cast<Wall*>(second.first);
+				if (!wall) {
+					DebugErrar();
+					return false;
+				}
+				ball->SetPosToOldPos();
+				ball->AddSpeed(2); // ゴールネットに当たったとき回転しながら止まってほしいのでスピード少し加算する
 			}
 		}
 	}

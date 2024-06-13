@@ -10,30 +10,12 @@
 
 bool ModeGame::Initialize() {
 	if (!base::Initialize()) { return false; }
+	// マネージャーの取得
 	_superManager = SuperManager::GetInstance();
-	SetupCamera_Perspective(60.0f * 180.0f / 3.141592f);
-	ObjectManager* objectManager = NEW ObjectManager();
-	Vector3D goalPos[2] = { Vector3D(6300, 0, 800), Vector3D(-6300, 0, 800) };
-	Vector3D goalRot[2] = { Vector3D(0, 180 * 3.141592f / 180.0f, 0), Vector3D(0, 0, 0) };
-	for (int i = 0; i < 2; i++) {
-		std::string name = "Goal_" + std::to_string(i + 1);
-		Goal* goal = new Goal(name, goalPos[i], goalRot[i]);
-		objectManager->Add(name,goal);
-	}
-	objectManager->Add("Stage", NEW Stage("Stage"));
-	objectManager->Add("Ball", NEW Ball("Ball"));
-
-	_superManager->AddManager("objectManager",1, objectManager);
+	// オブジェクトの生成
+	LoadObject();
+	// カメラの生成
 	_camera = NEW Camera();
-
-	std::vector<std::tuple<Vector3D, Vector3D, Vector3D>> wallList = WallLoad();
-	for(auto&& list : wallList){
-		Wall* wall = NEW Wall();
-		wall->SetColPos(std::get<0>(list));
-		wall->SetColLength(std::get<1>(list));
-		wall->SetForwardVec(std::get<2>(list));
-		objectManager->Add("wall", wall);
-	}
 	return true;
 }
 
@@ -42,29 +24,66 @@ bool ModeGame::Terminate() {
 	return true;
 }
 
-std::vector<std::tuple<Vector3D, Vector3D, Vector3D>> ModeGame::WallLoad() {
-	std::vector<std::tuple<Vector3D, Vector3D, Vector3D>> nameList;
-	std::string filePath = "Data/WallParam.csv";
+bool ModeGame::LoadObject(){
+	// オブジェクトの生成
+	ObjectManager* objectManager = NEW ObjectManager();
+	//ステージの生成
+	objectManager->Add("Stage", NEW Stage("Stage"));
+	//ボールの生成
+	objectManager->Add("Ball", NEW Ball("Ball"));
+	//ゴールの生成
+	std::vector<std::tuple<std::string, Vector3D, Vector3D>> goalList = LoadObjectParam("Data/GoalParam.csv");
+	int count = 0;
+	for (auto&& list : goalList) {
+		std::string name = std::get<0>(list) + std::to_string(count + 1);
+		Goal* goal = new Goal(name, std::get<1>(list), std::get<2>(list).Radian());
+		objectManager->Add(name, goal);
+		count++;
+	}
+	//壁コリジョンの生成
+	std::vector<std::tuple<std::string, Vector3D, Vector3D>> wallList = LoadObjectParam("Data/WallParam.csv");
+	for (auto&& list : wallList) {
+		Wall* wall = NEW Wall();
+		wall->SetColPos(std::get<1>(list));
+		wall->SetColLength(std::get<2>(list));
+		objectManager->Add(std::get<0>(list), wall);
+	}
+	//ゴールネットコリジョンの生成
+	std::vector<std::tuple<std::string, Vector3D, Vector3D>> goalNetList = LoadObjectParam("Data/GoalNetParam.csv");
+	for (auto&& list : goalNetList) {
+		Wall* wall = NEW Wall();
+		wall->SetName(std::get<0>(list));
+		wall->SetColPos(std::get<1>(list));
+		wall->SetColLength(std::get<2>(list));
+		objectManager->Add(std::get<0>(list), wall);
+	}
+
+	// マネージャーに登録
+	_superManager->AddManager("objectManager", 1, objectManager);
+	return true;
+};
+
+std::vector<std::tuple<std::string, Vector3D, Vector3D>> ModeGame::LoadObjectParam(std::string fileName) {
+	std::vector<std::tuple<std::string, Vector3D, Vector3D>> nameList;
 	// csvファイルを読み込む
-	CFile file(filePath);
+	CFile file(fileName);
 	// ファイルが開けた場合
 	if (file.Success()) {
 		int c = 0;
 		const char* p = (const char*)file.Data();
 		int size = file.Size();
 		while (c < size) {
-			int x, y, z, lengthX, lengthY, lengthZ,normX,normY,normZ;
-			c += GetDecNum(&p[c], &x); // obbのXサイズを取得
-			c += FindString(&p[c], ',', &p[size]); c++; c += GetDecNum(&p[c], &y); // obbのYサイズを取得
-			c += FindString(&p[c], ',', &p[size]); c++; c += GetDecNum(&p[c], &z); // obbのZサイズを取得
-			c += FindString(&p[c], ',', &p[size]); c++; c += GetDecNum(&p[c], &lengthX);
-			c += FindString(&p[c], ',', &p[size]); c++; c += GetDecNum(&p[c], &lengthY);
-			c += FindString(&p[c], ',', &p[size]); c++; c += GetDecNum(&p[c], &lengthZ);
-			c += FindString(&p[c], ',', &p[size]); c++; c += GetDecNum(&p[c], &normX);
-			c += FindString(&p[c], ',', &p[size]); c++; c += GetDecNum(&p[c], &normY);
-			c += FindString(&p[c], ',', &p[size]); c++; c += GetDecNum(&p[c], &normZ);
+			std::string name;
+			Vector3D pos,param;
+			c += GetString(&p[c],&name); // 名前を取得
+			c += FindString(&p[c], ',', &p[size]); c++; c += GetFloatNum(&p[c], &pos.x); //x座標を取得
+			c += FindString(&p[c], ',', &p[size]); c++; c += GetFloatNum(&p[c], &pos.y); //y座標を取得
+			c += FindString(&p[c], ',', &p[size]); c++; c += GetFloatNum(&p[c], &pos.z); //z座標を取得
+			c += FindString(&p[c], ',', &p[size]); c++; c += GetFloatNum(&p[c], &param.x); //xの長さを取得
+			c += FindString(&p[c], ',', &p[size]); c++; c += GetFloatNum(&p[c], &param.y); //yの長さを取得
+			c += FindString(&p[c], ',', &p[size]); c++; c += GetFloatNum(&p[c], &param.z); //zの長さを取得
 			c += SkipSpace(&p[c], &p[size]); // 空白やコントロールコードをスキップする
-			nameList.push_back(std::make_tuple(Vector3D(x, y, z), Vector3D(lengthX, lengthY, lengthZ),Vector3D(normX, normY, normZ)));
+			nameList.push_back(std::make_tuple(name,pos,param));
 		}
 	}
 	else {

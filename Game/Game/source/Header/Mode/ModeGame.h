@@ -24,7 +24,8 @@ public:
 	virtual bool Process();
 	virtual bool Render();
 
-	std::vector<std::tuple<Vector3D, Vector3D, Vector3D>> WallLoad();
+	bool LoadObject();
+	std::vector<std::tuple<std::string, Vector3D, Vector3D>> LoadObjectParam(std::string fileName);
 protected:
 	int debug;
 	SuperManager* _superManager;

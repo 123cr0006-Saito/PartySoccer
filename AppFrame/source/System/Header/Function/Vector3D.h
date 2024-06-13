@@ -192,6 +192,26 @@ public:
 		return tmp;
 	}
 
+	// ラジアン値を返す
+	Vector3D Radian() const
+	{
+		Vector3D tmp;
+		tmp.x = this->x * 3.1415926f /180.0f;
+		tmp.y = this->y * 3.1415926f /180.0f;
+		tmp.z = this->z * 3.1415926f /180.0f;
+		return tmp;
+	}
+
+	// 角度値を返す
+	Vector3D Degree() const
+	{
+		Vector3D tmp;
+		tmp.x = this->x * 180.0f / 3.1415926f;
+		tmp.y = this->y * 180.0f / 3.1415926f;
+		tmp.z = this->z * 180.0f / 3.1415926f;
+		return tmp;
+	}
+
 	// Vector3D → DxLibのVECTOR 形式に変換
 	VECTOR toVECTOR() const
 	{

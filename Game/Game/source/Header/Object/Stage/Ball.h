@@ -10,6 +10,7 @@ class Ball : public ObjectBase {
 	bool GetIsShoot() { return _isShoot; }
 	void SetSpeed(float speed) { _speed = speed; }
 	void AddSpeed(float speed) { _speed += speed; }
+	void SetPosToOldPos() { _pos = _oldPos; }
 	void SetForwardVec(Vector3D forwardVec) ;
 	Vector3D GetForwardVec() { return _forwardVec; }
 protected: 	
@@ -17,6 +18,7 @@ protected:
 	Sphere* _sphere;
 	Vector3D _dirVec;
 	Vector3D _forwardVec;
+	Vector3D _oldPos;
 	float _speed;
 	int _glavity;
 };

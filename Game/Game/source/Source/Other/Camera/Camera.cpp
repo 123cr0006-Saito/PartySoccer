@@ -2,6 +2,8 @@
 #include "../.../../AppFrame/source/System/Header/Function/Timer.h"
 Camera::Camera(){
 	_player = PlayerManeger::GetInstance();
+	//ƒJƒƒ‰‚Ì‰Šú‰»
+	SetupCamera_Perspective(60.0f * 180.0f / 3.141592f);
 };
 
 Camera::~Camera(){
