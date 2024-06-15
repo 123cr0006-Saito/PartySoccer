@@ -185,7 +185,7 @@ bool CollisionManager::CollisionCheckForSphere(std::pair<ObjectBase*, CollisionB
 		DebugErrar();
 		return false;
 	}
-
+	bool isHitGoalNet = false;
 	for (auto&& second : _collisionList) {
 		if (second.second->name == "player") {
 
@@ -219,7 +219,7 @@ bool CollisionManager::CollisionCheckForSphere(std::pair<ObjectBase*, CollisionB
 		else if (second.second->name == "goal") {
 			
 		}
-		else if(second.second->name == "wall"){
+		else if(second.second->name == "wall" && !isHitGoalNet){
 			OBB* obb = dynamic_cast<OBB*>(second.second);
 			Vector3D hitPos;
 			if (Collision3D::OBBSphereCol((*obb), (*sphere1),&hitPos)) {
@@ -229,7 +229,8 @@ bool CollisionManager::CollisionCheckForSphere(std::pair<ObjectBase*, CollisionB
 					DebugErrar();
 					return false;
 				}
-				ball->SetForwardVec(Reflect(ball->GetForwardVec(),(hitPos - ball->GetPos()).Normalize()));
+				Vector3D dirVec = (hitPos - ball->GetPos()).Normalize();
+				ball->SetForwardVec(Reflect(ball->GetForwardVec(),dirVec));
 				ball->AddSpeed(10);
 			}
 		}
@@ -245,6 +246,7 @@ bool CollisionManager::CollisionCheckForSphere(std::pair<ObjectBase*, CollisionB
 				}
 				ball->SetPosToOldPos();
 				ball->AddSpeed(2); // ゴールネットに当たったとき回転しながら止まってほしいのでスピード少し加算する
+				isHitGoalNet = true;
 			}
 		}
 	}

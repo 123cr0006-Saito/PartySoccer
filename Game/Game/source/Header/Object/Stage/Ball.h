@@ -7,10 +7,12 @@ class Ball : public ObjectBase {
 	bool Init()override;
 	bool Update()override;
 	bool DebugDraw()override;
+
 	bool GetIsShoot() { return _isShoot; }
 	void SetSpeed(float speed) { _speed = speed; }
 	void AddSpeed(float speed) { _speed += speed; }
 	void SetPosToOldPos() { _pos = _oldPos; }
+
 	void SetForwardVec(Vector3D forwardVec) ;
 	Vector3D GetForwardVec() { return _forwardVec; }
 protected: 	

@@ -40,14 +40,6 @@ bool ModeGame::LoadObject(){
 		objectManager->Add(name, goal);
 		count++;
 	}
-	//壁コリジョンの生成
-	std::vector<std::tuple<std::string, Vector3D, Vector3D>> wallList = LoadObjectParam("Data/WallParam.csv");
-	for (auto&& list : wallList) {
-		Wall* wall = NEW Wall();
-		wall->SetColPos(std::get<1>(list));
-		wall->SetColLength(std::get<2>(list));
-		objectManager->Add(std::get<0>(list), wall);
-	}
 	//ゴールネットコリジョンの生成
 	std::vector<std::tuple<std::string, Vector3D, Vector3D>> goalNetList = LoadObjectParam("Data/GoalNetParam.csv");
 	for (auto&& list : goalNetList) {
@@ -57,6 +49,15 @@ bool ModeGame::LoadObject(){
 		wall->SetColLength(std::get<2>(list));
 		objectManager->Add(std::get<0>(list), wall);
 	}
+	//壁コリジョンの生成
+	//std::vector<std::tuple<std::string, Vector3D, Vector3D>> wallList = LoadObjectParam("Data/WallParam.csv");
+	//for (auto&& list : wallList) {
+	//	Wall* wall = NEW Wall();
+	//	wall->SetColPos(std::get<1>(list));
+	//	wall->SetColLength(std::get<2>(list));
+	//	objectManager->Add(std::get<0>(list), wall);
+	//}
+	
 
 	// マネージャーに登録
 	_superManager->AddManager("objectManager", 1, objectManager);
