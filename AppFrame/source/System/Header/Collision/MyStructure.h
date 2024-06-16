@@ -46,13 +46,15 @@ struct TWOLINE_SHORT {
 class CollisionBase
 {
 public:
-	CollisionBase() { name = ""; };
+	CollisionBase() { name = "";isHit = false; isHitOld = false;};
 	virtual ~CollisionBase() {};
 	void SetName(std::string name) { this->name = name; }
 	virtual void Render(unsigned int color) =0;
 	std::string GetName() { return name; }
 	Vector3D pos;
 	std::string name;
+	bool isHit;
+	bool isHitOld;
 };
 
 class Sphere : public CollisionBase
