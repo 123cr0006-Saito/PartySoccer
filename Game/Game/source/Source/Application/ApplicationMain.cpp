@@ -24,9 +24,9 @@ bool ApplicationMain::Initialize(HINSTANCE hInstance) {
 	RenderManager* renderManager = NEW RenderManager();
 	CollisionManager* collisionManager = NEW CollisionManager();
 	UIManager* uiManager = NEW UIManager();
-	superManager->AddManager("renderManager", 0, renderManager);
-	superManager->AddManager("renderManager", 0, collisionManager);
-	superManager->AddManager("uiManager", 100, uiManager);
+	superManager->AddManager("renderManager", 100, renderManager);
+	superManager->AddManager("collisionManager", 0, collisionManager);
+	superManager->AddManager("uiManager", 1000, uiManager);
 	ModeServer::GetInstance()->Add(NEW ModeSelectPlayer(), 1, "ModeSelectPlayer");
 	return true;
 }

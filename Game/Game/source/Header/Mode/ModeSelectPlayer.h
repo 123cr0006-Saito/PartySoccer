@@ -29,5 +29,6 @@ protected:
 	std::array<VERTEX2D, 4> _vertex;
 	int _scrollSpeed;
 	int textureHandle;
+	int _selectTeamMember;
 };
 

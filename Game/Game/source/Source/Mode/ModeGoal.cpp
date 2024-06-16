@@ -7,14 +7,20 @@
 #include "../../Header/Manager/SuperManager.h"
 #include "../../Header/Manager/UIManager.h"
 #include "../../Header/Mode/ModeGame.h"
+#include "../../Header/Other/TimeLimit.h"
+#include "../../Header/UI/Score/UIScore.h"
 
 bool ModeGoal::_isLoadUI = false;
+
 std::map<std::string,UIBase::UIParam> ModeGoal::_uiParam;
 
 ModeGoal::ModeGoal(std::string name){
+	TimeLimit::GetInstance()->Stop();
 	_score = Score::GetInstance();
-	_nowScore[0] = _score->GetScore("Goal_1");
-	_nowScore[1] = _score->GetScore("Goal_2");
+
+	for(int i = 0; i < 2; i++){
+		_nowScore[i] = _score->GetScore("Goal_" + std::to_string(i+1));
+	}
 	_score->AddScore(name,1);
 	_name = name;
 	_currentTime = 0;
@@ -23,14 +29,20 @@ ModeGoal::ModeGoal(std::string name){
 		_isLoadUI = true;
 	}
 
+	for(int i = 0; i < 10; i++){
+		_numHandle[i] = LoadGraph(("Res/UI/Number/timer_0" + std::to_string(i) + ".png").c_str());
+	}
+
 	UIManager* ui = dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"));
 	int count  = 0;
 	for (auto&& list :_uiParam) {
 		UIBase* base = NEW UIBase(list.second);
 		_ui[list.first] = base->GetParam();
-
+		if(count > 2){
+			_ui[list.first]->handle = _numHandle[_nowScore[count - 3]];
+		}
 		// サーバーに追加
-		ui->Add(list.first, 1000 + count, base);
+		ui->Add(list.first, 10000 + count, base);
 		count++;
 	}
 };
@@ -86,8 +98,6 @@ bool	ModeGoal::Terminate(){
 
 bool	ModeGoal::Process(){
 	AnimationProcess();
-	//ModeServer::GetInstance()->SkipProcessUnderLayer();
-	//ModeServer::GetInstance()->PauseProcessUnderLayer();
 	return true;
 };
 
@@ -119,10 +129,12 @@ void ModeGoal::AnimationProcess(){
 	easing(&_ui["scoreBoard_02"]->alpha, nowTime, 0, 255, 200, Easing::Linear);
 	easing(&_ui["scoreBoard_02"]->pos.x, nowTime, 1520, 1320, 500, Easing::InQuad);
 
-	easing(&_ui["score_01"]->pos.x, nowTime, 400, 600, 500, Easing::InQuad);
-	easing(&_ui["score_01"]->alpha, nowTime, 0, 255, 200, Easing::Linear);
+	_ui["score_01"]->pos.x = _ui["scoreBoard_01"]->pos.x + _ui["scoreBoard_01"]->center.x/2;
+	_ui["score_01"]->pos.y = _ui["scoreBoard_01"]->pos.y + _ui["scoreBoard_01"]->center.y/2;
+	_ui["score_02"]->pos.x = _ui["scoreBoard_02"]->pos.x + _ui["scoreBoard_01"]->center.x/2;
+	_ui["score_02"]->pos.y = _ui["scoreBoard_02"]->pos.y + _ui["scoreBoard_01"]->center.y/2;
 
-	easing(&_ui["score_02"]->pos.x, nowTime, 1520, 1320, 500, Easing::InQuad);
+	easing(&_ui["score_01"]->alpha, nowTime, 0, 255, 200, Easing::Linear);
 	easing(&_ui["score_02"]->alpha, nowTime, 0, 255, 200, Easing::Linear);
 
 	nowTime -= 1000;
@@ -130,12 +142,12 @@ void ModeGoal::AnimationProcess(){
 
 	// 点数を右に移動
 	if(_name == "Goal_1"){
-		_nowScore[0] = _score->GetScore(_name);
+		_ui["score_01"]->handle = _numHandle[_score->GetScore(_name)];
 		easing(&_ui["score_01"]->extrate.x, nowTime, 1.3f, 1.0f, 300, Easing::Linear);
 		easing(&_ui["score_01"]->extrate.y, nowTime, 1.3f, 1.0f, 300, Easing::Linear);
 	}
 	else{
-		_nowScore[1] = _score->GetScore(_name);
+		_ui["score_02"]->handle = _numHandle[_score->GetScore(_name)];
 		easing(&_ui["score_02"]->extrate.x, nowTime, 1.3f, 1.0f, 300, Easing::Linear);
 		easing(&_ui["score_02"]->extrate.y, nowTime, 1.3f, 1.0f, 300, Easing::Linear);
 	}
@@ -146,7 +158,7 @@ void ModeGoal::AnimationProcess(){
 	if(nowTime > 0){
 		ModeServer::GetInstance()->Del(this);
 		ModeGame* mode = dynamic_cast<ModeGame*>(ModeServer::GetInstance()->Get("Main"));
-		mode->SetObjePos();
+		mode->ReSetGame();
 	}
 };
 

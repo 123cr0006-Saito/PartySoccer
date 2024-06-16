@@ -35,6 +35,7 @@ bool ModeSelectPlayer::Initialize() {
 		_vertex[i].v = uv[i].second;
 	}
 	_scrollSpeed = 5;
+	_selectTeamMember = 0;
 	textureHandle = LoadGraph("Res/Grass_col.JPG");
 	return true;
 };
@@ -116,7 +117,7 @@ bool ModeSelectPlayer::PlayerSelect(){
 			if(_playerParam[i].first->GetTrg(XINPUT_BUTTON_A)){
 				// プレイヤーの生成
 				_playerManager->Add(_playerParam);
-				_superManager->AddManager("playerManager",2,_playerManager);
+				_superManager->AddManager("playerManager",5,_playerManager);
 				// モードの変更
 				ModeServer::GetInstance()->Add(NEW ModeGame(), 1, "Main");
 				ModeServer::GetInstance()->Del(this);

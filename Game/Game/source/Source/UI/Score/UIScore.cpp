@@ -2,6 +2,8 @@
 #include "../../../Header/Other/Score.h"
 #include "../../../Header/Manager/SuperManager.h"
 #include "../../../Header/Manager/UIManager.h"
+#include "../../../Header/Other/Score.h"
+
 UIScore::UIScore(Vector3D pos, std::string name, Score* score) : 
 	UIBase(),
 	_teamName(name),
