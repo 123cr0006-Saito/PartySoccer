@@ -8,6 +8,7 @@
 #pragma once
 #include "dxlib.h"
 #include <math.h>
+#include <string>
 class TimeLimit
 {
 	public:
@@ -15,8 +16,9 @@ class TimeLimit
 	~TimeLimit();
 	void SetTimeLimit(int minutes, int second);
 	
-	float Process();
+	float Update();
 	int SecondsToTime();
+	int GetElapsedSecond();
 	void Stop();
 	void Restart();
 	
@@ -24,9 +26,10 @@ class TimeLimit
 	static TimeLimit* GetInstance() { return _instance; }
 
 	float GetRemainingTime() { return _remainingTime; }
-	int GetTimeLimit() { return SecondsToTime(); }
-	int GetElapsedTime() { return GetElapsedSecond(); }
-	int GetElapsedSecond();
+	int GetTimeLimit() { return _timeLimitSecond > 0 ? _timeLimitSecond : 0; }
+	int GetElapsedTime() { return _elapsedTime; }
+
+	int GetDigits();
 
 	int GetStartTime() { return _setTime / 1000; }
 
@@ -36,5 +39,8 @@ protected:
 	float _remainingTime;// 残り時間
 	int _stopTime;// ストップした時間
 	bool _IsStop;// 時間を止めるかどうか
+
+	int _timeLimitSecond; // 制限時間
+	int _elapsedTime; // 経過時間
 };
 

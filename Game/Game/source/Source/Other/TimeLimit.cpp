@@ -5,7 +5,7 @@
 // @explanation
 // 制限時間の管理を行うクラス
 //----------------------------------------------------------------------
-#include "TimeLimit.h"
+#include "../../Header/Other/TimeLimit.h"
 TimeLimit* TimeLimit::_instance = nullptr;
 //----------------------------------------------------------------------
 // @brief コンストラクタ
@@ -21,6 +21,8 @@ TimeLimit::TimeLimit() {
 	_setTime = 0;
 	_IsStop = false;
 	_stopTime = 0;
+	_timeLimitSecond = 0;
+	_elapsedTime = 0;
 };
 //----------------------------------------------------------------------
 // @brief デストラクタ
@@ -44,6 +46,12 @@ void TimeLimit::SetTimeLimit(int minutes, int second) {
 	_remainingTime = static_cast<float>(_timeLimit) - (GetNowCount() - _startTime); 
 	// ミリ秒を秒に変換
 	_remainingTime /= 1000;
+	// ストップ時間を初期化
+	_stopTime = GetNowCount();
+	// ストップ状態にする
+	_IsStop = true;
+	_timeLimitSecond = SecondsToTime();
+	_elapsedTime = GetElapsedSecond();
 };
 //----------------------------------------------------------------------
 // @brief 制限時間を計算する処理を止める
@@ -76,7 +84,7 @@ void TimeLimit::Restart() {
 // @brief 制限時間を計算する
 // @return 無し
 //----------------------------------------------------------------------
-float TimeLimit::Process() {
+float TimeLimit::Update() {
 	// ストップしている場合、止まる前の最後の時間を返す
 	if (_IsStop) {
 		return _remainingTime;
@@ -85,7 +93,11 @@ float TimeLimit::Process() {
 	// 残り時間を計算
 	_remainingTime = static_cast<float>(_timeLimit) - (GetNowCount() - _startTime); 
 	// ミリ秒を秒に変換
-	_remainingTime /= 1000; 
+	_remainingTime /= 1000;
+
+	_timeLimitSecond = SecondsToTime();
+	_elapsedTime = GetElapsedSecond();
+
 	return _remainingTime;
 };
 //----------------------------------------------------------------------
@@ -112,4 +124,16 @@ int TimeLimit::GetElapsedSecond(){
 	int sec = (time - min) * 60;
 
 	return min * pow(10.0f, 2.0f) + sec;
+};
+
+int TimeLimit::GetDigits(){
+	int digits = 0;
+	int timeLimit = GetRemainingTime();
+	do
+	{
+		timeLimit /= 10;
+		digits++;
+	} while (timeLimit != 0);
+
+	return digits;
 };

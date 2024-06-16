@@ -1,20 +1,29 @@
+#include "../AppFrame/source/CFile/CFile.h"
+
 #include "../../Header/Mode/ModeGame.h"
-#include "../../Header/Manager/ObjectManager.h"
+
+#include "../../Header/Object/Player/Player.h"
 #include "../../Header/Object/Stage/Stage.h"
 #include "../../Header/Object/Stage/Ball.h"
 #include "../../Header/Object/Stage/Goal.h"
 #include "../../Header/Object/Stage/Wall.h"
+
+#include "../../Header/Manager/SuperManager.h"
+#include "../../Header/Manager/RenderManager.h"
+#include "../../Header/Manager/ObjectManager.h"
 #include "../../Header/Manager/RenderManager.h"
 #include "../../Header/Manager/CollisionManager.h"
 #include "../../Header/Manager/UIManager.h"
 #include "../../Header/Manager/PlayerManeger.h"
-#include "../AppFrame/source/CFile/CFile.h"
+
 #include "../../Header/Other/Score.h"
-#include "../../Header/Manager/SuperManager.h"
-#include "../../Header/Manager/RenderManager.h"
-#include "../../Header/Object/Player/Player.h"
 #include "../../Header/Other/Camera/Camera.h"
+#include "../../Header/Other/TimeLimit.h"
+
 #include "../../Header/UI/Score/UIScoreBoard.h"
+#include "../../Header/UI/UIStartCount.h"
+#include "../../Header/UI/UITimer.h"
+
 bool ModeGame::Initialize() {
 	if (!base::Initialize()) { return false; }
 	// マネージャーの取得
@@ -24,8 +33,17 @@ bool ModeGame::Initialize() {
 	// カメラの生成
 	_camera = NEW Camera();
 	_score = NEW Score();
-	UIScoreBoard* uiScore = NEW UIScoreBoard(Vector3D(500,500,0),"Goal_1",_score);
-	dynamic_cast<UIManager*>(_superManager->GetManager("uiManager"))->Add("board_1", 10, uiScore);
+	_timeLimit = NEW TimeLimit();
+	_timeLimit->SetTimeLimit(3, 00);
+
+	Vector3D pos[2] = { Vector3D(600,100,0),Vector3D(1300,100,0) };
+	for(int i = 0; i < 2; i++){
+		UIScoreBoard* uiScore = NEW UIScoreBoard(pos[i], "Goal_" + std::to_string(i+1), _score);
+	}
+	UIStartCount* uiStartCount = NEW UIStartCount();
+	UITimer* uiTimer = NEW UITimer(_timeLimit);
+
+	
 	return true;
 }
 
@@ -33,15 +51,19 @@ bool ModeGame::Terminate() {
 	base::Terminate();
 	delete _camera;
 	delete _score;
+	delete _timeLimit;
 	return true;
 }
 
-void ModeGame::SetObjePos(){
+void ModeGame::ReSetGame(){
 	// ボールの位置を設定
 	ObjectManager* objectManager = dynamic_cast<ObjectManager*>(_superManager->GetManager("objectManager"));
 	objectManager->Get("Ball")->SetPos(Vector3D(0, 0, 0));
 	PlayerManeger* playerManager = dynamic_cast<PlayerManeger*>(_superManager->GetManager("playerManager"));
 	playerManager->SetPos();
+
+	UIStartCount* uiStartCount = NEW UIStartCount();
+
 };
 
 bool ModeGame::LoadObject(){
@@ -78,8 +100,6 @@ bool ModeGame::LoadObject(){
 		objectManager->Add(std::get<0>(list), wall);
 	}
 	
-
-
 	// マネージャーに登録
 	_superManager->AddManager("objectManager", 1, objectManager);
 	return true;
@@ -119,6 +139,7 @@ bool ModeGame::Process() {
 	base::Process();
 	_superManager->Update();
 	_camera->Update();
+	_timeLimit->Update();
 	return true;
 }
 

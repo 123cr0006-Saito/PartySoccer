@@ -22,7 +22,7 @@ public:
 	virtual bool Render();
 
 	bool LoadObject();
-	void SetObjePos();
+	void ReSetGame();
 	std::vector<std::tuple<std::string, Vector3D, Vector3D>> LoadObjectParam(std::string fileName);
 protected:
 	int debug;
@@ -30,4 +30,5 @@ protected:
 	class Player* _player;
 	class Camera* _camera;
 	class Score* _score;
+	class TimeLimit* _timeLimit;
 };
