@@ -7,9 +7,11 @@ Player::Player(std::string name, std::pair<XInput*, int> param) : ObjectBase(nam
 	_Input = param.first;
 	_modelHandle = param.second;
 	_forwardVec = Vector3D(0.0f, 0.0f, -1.0f);
+
+	MV1SetScale(_modelHandle, VScale(VGet(1.0f, 1.0f, 1.0f), 30.0f));
+	MV1SetPosition(_modelHandle, _pos.toVECTOR());
 	RenderManager* renderManager = dynamic_cast<RenderManager*>(SuperManager::GetInstance()->GetManager("renderManager"));
 	renderManager->Add(name, 10, _modelHandle);
-	MV1SetScale(_modelHandle, VScale(VGet(1.0f,1.0f,1.0f),30.0f));
 
 	_capsule = NEW Capsule();
 	_capsule->SetName("player");
@@ -22,6 +24,7 @@ Player::Player(std::string name, std::pair<XInput*, int> param) : ObjectBase(nam
 	_dash = 0;
 	_power = 0;
 	_glavity = 0.0f;
+
 };
 
 Player::~Player(){
@@ -62,11 +65,6 @@ bool Player::Update(){
 			_knockBack = 0;
 			_isKnockBack = false;
 		}
-		_capsule->pos = _pos;
-		_capsule->Update();
-		// モデルの設定
-		Math::SetModelForward_RotationY(_modelHandle, _forwardVec.toVECTOR());
-		MV1SetPosition(_modelHandle, _pos.toVECTOR());
 		return true;
 	}
 	//-----------------------------------------------------------------------------------------------
@@ -139,7 +137,7 @@ bool Player::Update(){
 		}
 	}
 	//--------------------------------------------------------------------------------------------------
-
+	
 	_glavity += 3;
 	_pos.y -= _glavity;
 
@@ -148,7 +146,10 @@ bool Player::Update(){
 		_glavity = 0.0f;
 	}
 
+	return true;
+};
 
+bool Player::UpdateEnd() {
 	// 設定-------------------------------------------------------------------------------------------
 	// カプセルの設定
 	_capsule->pos = _pos;
@@ -156,8 +157,7 @@ bool Player::Update(){
 	// モデルの設定
 	Math::SetModelForward_RotationY(_modelHandle, _forwardVec.toVECTOR());
 	MV1SetPosition(_modelHandle, _pos.toVECTOR());
-	//--------------------------------------------------------------------------------------------------
-
+	//-------------------------------------------------------------------------------------------------
 	return true;
 };
 

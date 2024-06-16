@@ -8,6 +8,7 @@ Goal::Goal(std::string name, Vector3D pos, Vector3D rotation) : ObjectBase(name)
 	MV1SetPosition(_modelHandle, pos.toVECTOR());
 	MV1SetRotationXYZ(_modelHandle, rotation.toVECTOR());
 	MV1SetScale(_modelHandle, (Vector3D(1.0f, 1.0f, 1.0f) * 5).toVECTOR());
+
 	RenderManager* renderManager = dynamic_cast<RenderManager*>(SuperManager::GetInstance()->GetManager("renderManager"));
 	renderManager->Add(_name, 1, _modelHandle);
 

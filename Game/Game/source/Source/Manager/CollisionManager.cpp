@@ -34,8 +34,7 @@ int CollisionManager::GetListSize() {
 	return _collisionList.size();
 };
 
-bool CollisionManager::Update(){
-
+bool CollisionManager::UpdateInit(){
 	// deleteListの中に値があるとき削除
 	for (auto list : _delCollisionList) {
 		for (auto itr = _collisionList.begin(); itr != _collisionList.end();) {
@@ -43,7 +42,7 @@ bool CollisionManager::Update(){
 				delete itr->second;
 				itr = _collisionList.erase(itr);
 			}
-			else{
+			else {
 				++itr;
 			}
 		}
@@ -57,6 +56,12 @@ bool CollisionManager::Update(){
 	// addListとdeleteListをクリア
 	_addCollisionList.clear();
 	_delCollisionList.clear();
+	return true;
+};
+
+bool CollisionManager::Update(){
+	
+	UpdateInit();
 
 	// コリジョン判定を取る前の初期化
 	for (auto&& first : _collisionList) {

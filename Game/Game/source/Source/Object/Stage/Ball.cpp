@@ -7,6 +7,8 @@
 Ball::Ball(std::string name) : ObjectBase(name){
 	_modelHandle = MV1LoadModel("Res/Model/Ball/SoccerBall.mv1");
 	MV1SetScale(_modelHandle, VScale(VGet(1.0f, 1.0f, 1.0f), 10.0f));
+	MV1SetPosition(_modelHandle, _pos.toVECTOR());
+
 	_sphere = NEW Sphere();
 	_pos = Vector3D(0.0f, 350.0f, 0.0f);
 	_sphere->pos = _pos;
@@ -58,16 +60,20 @@ bool Ball::Update() {
 	_sphere->pos = _pos;
 	SubParam(&_speed, 0.0f, 5.0f);
 
+	return true;
+};
+
+bool Ball::UpdateEnd() {
 	MV1SetRotationXYZ(_modelHandle, _dirVec.toVECTOR());
 	MV1SetPosition(_modelHandle, _pos.toVECTOR());
 	return true;
-};
+}
 
 bool Ball::DebugDraw(){
 	return true;
 };
 
-void Ball::SetForwardVec(Vector3D forwardVec) { 
+void Ball::SetForwardVec(Vector3D forwardVec) {
 	_forwardVec = forwardVec.Normalize(); 
 	float angle = atan2f(_forwardVec.x, _forwardVec.z);
 	_dirVec = Vector3D(_dirVec.x, angle, 0.0f);

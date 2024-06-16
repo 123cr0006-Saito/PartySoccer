@@ -23,6 +23,9 @@
     <ClCompile Include="source\Source\Manager\UIManager.cpp" />
     <ClCompile Include="source\Source\UI\Score\UIScore.cpp" />
     <ClCompile Include="source\Source\UI\Score\UIScoreBoard.cpp" />
+    <ClCompile Include="source\Source\Other\TimeLimit.cpp" />
+    <ClCompile Include="source\Source\UI\UIStartCount.cpp" />
+    <ClCompile Include="source\Source\UI\UITimer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Header\Object\Player\Player.h" />
@@ -47,5 +50,8 @@
     <ClInclude Include="source\Header\Manager\UIManager.h" />
     <ClInclude Include="source\Header\UI\Score\UIScore.h" />
     <ClInclude Include="source\Header\UI\Score\UIScoreBoard.h" />
+    <ClInclude Include="source\Header\Other\TimeLimit.h" />
+    <ClInclude Include="source\Header\UI\UIStartCount.h" />
+    <ClInclude Include="source\Header\UI\UITimer.h" />
   </ItemGroup>
 </Project>

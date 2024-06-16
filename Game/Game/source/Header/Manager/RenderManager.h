@@ -12,10 +12,10 @@ public :
 	void DelAll();
 	void Sort();
 
-
 	int GetListSize()override;
-	bool Update();
-	bool Draw();
+	bool UpdateInit()override;
+	bool Update()override;
+	bool Draw()override;
 	
 protected:
 	std::vector<std::tuple<std::string,int,int>> _modelList;

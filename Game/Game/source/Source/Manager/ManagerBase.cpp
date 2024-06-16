@@ -3,7 +3,15 @@ bool ManagerBase::Init(){
 	return true;
 };
 
-bool ManagerBase::Update(){
+bool ManagerBase::UpdateInit(){
+	return true;
+};
+
+bool ManagerBase::Update() {
+	return true;
+};
+
+bool ManagerBase::UpdateEnd(){
 	return true;
 };
 

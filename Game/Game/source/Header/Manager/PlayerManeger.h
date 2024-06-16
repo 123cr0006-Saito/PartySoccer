@@ -12,14 +12,19 @@ class PlayerManeger : public ManagerBase
 	void Add(std::vector<std::pair<XInput*, int>> param);
 
 	void SetPos();
+
+	void LoadObjectPos();
 	
 	std::vector<std::pair<std::string, Player*>> GetList() { return _player; }
 	int GetListSize()override;
 
 	bool Update()override;
+	bool UpdateEnd()override;
+
 	bool Draw()override;
 	
 protected:
 	std::vector<std::pair<std::string,Player*>> _player;
+	std::vector<Vector3D> _originPos;
 };
 

@@ -11,6 +11,7 @@ public:
 	~Player();
 	virtual bool Init() override;
 	virtual bool Update()override;
+	virtual bool UpdateEnd()override;
 	virtual bool DebugDraw()override;
 
 	void SetKnockBack(int knockBack, Vector3D knockBackVec);

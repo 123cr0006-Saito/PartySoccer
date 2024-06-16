@@ -37,14 +37,14 @@ int RenderManager::GetListSize(){
 	return _modelList.size();
 };
 
-bool RenderManager::Update() {
+bool RenderManager::UpdateInit(){
 	// deleteListの中に値があるとき削除
 	for (auto list : _delModelList) {
 		for (auto itr = _modelList.begin(); itr != _modelList.end();) {
 			if (std::get<0>(*itr) == list) {
 				itr = _modelList.erase(itr);
 			}
-			else{
+			else {
 				++itr;
 			}
 		}
@@ -66,6 +66,10 @@ bool RenderManager::Update() {
 	// 念のためリストのクリア
 	_addModelList.clear();
 	_delModelList.clear();
+	return true;
+}
+
+bool RenderManager::Update() {
 	return true;
 };
 

@@ -9,7 +9,9 @@ public:
 	ObjectBase(std::string name);
 	virtual ~ObjectBase();
 	virtual bool Init();
+	virtual bool UpdateInit();
 	virtual bool Update();
+	virtual bool UpdateEnd();
 	virtual bool DebugDraw();
 
 	bool SetModelAndLayer(int modelHandle, int layer);

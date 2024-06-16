@@ -12,7 +12,8 @@ class ObjectManager : public ManagerBase
 	void DelAll();
 	void Sort();
 
-	bool Update() override;
+	bool Update()override;
+	bool UpdateEnd()override;
 	bool Draw() override;
 
 	class ObjectBase* Get(std::string name);

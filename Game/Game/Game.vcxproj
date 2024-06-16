@@ -37,10 +37,13 @@
     <ClCompile Include="source\Source\Object\Stage\Stage.cpp" />
     <ClCompile Include="source\Source\Manager\SuperManager.cpp" />
     <ClCompile Include="source\Source\Object\Stage\Wall.cpp" />
+    <ClCompile Include="source\Source\Other\TimeLimit.cpp" />
     <ClCompile Include="source\Source\UI\Base\UIBase.cpp" />
     <ClCompile Include="source\Source\Manager\UIManager.cpp" />
     <ClCompile Include="source\Source\UI\Score\UIScore.cpp" />
     <ClCompile Include="source\Source\UI\Score\UIScoreBoard.cpp" />
+    <ClCompile Include="source\Source\UI\UIStartCount.cpp" />
+    <ClCompile Include="source\Source\UI\UITimer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Header\Other\Score.h" />
@@ -61,10 +64,13 @@
     <ClInclude Include="source\Header\Object\Stage\Stage.h" />
     <ClInclude Include="source\Header\Manager\SuperManager.h" />
     <ClInclude Include="source\Header\Object\Stage\Wall.h" />
+    <ClInclude Include="source\Header\Other\TimeLimit.h" />
     <ClInclude Include="source\Header\UI\Base\UIBase.h" />
     <ClInclude Include="source\Header\Manager\UIManager.h" />
     <ClInclude Include="source\Header\UI\Score\UIScore.h" />
     <ClInclude Include="source\Header\UI\Score\UIScoreBoard.h" />
+    <ClInclude Include="source\Header\UI\UIStartCount.h" />
+    <ClInclude Include="source\Header\UI\UITimer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

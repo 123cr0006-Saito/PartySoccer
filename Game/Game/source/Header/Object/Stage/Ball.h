@@ -6,6 +6,7 @@ class Ball : public ObjectBase {
 	~Ball();
 	bool Init()override;
 	bool Update()override;
+	bool UpdateEnd()override;
 	bool DebugDraw()override;
 
 	bool GetIsShoot() { return _isShoot; }

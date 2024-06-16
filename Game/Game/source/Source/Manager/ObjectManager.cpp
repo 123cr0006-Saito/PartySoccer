@@ -35,6 +35,14 @@ bool ObjectManager::Update(){
 	return true;
 };
 
+bool ObjectManager::UpdateEnd() 
+{
+	for (auto&& list : _objectList) {
+		list.second->UpdateEnd();
+	}
+	return true;
+};
+
 bool ObjectManager::Draw() {
 	for (auto&& list : _objectList) {
 		list.second->DebugDraw();

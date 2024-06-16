@@ -47,8 +47,7 @@ std::vector<std::tuple<std::string, int,UIBase*>>* UIManager::GetUiList()
 	return &_uiList;
 }
 
-bool UIManager::Update(){
-
+bool UIManager::UpdateInit(){
 	// deleteListの中に値があるとき削除
 	for (auto list : _delUiList) {
 		for (auto itr = _uiList.begin(); itr != _uiList.end();) {
@@ -56,7 +55,7 @@ bool UIManager::Update(){
 				delete std::get<2>(*itr);
 				itr = _uiList.erase(itr);
 			}
-			else{
+			else {
 				++itr;
 			}
 		}
@@ -78,7 +77,10 @@ bool UIManager::Update(){
 	// addListとdeleteListをクリア
 	_addUiList.clear();
 	_delUiList.clear();
+	return true;
+}
 
+bool UIManager::Update(){
 	// UIの更新
 	for (auto&& ui : _uiList) {
 		std::get<2>(ui)->Update();

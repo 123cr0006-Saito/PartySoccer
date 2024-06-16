@@ -6,8 +6,7 @@
 
 class SuperManager 
 {
-	static SuperManager* _instance;
-	public:
+public:
 	SuperManager();
 	~SuperManager();
 	bool Init();
@@ -15,11 +14,14 @@ class SuperManager
 	class ManagerBase* GetManager(std::string name);
 	bool Update();
 	bool Draw();
-	static SuperManager* GetInstance() {return _instance;}
 
-
-
-	protected:
+	void Sort();
+	static SuperManager* GetInstance() { return _instance;}
+	void Skip() { _isProcessSkip = true; }
+protected:
+	static SuperManager* _instance;
+	bool _isSort;
 	std::vector<std::tuple<std::string,int,class ManagerBase*>> _superManager;
+	bool _isProcessSkip;
 };
 

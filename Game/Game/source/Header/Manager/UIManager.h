@@ -6,6 +6,7 @@ class UIManager : public ManagerBase
 	UIManager();
 	virtual ~UIManager();
 	bool Init()override;
+	bool UpdateInit()override;
 	bool Update()override;
 	bool Draw()override;
 

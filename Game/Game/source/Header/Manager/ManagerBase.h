@@ -11,7 +11,9 @@ class ManagerBase
 	virtual ~ManagerBase() = default;
 
 	virtual bool Init();
+	virtual bool UpdateInit();
 	virtual bool Update();
+	virtual bool UpdateEnd();
 	virtual bool Draw();
 
 	virtual void Del(std::string){};
