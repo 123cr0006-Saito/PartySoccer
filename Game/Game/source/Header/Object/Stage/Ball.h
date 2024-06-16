@@ -14,13 +14,10 @@ class Ball : public ObjectBase {
 	void SetPosToOldPos() { _pos = _oldPos; }
 
 	void SetForwardVec(Vector3D forwardVec) ;
-	Vector3D GetForwardVec() { return _forwardVec; }
 protected: 	
 	bool _isShoot;
 	Sphere* _sphere;
 	Vector3D _dirVec;
-	Vector3D _forwardVec;
-	Vector3D _oldPos;
 	float _speed;
 	int _glavity;
 };

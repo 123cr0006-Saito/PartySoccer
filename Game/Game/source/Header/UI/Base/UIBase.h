@@ -10,8 +10,7 @@ public:
 		Vector3D center;
 		Vector3D extrate;
 		float angle;
-		Vector3D screenSize;
-		int alpha;
+		float alpha;
 	};
 public:
 	UIBase();
@@ -19,14 +18,12 @@ public:
 	virtual ~UIBase();
 	virtual void Update();
 	virtual void Draw();
+
+	UIParam* GetParam() { return &param; }
 	//--------------------------------------
 	//ïœêî
-	int handle;
-	Vector3D pos;
-	Vector3D center;
-	Vector3D extrate;
-	float angle;
-	Vector3D screenSize;
-	float alpha;
+protected:
+	static Vector3D screenSize;
+	UIParam param;
 };
 

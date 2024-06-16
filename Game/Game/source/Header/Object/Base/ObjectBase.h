@@ -14,16 +14,16 @@ public:
 
 	bool SetModelAndLayer(int modelHandle, int layer);
 	std::string GetName() { return _name; }
+	Vector3D GetForwardVec() { return _forwardVec; }
 	Vector3D GetPos() { return _pos; }
 	void SetPos(Vector3D pos) { _pos = pos; }
+	void SetOldPos(Vector3D pos) { _oldPos = pos; }
 	
 protected:
 	Vector3D _pos;
-	Vector3D _size;
-	Vector3D _rot;
+	Vector3D _oldPos;
+	Vector3D _forwardVec;
 	std::string _name;
 	int _modelHandle;
-
-
 };
 

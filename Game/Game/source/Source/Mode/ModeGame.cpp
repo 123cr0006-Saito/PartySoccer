@@ -6,9 +6,15 @@
 #include "../../Header/Object/Stage/Wall.h"
 #include "../../Header/Manager/RenderManager.h"
 #include "../../Header/Manager/CollisionManager.h"
+#include "../../Header/Manager/UIManager.h"
 #include "../../Header/Manager/PlayerManeger.h"
 #include "../AppFrame/source/CFile/CFile.h"
-
+#include "../../Header/Other/Score.h"
+#include "../../Header/Manager/SuperManager.h"
+#include "../../Header/Manager/RenderManager.h"
+#include "../../Header/Object/Player/Player.h"
+#include "../../Header/Other/Camera/Camera.h"
+#include "../../Header/UI/Score/UIScoreBoard.h"
 bool ModeGame::Initialize() {
 	if (!base::Initialize()) { return false; }
 	// マネージャーの取得
@@ -17,11 +23,16 @@ bool ModeGame::Initialize() {
 	LoadObject();
 	// カメラの生成
 	_camera = NEW Camera();
+	_score = NEW Score();
+	UIScoreBoard* uiScore = NEW UIScoreBoard(Vector3D(500,500,0),"Goal_1",_score);
+	dynamic_cast<UIManager*>(_superManager->GetManager("uiManager"))->Add("board_1", 10, uiScore);
 	return true;
 }
 
 bool ModeGame::Terminate() {
 	base::Terminate();
+	delete _camera;
+	delete _score;
 	return true;
 }
 
@@ -59,13 +70,13 @@ bool ModeGame::LoadObject(){
 		objectManager->Add(std::get<0>(list), wall);
 	}
 	//壁コリジョンの生成
-	//std::vector<std::tuple<std::string, Vector3D, Vector3D>> wallList = LoadObjectParam("Data/WallParam.csv");
-	//for (auto&& list : wallList) {
-	//	Wall* wall = NEW Wall();
-	//	wall->SetColPos(std::get<1>(list));
-	//	wall->SetColLength(std::get<2>(list));
-	//	objectManager->Add(std::get<0>(list), wall);
-	//}
+	std::vector<std::tuple<std::string, Vector3D, Vector3D>> wallList = LoadObjectParam("Data/WallParam.csv");
+	for (auto&& list : wallList) {
+		Wall* wall = NEW Wall();
+		wall->SetColPos(std::get<1>(list));
+		wall->SetColLength(std::get<2>(list));
+		objectManager->Add(std::get<0>(list), wall);
+	}
 	
 
 
