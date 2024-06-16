@@ -12,10 +12,10 @@ bool ModeGoal::_isLoadUI = false;
 std::map<std::string,UIBase::UIParam> ModeGoal::_uiParam;
 
 ModeGoal::ModeGoal(std::string name){
-	//_score = Score::GetInstance();
-	//_nowScore[0] = _score->GetScore("a");
-	//_nowScore[1] = _score->GetScore("b");
-	//_score->AddScore(name,1);
+	_score = Score::GetInstance();
+	_nowScore[0] = _score->GetScore("Goal_1");
+	_nowScore[1] = _score->GetScore("Goal_2");
+	_score->AddScore(name,1);
 	_name = name;
 	_currentTime = 0;
 	if(!_isLoadUI){
@@ -26,9 +26,11 @@ ModeGoal::ModeGoal(std::string name){
 	UIManager* ui = dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"));
 	int count  = 0;
 	for (auto&& list :_uiParam) {
-		_ui[list.first] = NEW UIBase(list.second);
+		UIBase* base = NEW UIBase(list.second);
+		_ui[list.first] = base->GetParam();
+
 		// サーバーに追加
-		//ui->Add(std::make_tuple(list.first, 1000 + count, _ui[list.first]));
+		ui->Add(list.first, 1000 + count, base);
 		count++;
 	}
 };
@@ -63,8 +65,6 @@ void ModeGoal::LoadUIOnce(){
 			c += FindString(&p[c], ',', &p[size]); c++; c += GetFloatNum(&p[c], &ui.extrate.x); //x拡大率を取得
 			c += FindString(&p[c], ',', &p[size]); c++; c += GetFloatNum(&p[c], &ui.extrate.y); //y拡大率を取得
 			c += FindString(&p[c], ',', &p[size]); c++; c += GetFloatNum(&p[c], &ui.angle); //回転率を取得
-			c += FindString(&p[c], ',', &p[size]); c++; c += GetFloatNum(&p[c], &ui.screenSize.x); //ファイルを作成した時の画面サイズを取得
-			c += FindString(&p[c], ',', &p[size]); c++; c += GetFloatNum(&p[c], &ui.screenSize.y); //ファイルを作成した時の画面サイズを取得
 			c += SkipSpace(&p[c], &p[size]); // 空白やコントロールコードをスキップする
 
 			ui.handle = LoadGraph(handlePath.c_str());
@@ -77,6 +77,10 @@ void ModeGoal::LoadUIOnce(){
 };
 
 bool	ModeGoal::Terminate(){
+	UIManager* ui = dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"));
+	for (auto&& list : _ui) {
+		ui->Del(list.first);
+	}
 	return true;
 };
 
@@ -99,35 +103,46 @@ void ModeGoal::AnimationProcess(){
 		}
 	};
 	int nowTime = GetNowCount() - _currentTime;
+
+
+
 	// ここにアニメーション処理を書く
 	// 帯を大きくする
 	_ui["obi"]->alpha = 255;
 	easing(&_ui["obi"]->extrate.y,nowTime,0,1,500,Easing::OutSine);
 	nowTime -= 800;
+	if(nowTime < 0)return ;
 	// 点数版を右に移動
 	easing(&_ui["scoreBoard_01"]->alpha, nowTime, 0, 255, 200, Easing::Linear);
 	easing(&_ui["scoreBoard_01"]->pos.x,nowTime,400,600,500,Easing::InQuad);
+
 	easing(&_ui["scoreBoard_02"]->alpha, nowTime, 0, 255, 200, Easing::Linear);
 	easing(&_ui["scoreBoard_02"]->pos.x, nowTime, 1520, 1320, 500, Easing::InQuad);
+
 	easing(&_ui["score_01"]->pos.x, nowTime, 400, 600, 500, Easing::InQuad);
-	easing(&_ui["score_02"]->pos.x, nowTime, 1520, 1320, 500, Easing::InQuad);
 	easing(&_ui["score_01"]->alpha, nowTime, 0, 255, 200, Easing::Linear);
+
+	easing(&_ui["score_02"]->pos.x, nowTime, 1520, 1320, 500, Easing::InQuad);
 	easing(&_ui["score_02"]->alpha, nowTime, 0, 255, 200, Easing::Linear);
+
 	nowTime -= 1000;
+	if (nowTime < 0)return;
 
 	// 点数を右に移動
 	if(_name == "Goal_1"){
-		//_nowScore[0] = _score->GetScore("a");
+		_nowScore[0] = _score->GetScore(_name);
 		easing(&_ui["score_01"]->extrate.x, nowTime, 1.3f, 1.0f, 300, Easing::Linear);
 		easing(&_ui["score_01"]->extrate.y, nowTime, 1.3f, 1.0f, 300, Easing::Linear);
 	}
 	else{
-		//_nowScore[1] = _score->GetScore("b");
+		_nowScore[1] = _score->GetScore(_name);
 		easing(&_ui["score_02"]->extrate.x, nowTime, 1.3f, 1.0f, 300, Easing::Linear);
 		easing(&_ui["score_02"]->extrate.y, nowTime, 1.3f, 1.0f, 300, Easing::Linear);
 	}
 
 	nowTime -= 1500;
+	if (nowTime < 0)return;
+
 	if(nowTime > 0){
 		ModeServer::GetInstance()->Del(this);
 		ModeGame* mode = dynamic_cast<ModeGame*>(ModeServer::GetInstance()->Get("Main"));
@@ -136,8 +151,5 @@ void ModeGoal::AnimationProcess(){
 };
 
 bool	ModeGoal::Render(){
-	for (auto&& list : _ui) {
-		list.second->Draw();
-	}
 	return true;
 };

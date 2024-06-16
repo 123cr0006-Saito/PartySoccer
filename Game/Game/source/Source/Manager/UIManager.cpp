@@ -12,8 +12,8 @@ bool UIManager::Init(){
 	return true;
 };
 
-void UIManager::Add(std::tuple<std::string, int, class UIBase*> ui){
-	_addUiList.emplace_back(ui);
+void UIManager::Add(std::string name, int layer,UIBase* ui){
+	_addUiList.emplace_back(std::make_tuple(name,layer,ui));
 };
 
 void UIManager::Del(std::string ui){
@@ -40,6 +40,11 @@ void UIManager::Sort() {
 
 int UIManager::GetListSize(){
 	return _uiList.size();
+}
+
+std::vector<std::tuple<std::string, int,UIBase*>>* UIManager::GetUiList()
+{
+	return &_uiList;
 }
 
 bool UIManager::Update(){

@@ -22,7 +22,7 @@ protected:
 	class Score* _score;
 	static bool _isLoadUI;
 	static std::map<std::string, UIBase::UIParam> _uiParam;
-	std::map<std::string, UIBase*> _ui;
+	std::map<std::string, UIBase::UIParam*> _ui;
 	int _currentTime;
 };
 

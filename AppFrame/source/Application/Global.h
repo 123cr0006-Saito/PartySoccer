@@ -5,6 +5,9 @@
 #include "../System/Header/Sound/SoundServer.h"
 #include <string>
 #include <source_location>
+
+#define FULLSCREEN
+
 class Global
 {
 public:
