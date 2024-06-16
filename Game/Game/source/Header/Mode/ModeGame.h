@@ -25,6 +25,7 @@ public:
 	virtual bool Render();
 
 	bool LoadObject();
+	void SetObjePos();
 	std::vector<std::tuple<std::string, Vector3D, Vector3D>> LoadObjectParam(std::string fileName);
 protected:
 	int debug;

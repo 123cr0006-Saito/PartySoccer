@@ -5,16 +5,14 @@
 // セレクト画面で決定したキャラクターを管理するクラス　パッドの数でプレイヤーの数を設定
 class PlayerManeger : public ManagerBase
 {
-	static PlayerManeger* _instance;
 	public:
 	PlayerManeger();
 	~PlayerManeger();
 
-	static PlayerManeger* GetInstance() { return _instance; }
-	bool Add(Player* player);
-	bool Add(std::vector<std::pair<XInput*, int>> param);
+	void Add(std::vector<std::pair<XInput*, int>> param);
+
+	void SetPos();
 	
-	std::string GetListName(std::string name)override;
 	std::vector<std::pair<std::string, Player*>> GetList() { return _player; }
 	int GetListSize()override;
 

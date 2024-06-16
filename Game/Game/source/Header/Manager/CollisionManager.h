@@ -9,11 +9,10 @@ public:
 	~CollisionManager();
 	static CollisionManager* GetInstance(){return _instance;};
 	void Add(ObjectBase* object, CollisionBase* collision);
-	void Del(std::string name);
+	void Del(std::string name)override;
 	bool Update()override;
 	bool Draw()override;
 
-	virtual std::string GetListName(std::string name)override;
 	virtual int GetListSize() override;
 
 	bool CollisionCheckForCapsule(std::pair<ObjectBase*, CollisionBase*>&);

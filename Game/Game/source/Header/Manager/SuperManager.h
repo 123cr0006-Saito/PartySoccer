@@ -12,9 +12,12 @@ class SuperManager
 	~SuperManager();
 	bool Init();
 	bool AddManager(std::string name, int id,class ManagerBase* manager);
+	class ManagerBase* GetManager(std::string name);
 	bool Update();
 	bool Draw();
 	static SuperManager* GetInstance() {return _instance;}
+
+
 
 	protected:
 	std::vector<std::tuple<std::string,int,class ManagerBase*>> _superManager;

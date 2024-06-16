@@ -3,7 +3,7 @@
 #include "../../../Header/Manager/CollisionManager.h"
 #include "../AppFrame/MemoryLeak.h"
 #include "../AppFrame/source/System/Header/Function/mymath.h"
-#include "../../../Header/Manager/PlayerManeger.h"
+#include "../../../Header/Manager/SuperManager.h"
 Ball::Ball(std::string name) : ObjectBase(name){
 	_modelHandle = MV1LoadModel("Res/Model/Ball/SoccerBall.mv1");
 	MV1SetScale(_modelHandle, VScale(VGet(1.0f, 1.0f, 1.0f), 10.0f));
@@ -17,8 +17,9 @@ Ball::Ball(std::string name) : ObjectBase(name){
 	_dirVec = Vector3D(0.0f, 0.0f, 0.0f);
 	_glavity = 0.0f;
 	_oldPos = _pos;
-	RenderManager::GetInstance()->Add(name, 10, _modelHandle);
-	CollisionManager::GetInstance()->Add(this, _sphere);
+	 RenderManager* renderManager = dynamic_cast<RenderManager*>(SuperManager::GetInstance()->GetManager("renderManager"));
+	 renderManager->Add(name, 10, _modelHandle);
+	 CollisionManager::GetInstance()->Add(this, _sphere);
 };
 
 Ball::~Ball(){
@@ -40,10 +41,6 @@ bool Ball::Update() {
 		if ((*param) > min) (*param) -= value;
 		else if((*param) < 0) (*param) = 0;
 	};
-
-	if (PlayerManeger::GetInstance()->GetList()[0].second->GetInput()->GetTrg(XINPUT_BUTTON_START)) {
-		_pos = Vector3D(0, 0, 0);
-	}
 
 	_isShoot = _speed > 150 ? true : false;
 

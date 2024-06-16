@@ -14,9 +14,10 @@ class ManagerBase
 	virtual bool Update();
 	virtual bool Draw();
 
+	virtual void Del(std::string){};
+
 	int GetID() { return _id; }
 	std::string GetName() { return _name; }
-	virtual std::string GetListName(std::string name) = 0;
 	virtual int GetListSize() = 0;
 
 protected:

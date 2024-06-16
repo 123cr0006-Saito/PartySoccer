@@ -4,6 +4,7 @@
 #include "../../Header/Manager/SuperManager.h"
 #include "../../Header/Manager/RenderManager.h"
 #include "../../Header/Manager/CollisionManager.h"
+#include "../../Header/Manager/UIManager.h"
 // ŽÀ‘Ì
 ApplicationMain				g_oApplicationMain;
 
@@ -22,8 +23,10 @@ bool ApplicationMain::Initialize(HINSTANCE hInstance) {
 	SuperManager* superManager = NEW SuperManager();
 	RenderManager* renderManager = NEW RenderManager();
 	CollisionManager* collisionManager = NEW CollisionManager();
+	UIManager* uiManager = NEW UIManager();
 	superManager->AddManager("renderManager", 0, renderManager);
 	superManager->AddManager("renderManager", 0, collisionManager);
+	superManager->AddManager("uiManager", 100, uiManager);
 	ModeServer::GetInstance()->Add(NEW ModeSelectPlayer(), 1, "ModeSelectPlayer");
 	return true;
 }

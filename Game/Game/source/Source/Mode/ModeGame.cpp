@@ -6,6 +6,7 @@
 #include "../../Header/Object/Stage/Wall.h"
 #include "../../Header/Manager/RenderManager.h"
 #include "../../Header/Manager/CollisionManager.h"
+#include "../../Header/Manager/PlayerManeger.h"
 #include "../AppFrame/source/CFile/CFile.h"
 
 bool ModeGame::Initialize() {
@@ -24,6 +25,14 @@ bool ModeGame::Terminate() {
 	return true;
 }
 
+void ModeGame::SetObjePos(){
+	// ボールの位置を設定
+	ObjectManager* objectManager = dynamic_cast<ObjectManager*>(_superManager->GetManager("objectManager"));
+	objectManager->Get("Ball")->SetPos(Vector3D(0, 0, 0));
+	PlayerManeger* playerManager = dynamic_cast<PlayerManeger*>(_superManager->GetManager("playerManager"));
+	playerManager->SetPos();
+};
+
 bool ModeGame::LoadObject(){
 	// オブジェクトの生成
 	ObjectManager* objectManager = NEW ObjectManager();
@@ -33,9 +42,9 @@ bool ModeGame::LoadObject(){
 	objectManager->Add("Ball", NEW Ball("Ball"));
 	//ゴールの生成
 	std::vector<std::tuple<std::string, Vector3D, Vector3D>> goalList = LoadObjectParam("Data/GoalParam.csv");
-	int count = 0;
+	int count = 1;
 	for (auto&& list : goalList) {
-		std::string name = std::get<0>(list) + std::to_string(count + 1);
+		std::string name = std::get<0>(list) + std::to_string(count);
 		Goal* goal = new Goal(name, std::get<1>(list), std::get<2>(list).Radian());
 		objectManager->Add(name, goal);
 		count++;
@@ -58,6 +67,7 @@ bool ModeGame::LoadObject(){
 	//	objectManager->Add(std::get<0>(list), wall);
 	//}
 	
+
 
 	// マネージャーに登録
 	_superManager->AddManager("objectManager", 1, objectManager);

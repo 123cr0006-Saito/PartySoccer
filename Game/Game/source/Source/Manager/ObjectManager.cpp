@@ -1,4 +1,5 @@
 #include "../../Header/Manager/ObjectManager.h"
+#include "../../Header/Object/Base/ObjectBase.h"
 ObjectManager::ObjectManager(){
 
 };
@@ -12,7 +13,7 @@ bool ObjectManager::Init() {
 };
 
 void ObjectManager::Add(std::string name, ObjectBase* object){
-	_objectList.push_back(std::make_pair(name, object));
+	_objectList.emplace_back(std::make_pair(name, object));
 };
 
 void ObjectManager::Del(std::string name){
@@ -41,13 +42,13 @@ bool ObjectManager::Draw() {
 	return true;
 };
 
-std::string ObjectManager::GetListName(std::string name){
+ObjectBase* ObjectManager::Get(std::string name){
 	for (auto&& list : _objectList) {
 		if (list.first == name) {
-			return list.first;
+			return list.second;
 		}
 	}
-	return "";
+	return nullptr;
 };
 
 int ObjectManager::GetListSize() {

@@ -2,11 +2,13 @@
 #include "../../../Header/Manager/RenderManager.h"
 #include "../../../Header/Manager/CollisionManager.h"
 #include "../../../AppFrame/MemoryLeak.h"
+#include "../../../Header/Manager/SuperManager.h"
 Player::Player(std::string name, std::pair<XInput*, int> param) : ObjectBase(name) {
 	_Input = param.first;
 	_modelHandle = param.second;
 	_forwardVec = Vector3D(0.0f, 0.0f, -1.0f);
-	RenderManager::GetInstance()->Add(name,10,_modelHandle);
+	RenderManager* renderManager = dynamic_cast<RenderManager*>(SuperManager::GetInstance()->GetManager("renderManager"));
+	renderManager->Add(name, 10, _modelHandle);
 	MV1SetScale(_modelHandle, VScale(VGet(1.0f,1.0f,1.0f),30.0f));
 
 	_capsule = NEW Capsule();
@@ -113,6 +115,7 @@ bool Player::Update(){
 		// ƒVƒ…[ƒgˆ—
 		Sphere* sphere = NEW Sphere();
 		SetSphere(sphere);
+		CollisionManager* collisionManager = dynamic_cast<CollisionManager*>(SuperManager::GetInstance()->GetManager("collisionManager"));
 		CollisionManager::GetInstance()->Add(this, sphere);
 		isShoot = true;
 	}

@@ -1,6 +1,5 @@
 #pragma once
 #include "ManagerBase.h"
-#include "../Object/Base/ObjectBase.h"
 class ObjectManager : public ManagerBase
 {
 	public:
@@ -8,17 +7,17 @@ class ObjectManager : public ManagerBase
 	~ObjectManager();
 	bool Init() override;
 
-	void Add(std::string name,ObjectBase* object);
-	void Del(std::string name);
+	void Add(std::string name,class ObjectBase* object);
+	void Del(std::string name)override;
 	void DelAll();
 	void Sort();
 
 	bool Update() override;
 	bool Draw() override;
 
-	std::string GetListName(std::string name)override;
+	class ObjectBase* Get(std::string name);
 	int GetListSize()override;
 protected:
-	std::vector<std::pair<std::string, ObjectBase*>> _objectList;
+	std::vector<std::pair<std::string, class ObjectBase*>> _objectList;
 };
 

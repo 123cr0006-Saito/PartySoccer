@@ -1,7 +1,8 @@
 #include "../../Header/Manager/RenderManager.h"
-RenderManager* RenderManager::_instance = nullptr;
+#include "../AppFrame/source/Application/UtilMacro.h"
+
 RenderManager::RenderManager() {
-	_instance = this;
+
 };
 
 RenderManager::~RenderManager() {
@@ -27,19 +28,9 @@ void RenderManager::DelAll() {
 }
 
 void RenderManager::Sort(){
-	std::sort(_modelList.begin(), _modelList.end(), [](std::tuple<std::string, int, int> a, std::tuple<std::string, int, int> b) {
+	std::sort(_modelList.begin(), _modelList.end(), [](const std::tuple<std::string, int, int> a,const std::tuple<std::string, int, int> b) {
 		return std::get<1>(a) < std::get<1>(b);
 	});
-};
-
-std::string RenderManager::GetListName(std::string name){
-	for (auto list : _modelList) {
-		std::string str = std::get<0>(list);
-		if (str == name) {
-			return str;
-		}
-	}
-	return "";
 };
 
 int RenderManager::GetListSize(){
@@ -49,10 +40,12 @@ int RenderManager::GetListSize(){
 bool RenderManager::Update() {
 	// deleteList‚Ì’†‚É’l‚ª‚ ‚é‚Æ‚«íœ
 	for (auto list : _delModelList) {
-		for (auto itr = _modelList.begin(); itr != _modelList.end(); itr++) {
+		for (auto itr = _modelList.begin(); itr != _modelList.end();) {
 			if (std::get<0>(*itr) == list) {
 				itr = _modelList.erase(itr);
-				break;
+			}
+			else{
+				++itr;
 			}
 		}
 	}
