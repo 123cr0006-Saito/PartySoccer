@@ -7,8 +7,8 @@ Score::Score(){
 		return ;
 	}
 	_instance = this;
-	_score["goal_1"] = 0;
-	_score["goal_2"] = 0;
+	_score["Goal_1"] = 0;
+	_score["Goal_2"] = 0;
 };
 
 Score::~Score(){

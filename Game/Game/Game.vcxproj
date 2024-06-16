@@ -39,6 +39,8 @@
     <ClCompile Include="source\Source\Object\Stage\Wall.cpp" />
     <ClCompile Include="source\Source\UI\Base\UIBase.cpp" />
     <ClCompile Include="source\Source\Manager\UIManager.cpp" />
+    <ClCompile Include="source\Source\UI\Score\UIScore.cpp" />
+    <ClCompile Include="source\Source\UI\Score\UIScoreBoard.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Header\Other\Score.h" />
@@ -61,6 +63,8 @@
     <ClInclude Include="source\Header\Object\Stage\Wall.h" />
     <ClInclude Include="source\Header\UI\Base\UIBase.h" />
     <ClInclude Include="source\Header\Manager\UIManager.h" />
+    <ClInclude Include="source\Header\UI\Score\UIScore.h" />
+    <ClInclude Include="source\Header\UI\Score\UIScoreBoard.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
