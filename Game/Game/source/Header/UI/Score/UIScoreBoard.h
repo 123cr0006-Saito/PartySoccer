@@ -1,6 +1,6 @@
 #pragma once
-#include "../Base/UIBase.h"
-class UIScoreBoard : public UIBase
+#include "../Base/UIRotaBase.h"
+class UIScoreBoard : public UIRotaBase
 {
 public:
 	UIScoreBoard(Vector3D,std::string,class Score*);

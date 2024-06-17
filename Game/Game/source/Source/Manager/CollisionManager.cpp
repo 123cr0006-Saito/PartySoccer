@@ -19,15 +19,33 @@ CollisionManager::CollisionManager(){
 };
 
 CollisionManager::~CollisionManager(){
-
+	_instance = nullptr;
+	for (auto&& list : _addCollisionList) {
+		delete list.second;
+	}
+	for (auto&& list : _collisionList) {
+		delete list.second;
+	}
+	_collisionList.clear();
 };
 
 void CollisionManager::Add(ObjectBase* object, CollisionBase* collision){
-	_addCollisionList.push_back(std::make_pair(object,collision));
+	_addCollisionList.emplace_back(std::make_pair(object,collision));
 };
 
 void  CollisionManager::Del(std::string name){
-	_delCollisionList.push_back(name);
+	_delCollisionList.emplace_back(name);
+};
+
+void CollisionManager::DelAll(){
+	for(auto&& list : _addCollisionList){
+		delete list.second;
+	}
+	for (auto&& list : _collisionList) {
+		delete list.second;
+	}
+	_collisionList.clear();
+	_addCollisionList.clear();
 };
 
 int CollisionManager::GetListSize() {
@@ -37,13 +55,11 @@ int CollisionManager::GetListSize() {
 bool CollisionManager::UpdateInit(){
 	// deleteList‚Ì’†‚É’l‚ª‚ ‚é‚Æ‚«íœ
 	for (auto list : _delCollisionList) {
-		for (auto itr = _collisionList.begin(); itr != _collisionList.end();) {
+		for (auto itr = _collisionList.begin(); itr != _collisionList.end();++itr) {
 			if (itr->second->GetName() == list) {
 				delete itr->second;
-				itr = _collisionList.erase(itr);
-			}
-			else {
-				++itr;
+				_collisionList.erase(itr);
+				break;
 			}
 		}
 	}
@@ -244,7 +260,10 @@ bool CollisionManager::CollisionCheckForSphere(std::pair<ObjectBase*, CollisionB
 					DebugErrar();
 					return false;
 				}
-				ModeServer::GetInstance()->Add(NEW ModeGoal(second.first->GetName()),1000,"Goal");
+				ModeServer* modeServer = ModeServer::GetInstance();
+				if (!modeServer->Search("ModeGoal")){
+					modeServer->Add(NEW ModeGoal(second.first->GetName()),1000,"ModeGoal");
+				}
 			}		
 		}
 		else if(second.second->name == "wall" && !isHitGoalNet){

@@ -12,7 +12,7 @@ ModeSelectPlayer::~ModeSelectPlayer() {
 };
 
 bool ModeSelectPlayer::Initialize() {
-	_playerManager = NEW PlayerManeger();
+	_playerManager = NEW PlayerManager();
 
 	//コントローラーと同じ数になるまで追加する
 	for (int i = 0; i < GetJoypadNum(); i++) {
@@ -37,6 +37,10 @@ bool ModeSelectPlayer::Initialize() {
 	_scrollSpeed = 5;
 	_selectTeamMember = 0;
 	textureHandle = LoadGraph("Res/Grass_col.JPG");
+
+	// カメラの設定
+	SetupCamera_Ortho(100);
+	SetCameraPositionAndTarget_UpVecY(VGet(0, 0, -100), VGet(0, 0, 0));
 	return true;
 };
 
@@ -111,15 +115,21 @@ bool ModeSelectPlayer::PlayerSelect(){
 	// すべてのプレイヤーが選択を終了しているか？
 	bool allTrue = std::all_of(_selectCharacter.begin(), _selectCharacter.end(), [](std::pair<bool, int> value) { return value.first; });
 
-	if(allTrue){
+#ifdef _DEBUG
+	// デバッグ時はプレイヤーが1人以上いる場合
+	if (allTrue) {
+#else
+	// 本番時はすべてのプレイヤーが選択を終了しているかつプレイヤーが2人以上いる場合
+	if (allTrue && _playerParam.size() > 1) {
+#endif
 		for (int i = 0; i < _playerParam.size(); i++) {
 			//誰かがBボタンを押したときに次に進む
 			if(_playerParam[i].first->GetTrg(XINPUT_BUTTON_A)){
 				// プレイヤーの生成
 				_playerManager->Add(_playerParam);
-				_superManager->AddManager("playerManager",5,_playerManager);
+				_superManager->Add("playerManager",5,_playerManager);
 				// モードの変更
-				ModeServer::GetInstance()->Add(NEW ModeGame(), 1, "Main");
+				ModeServer::GetInstance()->Add(NEW ModeGame(), 1, "ModeGame");
 				ModeServer::GetInstance()->Del(this);
 				break;
 			}
@@ -130,18 +140,18 @@ bool ModeSelectPlayer::PlayerSelect(){
 
 bool ModeSelectPlayer::Process(){
 	ModeBase::Process();
+
 	// プレイヤー数の調整
 	PlayerNumAdjust();
 	// プレイヤーの選択
 	PlayerSelect();
-
-	// カメラの設定
-	SetupCamera_Ortho(100);
-	SetCameraPositionAndTarget_UpVecY(VGet(0, 0, -100), VGet(0, 0, 0));
 	return true;
 };
 
 bool ModeSelectPlayer::Render(){
+
+
+
 	int playerNum = _playerParam.size();
 	unsigned short textureIndex[6] = {0,1,2,2,1,3};
 	DrawPrimitiveIndexed2D(_vertex.data(), 4, textureIndex, 6, DX_PRIMTYPE_TRIANGLELIST, textureHandle, TRUE);

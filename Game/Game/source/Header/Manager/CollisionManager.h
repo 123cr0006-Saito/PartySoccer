@@ -10,6 +10,7 @@ public:
 	static CollisionManager* GetInstance(){return _instance;};
 	void Add(ObjectBase* object, CollisionBase* collision);
 	void Del(std::string name)override;
+	void DelAll()override;
 
 	bool UpdateInit()override;
 	bool Update()override;

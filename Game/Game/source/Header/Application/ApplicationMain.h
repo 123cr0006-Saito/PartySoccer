@@ -18,4 +18,5 @@ public:
 protected:
 	Timer* _timer;
 	Fps* _fpsController;
+	class SuperManager* _superManager;
 }; 

@@ -14,11 +14,11 @@ bool RenderManager::Init() {
 };
 
 void RenderManager::Add(std::string name, int layer, int model){
-	_addModelList.push_back(std::make_tuple(name, layer, model));
+	_addModelList.emplace_back(std::make_tuple(name, layer, model));
 };
 
 void RenderManager::Del(std::string name){
-	_delModelList.push_back(name);
+	_delModelList.emplace_back(name);
 };
 
 void RenderManager::DelAll() {
@@ -40,12 +40,11 @@ int RenderManager::GetListSize(){
 bool RenderManager::UpdateInit(){
 	// deleteList‚Ì’†‚É’l‚ª‚ ‚é‚Æ‚«íœ
 	for (auto list : _delModelList) {
-		for (auto itr = _modelList.begin(); itr != _modelList.end();) {
+		for (auto itr = _modelList.begin(); itr != _modelList.end();++itr) {
 			if (std::get<0>(*itr) == list) {
+				MV1DeleteModel(std::get<2>(*itr));
 				itr = _modelList.erase(itr);
-			}
-			else {
-				++itr;
+				break;
 			}
 		}
 	}

@@ -32,4 +32,6 @@ static float OutCirc(float cnt, float start, float end, float frames);
 static float InOutCirc(float cnt, float start, float end, float frames);
 
 static float  OutElastic(float cnt, float start, float end, float frames);
+
+static void CallingFunction(float* value, float nowTime, float start, float end, float maxTime, float (*easing)(float, float, float, float));
 };

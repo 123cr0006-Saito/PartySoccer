@@ -21,11 +21,11 @@ void UIManager::Del(std::string ui){
 };
 
 void UIManager::DelAll(){
-	for (auto itr = _uiList.begin(); itr != _uiList.end(); ++itr) {
-		delete std::get<2>(*itr);
+	for (auto&& list : _uiList) {
+		delete std::get<2>(list);
 	}
-	for (auto itr = _addUiList.begin(); itr != _addUiList.end(); ++itr) {
-		delete std::get<2>(*itr);
+	for (auto&& list : _addUiList) {
+		delete std::get<2>(list);
 	}
 	_uiList.clear();
 	_addUiList.clear();
@@ -50,13 +50,11 @@ std::vector<std::tuple<std::string, int,UIBase*>>* UIManager::GetUiList()
 bool UIManager::UpdateInit(){
 	// deleteList‚Ì’†‚É’l‚ª‚ ‚é‚Æ‚«íœ
 	for (auto list : _delUiList) {
-		for (auto itr = _uiList.begin(); itr != _uiList.end();) {
+		for (auto itr = _uiList.begin(); itr != _uiList.end();++itr) {
 			if (std::get<0>(*itr) == list) {
 				delete std::get<2>(*itr);
-				itr = _uiList.erase(itr);
-			}
-			else {
-				++itr;
+				_uiList.erase(itr);
+				break;
 			}
 		}
 	}

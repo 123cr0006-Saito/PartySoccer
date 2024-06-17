@@ -12,5 +12,7 @@ Score::Score(){
 };
 
 Score::~Score(){
+	_instance = nullptr;
 	_score.clear();
 };
+

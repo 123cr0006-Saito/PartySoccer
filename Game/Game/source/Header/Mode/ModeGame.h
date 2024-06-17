@@ -16,10 +16,10 @@ class ModeGame : public ModeBase
 
 public:
 
-	virtual bool Initialize();
-	virtual bool Terminate();
-	virtual bool Process();
-	virtual bool Render();
+	virtual bool Initialize()override;
+	virtual bool Terminate()override;
+	virtual bool Process()override;
+	virtual bool Render()override;
 
 	bool LoadObject();
 	void ReSetGame();

@@ -10,7 +10,9 @@ public:
 	SuperManager();
 	~SuperManager();
 	bool Init();
-	bool AddManager(std::string name, int id,class ManagerBase* manager);
+	bool Add(std::string name, int id,class ManagerBase* manager);
+	bool Del(std::string);
+	bool DelAll();
 	class ManagerBase* GetManager(std::string name);
 	bool Update();
 	bool Draw();
@@ -22,6 +24,7 @@ protected:
 	static SuperManager* _instance;
 	bool _isSort;
 	std::vector<std::tuple<std::string,int,class ManagerBase*>> _superManager;
+	std::vector<std::string> _delSuperManager;
 	bool _isProcessSkip;
 };
 

@@ -14,6 +14,6 @@ public:
 private:
 	std::pair<Vector3D, Vector3D> _pos; // <ƒJƒƒ‰ˆÊ’u,’Ž‹“_>
 	Vector3D _speed;
-	class PlayerManeger* _player;
+	class PlayerManager* _player;
 };
 

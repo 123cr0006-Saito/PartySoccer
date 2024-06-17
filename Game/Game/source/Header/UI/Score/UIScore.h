@@ -1,7 +1,7 @@
 #pragma once
-#include "../Base/UIBase.h"
+#include "../Base/UIRotaBase.h"
 #include <unordered_map>
-class UIScore : public UIBase
+class UIScore : public UIRotaBase
 {
 public:
 	UIScore(Vector3D,std::string,class Score*);

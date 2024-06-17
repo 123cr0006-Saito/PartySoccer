@@ -12,7 +12,7 @@ class UIManager : public ManagerBase
 
 	void Add(std::string, int, class UIBase*);
 	void Del(std::string ui)override;
-	void DelAll();
+	void DelAll()override;
 	void Sort();
 
 	std::vector<std::tuple<std::string, int, class UIBase*>>* GetUiList();

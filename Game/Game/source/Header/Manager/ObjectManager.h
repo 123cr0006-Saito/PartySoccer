@@ -9,7 +9,7 @@ class ObjectManager : public ManagerBase
 
 	void Add(std::string name,class ObjectBase* object);
 	void Del(std::string name)override;
-	void DelAll();
+	void DelAll()override;
 	void Sort();
 
 	bool Update()override;
@@ -19,6 +19,8 @@ class ObjectManager : public ManagerBase
 	class ObjectBase* Get(std::string name);
 	int GetListSize()override;
 protected:
+	std::vector<std::pair<std::string, class ObjectBase*>> _addObjectList;
 	std::vector<std::pair<std::string, class ObjectBase*>> _objectList;
+	std::vector<std::string> _delObjectList;
 };
 

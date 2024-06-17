@@ -5,7 +5,7 @@
     <ClCompile Include="source\Source\Mode\ModeGame.cpp" />
     <ClCompile Include="source\Source\Object\Player\Player.cpp" />
     <ClCompile Include="source\Source\Object\Base\ObjectBase.cpp" />
-    <ClCompile Include="source\Source\Manager\PlayerManeger.cpp" />
+    <ClCompile Include="source\Source\Manager\PlayerManager.cpp" />
     <ClCompile Include="source\Source\Object\Stage\Stage.cpp" />
     <ClCompile Include="source\Source\Object\Stage\Ball.cpp" />
     <ClCompile Include="source\Source\Object\Stage\Goal.cpp" />
@@ -26,13 +26,21 @@
     <ClCompile Include="source\Source\Other\TimeLimit.cpp" />
     <ClCompile Include="source\Source\UI\UIStartCount.cpp" />
     <ClCompile Include="source\Source\UI\UITimer.cpp" />
+    <ClCompile Include="source\Source\Mode\ModeResult.cpp" />
+    <ClCompile Include="source\Source\Mode\ModeTitle.cpp" />
+    <ClCompile Include="source\Source\Mode\ModeFadeComeBack.cpp" />
+    <ClCompile Include="source\Source\Mode\ModeFade.cpp" />
+    <ClCompile Include="source\Source\UI\Base\UIRotaBase.cpp" />
+    <ClCompile Include="source\Source\UI\UIFade.cpp" />
+    <ClCompile Include="source\Source\Mode\ModeGameEnd.cpp" />
+    <ClCompile Include="source\Source\UI\UIGameEnd.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Header\Object\Player\Player.h" />
     <ClInclude Include="source\Header\Object\Base\ObjectBase.h" />
     <ClInclude Include="source\Header\Application\ApplicationMain.h" />
     <ClInclude Include="source\Header\Mode\ModeGame.h" />
-    <ClInclude Include="source\Header\Manager\PlayerManeger.h" />
+    <ClInclude Include="source\Header\Manager\PlayerManager.h" />
     <ClInclude Include="source\Header\Object\Stage\Stage.h" />
     <ClInclude Include="source\Header\Object\Stage\Ball.h" />
     <ClInclude Include="source\Header\Object\Stage\Goal.h" />
@@ -53,5 +61,13 @@
     <ClInclude Include="source\Header\Other\TimeLimit.h" />
     <ClInclude Include="source\Header\UI\UIStartCount.h" />
     <ClInclude Include="source\Header\UI\UITimer.h" />
+    <ClInclude Include="source\Header\Mode\ModeResult.h" />
+    <ClInclude Include="source\Header\Mode\ModeTitle.h" />
+    <ClInclude Include="source\Header\Mode\ModeFadeComeBack.h" />
+    <ClInclude Include="source\Header\Mode\ModeFade.h" />
+    <ClInclude Include="source\Header\UI\Base\UIRotaBase.h" />
+    <ClInclude Include="source\Header\UI\UIFade.h" />
+    <ClInclude Include="source\Header\Mode\ModeGameEnd.h" />
+    <ClInclude Include="source\Header\UI\UIGameEnd.h" />
   </ItemGroup>
 </Project>

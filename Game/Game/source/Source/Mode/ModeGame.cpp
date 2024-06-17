@@ -1,6 +1,7 @@
 #include "../AppFrame/source/CFile/CFile.h"
 
 #include "../../Header/Mode/ModeGame.h"
+#include "../../Header/Mode/ModeGameEnd.h"
 
 #include "../../Header/Object/Player/Player.h"
 #include "../../Header/Object/Stage/Stage.h"
@@ -14,7 +15,7 @@
 #include "../../Header/Manager/RenderManager.h"
 #include "../../Header/Manager/CollisionManager.h"
 #include "../../Header/Manager/UIManager.h"
-#include "../../Header/Manager/PlayerManeger.h"
+#include "../../Header/Manager/PlayerManager.h"
 
 #include "../../Header/Other/Score.h"
 #include "../../Header/Other/Camera/Camera.h"
@@ -34,7 +35,7 @@ bool ModeGame::Initialize() {
 	_camera = NEW Camera();
 	_score = NEW Score();
 	_timeLimit = NEW TimeLimit();
-	_timeLimit->SetTimeLimit(3, 00);
+	_timeLimit->SetTimeLimit(0, 5);
 
 	Vector3D pos[2] = { Vector3D(600,100,0),Vector3D(1300,100,0) };
 	for(int i = 0; i < 2; i++){
@@ -43,14 +44,19 @@ bool ModeGame::Initialize() {
 	UIStartCount* uiStartCount = NEW UIStartCount();
 	UITimer* uiTimer = NEW UITimer(_timeLimit);
 
-	
 	return true;
 }
 
 bool ModeGame::Terminate() {
 	base::Terminate();
+
+	_superManager->Del("objectManager");
+	_superManager->GetManager("uiManager")->DelAll();
+	_superManager->GetManager("collisionManager")->DelAll();
+	_superManager->GetManager("renderManager")->DelAll();
+	_superManager->GetManager("uiManager")->DelAll();
+
 	delete _camera;
-	delete _score;
 	delete _timeLimit;
 	return true;
 }
@@ -59,7 +65,7 @@ void ModeGame::ReSetGame(){
 	// ボールの位置を設定
 	ObjectManager* objectManager = dynamic_cast<ObjectManager*>(_superManager->GetManager("objectManager"));
 	objectManager->Get("Ball")->SetPos(Vector3D(0, 0, 0));
-	PlayerManeger* playerManager = dynamic_cast<PlayerManeger*>(_superManager->GetManager("playerManager"));
+	PlayerManager* playerManager = dynamic_cast<PlayerManager*>(_superManager->GetManager("playerManager"));
 	playerManager->SetPos();
 
 	UIStartCount* uiStartCount = NEW UIStartCount();
@@ -101,7 +107,7 @@ bool ModeGame::LoadObject(){
 	}
 	
 	// マネージャーに登録
-	_superManager->AddManager("objectManager", 1, objectManager);
+	_superManager->Add("objectManager", 1, objectManager);
 	return true;
 };
 
@@ -137,9 +143,14 @@ std::vector<std::tuple<std::string, Vector3D, Vector3D>> ModeGame::LoadObjectPar
 
 bool ModeGame::Process() {
 	base::Process();
-	_superManager->Update();
 	_camera->Update();
 	_timeLimit->Update();
+
+	ModeServer* modeServer = ModeServer::GetInstance();
+	if (!modeServer->Search("ModeGameEnd") && _timeLimit->GetTimeLimit() <= 0) {
+		ModeServer::GetInstance()->Add(NEW ModeGameEnd(),10,"ModeGameEnd");
+	}
+
 	return true;
 }
 
@@ -148,8 +159,6 @@ bool ModeGame::Render() {
 	SetUseZBuffer3D(TRUE);
 	SetWriteZBuffer3D(TRUE);
 	SetUseBackCulling(TRUE);
-
-	_superManager->Draw();
 	_camera->Draw();
 	return true;
 }

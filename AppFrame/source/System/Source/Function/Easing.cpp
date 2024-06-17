@@ -131,4 +131,11 @@ float Easing::OutElastic(float cnt, float start, float end, float frames)
         return  start + (end - start) * rate;
     }
 }
-
+void Easing::CallingFunction(float* value, float nowTime, float start, float end, float maxTime, float (*easing)(float, float, float, float)){
+    if (nowTime > 0) {
+        if (nowTime > maxTime) {
+            nowTime = maxTime;
+        }
+        (*value) = easing(nowTime, start, end, maxTime);
+    }
+};

@@ -17,6 +17,7 @@ class ManagerBase
 	virtual bool Draw();
 
 	virtual void Del(std::string){};
+	virtual void DelAll(){};
 
 	int GetID() { return _id; }
 	std::string GetName() { return _name; }

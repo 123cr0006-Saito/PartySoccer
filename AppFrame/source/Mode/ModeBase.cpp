@@ -52,7 +52,6 @@ bool	ModeBase::Process()
 // --------------------------------------------------------------------------
 bool	ModeBase::Render()
 {
-	
 	return	true;
 }
 

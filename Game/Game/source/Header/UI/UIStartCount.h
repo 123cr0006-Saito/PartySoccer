@@ -1,7 +1,7 @@
 #pragma once
-#include "Base/UIBase.h"
+#include "Base/UIRotaBase.h"
 #include <unordered_map>
-class UIStartCount : public UIBase
+class UIStartCount : public UIRotaBase
 {
 public:
 	UIStartCount();

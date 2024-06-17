@@ -19,6 +19,7 @@ public:
 	Vector3D GetForwardVec() { return _forwardVec; }
 	Vector3D GetPos() { return _pos; }
 	void SetPos(Vector3D pos) { _pos = pos; }
+	void SetScale(Vector3D scale) {MV1SetScale(_modelHandle,scale.toVECTOR()); };
 	void SetOldPos(Vector3D pos) { _oldPos = pos; }
 	
 protected:

@@ -13,16 +13,33 @@ SuperManager::SuperManager() {
 };
 
 SuperManager::~SuperManager() {
+	_instance = nullptr;
 
+	for(auto&& list : _superManager){
+		delete std::get<2>(list);
+	}
 };
 
 bool SuperManager::Init() {
 	return true;
 };
 
-bool SuperManager::AddManager(std::string name,int id, ManagerBase* manager){
-	_superManager.push_back(std::make_tuple(name,id,manager));
+bool SuperManager::Add(std::string name,int id, ManagerBase* manager){
+	_superManager.emplace_back(std::make_tuple(name,id,manager));
 	_isSort = true;
+	return true;
+};
+
+bool SuperManager::Del(std::string name){
+	_delSuperManager.emplace_back(name);
+	return true;
+};
+
+bool SuperManager::DelAll(){
+	for (auto&& list : _superManager) {
+		delete std::get<2>(list);
+	}
+	_superManager.clear();
 	return true;
 };
 
@@ -42,6 +59,16 @@ void SuperManager::Sort(){
 };
 
 bool SuperManager::Update() {
+
+	for (auto&& list : _delSuperManager) {
+		for (auto itr = _superManager.begin(); itr != _superManager.end(); ++itr) {
+			if (std::get<0>((*itr)) == list) {
+				delete std::get<2>((*itr));
+				_superManager.erase(itr);
+				break;
+			}
+		}
+	}
 
 	_isProcessSkip = false;
 	if (_isSort) {

@@ -5,18 +5,17 @@
 #include "../../../Header/Manager/UIManager.h"
 #include "dxlib.h"
 UIScoreBoard::UIScoreBoard(Vector3D pos,std::string name, Score* score) : 
-	UIBase()
+	UIRotaBase()
 {
-	param.alpha = 255;
-	param.handle = LoadGraph("Res/GoalAnimation/scoreBoard.png");
-	param.pos = pos;
+	_param._handle = LoadGraph("Res/GoalAnimation/scoreBoard.png");
+	_param._pos = pos;
 	int sizeX, sizeY;
-	GetGraphSize(param.handle, &sizeX, &sizeY);
-	param.center = Vector3D(sizeX/2, sizeY/2, 0);
+	GetGraphSize(_param._handle, &sizeX, &sizeY);
+	_param._center = Vector3D(sizeX/2, sizeY/2, 0);
 	_score = NEW UIScore(pos, name, score);
 	dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"))->Add("scoreBoard", 10, this);
 };
 
 UIScoreBoard::~UIScoreBoard(){
-
+	_score = nullptr;
 };

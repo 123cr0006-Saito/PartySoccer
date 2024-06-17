@@ -1,16 +1,16 @@
-#include "../../Header/Manager/PlayerManeger.h"
+#include "../../Header/Manager/PlayerManager.h"
 #include "../MemoryLeak.h"
 #include "../AppFrame/source/Application/UtilMacro.h"
 #include "../AppFrame/source/CFile/CFile.h"
-PlayerManeger::PlayerManeger() {
+PlayerManager::PlayerManager() {
 	LoadObjectPos();
 };
 
-PlayerManeger::~PlayerManeger(){
-
+PlayerManager::~PlayerManager(){
+	DelAll();
 };
 
-void PlayerManeger::LoadObjectPos(){
+void PlayerManager::LoadObjectPos(){
 	std::string fileName = "Data/PlayerOriginPos.csv";
 	CFile file(fileName);
 	// ファイルが開けた場合
@@ -32,39 +32,47 @@ void PlayerManeger::LoadObjectPos(){
 	}
 };
 
-bool PlayerManeger::Update(){
+bool PlayerManager::Update(){
 	for (auto&& list : _player) {
 		list.second->Update();
 	}
 	return true;
 };
 
-bool PlayerManeger::UpdateEnd(){
+bool PlayerManager::UpdateEnd(){
 	for (auto&& list : _player) {
 		list.second->UpdateEnd();
 	}
 	return true;
 };
 
-void PlayerManeger::Add(std::vector<std::pair<XInput*, int>> param) {
+void PlayerManager::Add(std::vector<std::pair<XInput*, int>> param) {
 	for (int i = 0; i < param.size(); i++) {
 		std::string name = "Player" + std::to_string(i + 1);
-		_player.push_back(std::make_pair(name, NEW Player(name,param[i])));
+		_player.emplace_back(std::make_pair(name, NEW Player(name,param[i])));
 	}
 	SetPos();
 };
 
-void PlayerManeger::SetPos(){
+void PlayerManager::DelAll(){
+	for (auto&& list : _player) {
+		delete list.second;
+	}
+	_player.clear();
+	_originPos.clear();
+};
+
+void PlayerManager::SetPos(){
 	for(int i = 0; i < _player.size(); i++){
 		_player[i].second->SetPos(_originPos[i]);
 	}
 };
 
-int PlayerManeger::GetListSize(){
+int PlayerManager::GetListSize(){
 	return _player.size();
 };
 
-bool PlayerManeger::Draw(){
+bool PlayerManager::Draw(){
 	for(auto&& list : _player){
 		list.second->DebugDraw();
 	}

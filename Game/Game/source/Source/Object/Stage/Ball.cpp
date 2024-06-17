@@ -25,7 +25,7 @@ Ball::Ball(std::string name) : ObjectBase(name){
 };
 
 Ball::~Ball(){
-
+	delete _sphere;
 };
 
 bool Ball::Init(){

@@ -9,7 +9,7 @@ public :
 	bool Init();
 	void Add(std::string name ,int layer ,int model);
 	void Del(std::string name)override;
-	void DelAll();
+	void DelAll()override;
 	void Sort();
 
 	int GetListSize()override;

@@ -3,13 +3,14 @@
 #include "ManagerBase.h"
 // @brief プレイヤーの管理クラス
 // セレクト画面で決定したキャラクターを管理するクラス　パッドの数でプレイヤーの数を設定
-class PlayerManeger : public ManagerBase
+class PlayerManager : public ManagerBase
 {
 	public:
-	PlayerManeger();
-	~PlayerManeger();
+	PlayerManager();
+	~PlayerManager();
 
 	void Add(std::vector<std::pair<XInput*, int>> param);
+	void DelAll();
 
 	void SetPos();
 

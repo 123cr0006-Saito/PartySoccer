@@ -22,6 +22,7 @@ Goal::Goal(std::string name, Vector3D pos, Vector3D rotation) : ObjectBase(name)
 
 Goal::~Goal(){
 	MV1DeleteModel(_modelHandle);
+	delete _obb;
 };
 
 

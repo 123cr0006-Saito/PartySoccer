@@ -9,5 +9,5 @@ Wall::Wall() : ObjectBase("wall") {
 };
 
 Wall::~Wall(){
-
+	delete _obb;
 };

@@ -17,11 +17,18 @@ void ObjectManager::Add(std::string name, ObjectBase* object){
 };
 
 void ObjectManager::Del(std::string name){
-
+	_delObjectList.emplace_back(name);
 };
 
 void ObjectManager::DelAll(){
+	for (auto&& list : _addObjectList) {
+		delete list.second;
+	}
+	for(auto&& list : _objectList){
+		delete list.second;
+	}
 	_objectList.clear();
+	_addObjectList.clear();
 };
 
 void ObjectManager::Sort() {
@@ -29,6 +36,22 @@ void ObjectManager::Sort() {
 };
 
 bool ObjectManager::Update(){
+	// deleteList‚Ì’†‚É’l‚ª‚ ‚é‚Æ‚«íœ
+	for (auto list : _delObjectList) {
+		for (auto itr = _objectList.begin(); itr != _objectList.end();) {
+			if (itr->first == list) {
+				delete itr->second;
+			    _objectList.erase(itr);
+				break;
+			}
+		}
+	}
+
+	// addList‚Ì’†‚É’l‚ª‚ ‚é‚Æ‚«’Ç‰Á
+	for (auto list : _addObjectList) {
+		_objectList.emplace_back(list);
+	}
+
 	for (auto&& list : _objectList) {
 		list.second->Update();
 	}

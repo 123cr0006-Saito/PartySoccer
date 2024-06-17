@@ -1,9 +1,9 @@
 #include "../../../Header/Other/Camera/Camera.h"
 #include "../.../../AppFrame/source/System/Header/Function/Timer.h"
 #include "../../../Header/Manager/SuperManager.h"
-#include "../../../Header/Manager/PlayerManeger.h"
+#include "../../../Header/Manager/PlayerManager.h"
 Camera::Camera(){
-	_player = dynamic_cast<PlayerManeger*>(SuperManager::GetInstance()->GetManager("playerManager"));
+	_player = dynamic_cast<PlayerManager*>(SuperManager::GetInstance()->GetManager("playerManager"));
 	//ƒJƒƒ‰‚Ì‰Šú‰»
 	SetupCamera_Perspective(60.0f * 180.0f / 3.141592f);
 };
