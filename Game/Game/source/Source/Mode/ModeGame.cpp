@@ -35,7 +35,7 @@ bool ModeGame::Initialize() {
 	_camera = NEW Camera();
 	_score = NEW Score();
 	_timeLimit = NEW TimeLimit();
-	_timeLimit->SetTimeLimit(0, 180);
+	_timeLimit->SetTimeLimit(0, 30);
 
 	Vector3D pos[2] = { Vector3D(600,100,0),Vector3D(1300,100,0) };
 	for(int i = 0; i < 2; i++){
@@ -50,11 +50,10 @@ bool ModeGame::Initialize() {
 bool ModeGame::Terminate() {
 	base::Terminate();
 
-	_superManager->Del("objectManager");
+	_superManager->GetManager("objectManager")->DelAll();
 	_superManager->GetManager("uiManager")->DelAll();
 	_superManager->GetManager("collisionManager")->DelAll();
 	_superManager->GetManager("renderManager")->DelAll();
-	_superManager->GetManager("uiManager")->DelAll();
 	
 	delete _camera;
 	delete _timeLimit;
@@ -73,8 +72,7 @@ void ModeGame::ReSetGame(){
 };
 
 bool ModeGame::LoadObject(){
-	// オブジェクトの生成
-	ObjectManager* objectManager = NEW ObjectManager();
+	ObjectManager* objectManager = dynamic_cast<ObjectManager*>(_superManager->GetManager("objectManager"));
 	//ステージの生成
 	objectManager->Add("Stage", NEW Stage("Stage"));
 	//ボールの生成
@@ -105,9 +103,7 @@ bool ModeGame::LoadObject(){
 		wall->SetColLength(std::get<2>(list));
 		objectManager->Add(std::get<0>(list), wall);
 	}
-	
-	// マネージャーに登録
-	_superManager->Add("objectManager", 1, objectManager);
+
 	return true;
 };
 

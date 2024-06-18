@@ -5,6 +5,7 @@
 #include "../../Header/Manager/SuperManager.h"
 #include "../../Header/Manager/RenderManager.h"
 #include "../../Header/Manager/CollisionManager.h"
+#include "../../Header/Manager/ObjectManager.h"
 #include "../../Header/Manager/UIManager.h"
 // ŽÀ‘Ì
 ApplicationMain				g_oApplicationMain;
@@ -24,9 +25,11 @@ bool ApplicationMain::Initialize(HINSTANCE hInstance) {
 	_superManager = NEW SuperManager();
 	RenderManager* renderManager = NEW RenderManager();
 	CollisionManager* collisionManager = NEW CollisionManager();
+	ObjectManager* objectManager = NEW ObjectManager();
 	UIManager* uiManager = NEW UIManager();
 	_superManager->Add("renderManager", 100, renderManager);
 	_superManager->Add("collisionManager", 0, collisionManager);
+	_superManager->Add("objectManager", 1, objectManager);
 	_superManager->Add("uiManager", 1000, uiManager);
 
 	ModeServer::GetInstance()->Add(NEW ModeTitle(), 1, "ModeTitle");

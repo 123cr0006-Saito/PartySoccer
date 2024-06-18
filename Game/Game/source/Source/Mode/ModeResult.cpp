@@ -51,7 +51,7 @@ bool	ModeResult::Terminate(){
 	_superManager->Del("playerManager");
 	_superManager->GetManager("collisionManager")->DelAll();
 	_superManager->GetManager("renderManager")->DelAll();
-	_superManager->GetManager("uiManager")->DelAll();
+	//_superManager->GetManager("uiManager")->DelAll();
 	delete _score;
 	delete _input;
 	return true;
@@ -64,7 +64,7 @@ bool	ModeResult::Process(){
 		// ƒ‚[ƒh‚ð•ÏX
 		ModeServer::GetInstance()->Add(NEW ModeTitle(), 0, "ModeTitle");
 		std::vector<std::string> modeName = {"ModeResult"};
-		ModeServer::GetInstance()->Add(NEW ModeFadeComeBack(1000, modeName, "ModeTitle",1, true),10,"ModeFadeComeBack");
+		ModeServer::GetInstance()->Add(NEW ModeFadeComeBack(100, modeName, "ModeTitle",1, true),10,"ModeFadeComeBack");
 		ModeServer::GetInstance()->Del(this);
 	}
 	return true;

@@ -54,6 +54,10 @@ ModeFadeComeBack::ModeFadeComeBack(int Time, std::vector<std::string> mode, std:
 	_changeModeName = modeName;
 	_IsProcessSkip = IsProcessSkip;
 };
+
+ModeFadeComeBack::~ModeFadeComeBack(){
+	_deleteModeName.clear();
+};
 //----------------------------------------------------------------------
 // @brief èâä˙âª
 // @return ê¨å˜ÇµÇƒÇ¢ÇÈÇ©
@@ -68,7 +72,6 @@ bool ModeFadeComeBack::Initialize(){
 //----------------------------------------------------------------------
 bool ModeFadeComeBack::Terminate(){
 	base::Terminate();
-	_deleteModeName.clear();
 	return true;
 };
 //----------------------------------------------------------------------

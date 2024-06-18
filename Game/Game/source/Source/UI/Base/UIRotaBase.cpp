@@ -11,7 +11,7 @@ UIRotaBase::UIRotaBase(UIRotaParam param)
 };
 
 UIRotaBase::~UIRotaBase() {
-
+	int i = 0;
 };
 
 void UIRotaBase::Update() {

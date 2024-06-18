@@ -1,7 +1,6 @@
 #pragma once
 #include "../System/Header/Input/XInput.h"
 #include "../System/Header/Function/Fps.h"
-#include "../System/Header/Effect/Effect.h"
 #include "../Application/Global.h"
 
 #include <math.h>
@@ -54,8 +53,6 @@ private:
 	// CallPerFrame / CallOfCount—p
 	int		_callPerFrame, _callPerFrame_cnt;
 	int		_callOfCount;
-	//Input
-	Effect* effect;
 };
 
 

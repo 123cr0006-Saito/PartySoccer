@@ -32,6 +32,11 @@ ModeFade::ModeFade(int time,bool isFadeIn) {
 		(*_alphaFade) = 0;
 	}
 };
+
+ModeFade::~ModeFade() {
+	UIManager* uiManager = dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"));
+	uiManager->Del("Fade");
+}
 //----------------------------------------------------------------------
 // @brief ‰Šú‰»
 // @return ¬Œ÷‚µ‚Ä‚¢‚é‚©

@@ -60,7 +60,7 @@ bool CollisionManager::UpdateInit(){
 
 	// addList‚Ì’†‚É’l‚ª‚ ‚é‚Æ‚«’Ç‰Á
 	for (auto list : _addCollisionList) {
-		_collisionList.push_back(list);
+		_collisionList.emplace_back(list);
 	}
 
 	// addList‚ÆdeleteList‚ðƒNƒŠƒA

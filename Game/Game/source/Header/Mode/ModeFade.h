@@ -14,6 +14,7 @@ protected:
 	typedef ModeBase base;
 public:
 	ModeFade(int Time,bool FadeIn = false);
+	virtual ~ModeFade();
 	virtual bool Initialize();
 	virtual bool Terminate();
 	virtual bool Process()override;

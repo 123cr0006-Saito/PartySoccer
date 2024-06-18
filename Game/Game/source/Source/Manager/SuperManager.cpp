@@ -68,6 +68,7 @@ bool SuperManager::Update() {
 		}
 	}
 
+	_delSuperManager.clear();
 	_isProcessSkip = false;
 	if (_isSort) {
 		Sort();

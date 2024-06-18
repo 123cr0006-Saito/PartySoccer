@@ -33,10 +33,10 @@ bool	ModeGameEnd::Process(){
 	int nowTime = GetNowCount() - _currentTime;
 	Easing::CallingFunction(&_ui.second->_extrate.x,nowTime,0.0f,1.0f,2000,Easing::Linear);
 	Easing::CallingFunction(&_ui.second->_extrate.y, nowTime, 0.0f, 1.0f, 2000, Easing::Linear);
-	if(nowTime >2500){
+	if(nowTime >2500 && !ModeServer::GetInstance()->Search("ModeFadeComeBack")) {
 		std::vector<std::string> modeName = {"ModeGame","ModeGameEnd"};
 		ModeServer::GetInstance()->Add(NEW ModeResult(), 0, "ModeResult");
-		ModeServer::GetInstance()->Add(NEW 	ModeFadeComeBack(2000, modeName, true), 100,"ModeFadeComeBack");
+		ModeServer::GetInstance()->Add(NEW 	ModeFadeComeBack(1000, modeName, true), 100,"ModeFadeComeBack");
 	}
 	return true;
 };

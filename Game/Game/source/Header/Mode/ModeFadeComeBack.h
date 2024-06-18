@@ -16,6 +16,7 @@ public:
 	ModeFadeComeBack(int Time, std::string mode,int layer,bool IsProcessSkip = false); // レイヤーを変更する場合
 	ModeFadeComeBack(int Time, std::vector<std::string> mode, bool IsProcessSkip = false);  // モードをdeleteする場合
 	ModeFadeComeBack(int Time, std::vector<std::string> mode, std::string modeName, int layer ,bool IsProcessSkip = false);  //レイヤーを変更し モードをdeleteする場合
+	virtual ~ModeFadeComeBack();
 	virtual bool Initialize();
 	virtual bool Terminate();
 	virtual bool Process()override;
