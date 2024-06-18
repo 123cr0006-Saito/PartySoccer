@@ -4,8 +4,9 @@
 #include "../AppFrame/MemoryLeak.h"
 #include "../AppFrame/source/System/Header/Function/mymath.h"
 #include "../../../Header/Manager/SuperManager.h"
+#include "../../AppFrame/source/System/Header/Resource/ResourceServer.h"
 Ball::Ball(std::string name) : ObjectBase(name){
-	_modelHandle = MV1LoadModel("Res/Model/Ball/SoccerBall.mv1");
+	_modelHandle = ResourceServer::MV1LoadModel("Ball", "Res/Model/Ball/SoccerBall.mv1");
 	MV1SetScale(_modelHandle, VScale(VGet(1.0f, 1.0f, 1.0f), 10.0f));
 	MV1SetPosition(_modelHandle, _pos.toVECTOR());
 
@@ -25,7 +26,7 @@ Ball::Ball(std::string name) : ObjectBase(name){
 };
 
 Ball::~Ball(){
-	delete _sphere;
+
 };
 
 bool Ball::Init(){

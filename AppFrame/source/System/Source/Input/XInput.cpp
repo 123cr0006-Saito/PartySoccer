@@ -3,7 +3,9 @@
 
 int XInput::_connectNum = 0;
 
-XInput::XInput() {
+XInput::XInput() :
+	_isConnect(true) 
+{
 	_connectNum++;
 	_padNum = _connectNum;
 	for (int i = 0; i < DXINPUT_BUTTON_MAX; i++) {
@@ -13,7 +15,9 @@ XInput::XInput() {
 	}
 };
 
-XInput::XInput(int number) {
+XInput::XInput(int number):
+	_isConnect(false) 
+{
 	_padNum = number;
 	for (int i = 0; i < DXINPUT_BUTTON_MAX; i++) {
 		_trg[i] = 0;
@@ -26,6 +30,9 @@ XInput::XInput(int number) {
 };
 
 XInput::~XInput() {
+	if (_isConnect) {
+		_connectNum--;
+	}
 	ReSet();
 }
 

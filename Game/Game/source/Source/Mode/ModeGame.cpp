@@ -35,7 +35,7 @@ bool ModeGame::Initialize() {
 	_camera = NEW Camera();
 	_score = NEW Score();
 	_timeLimit = NEW TimeLimit();
-	_timeLimit->SetTimeLimit(0, 5);
+	_timeLimit->SetTimeLimit(0, 180);
 
 	Vector3D pos[2] = { Vector3D(600,100,0),Vector3D(1300,100,0) };
 	for(int i = 0; i < 2; i++){
@@ -55,7 +55,7 @@ bool ModeGame::Terminate() {
 	_superManager->GetManager("collisionManager")->DelAll();
 	_superManager->GetManager("renderManager")->DelAll();
 	_superManager->GetManager("uiManager")->DelAll();
-
+	
 	delete _camera;
 	delete _timeLimit;
 	return true;

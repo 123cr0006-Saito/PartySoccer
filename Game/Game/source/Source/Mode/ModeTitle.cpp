@@ -69,9 +69,7 @@ bool	ModeTitle::Initialize(){
 bool	ModeTitle::Terminate(){
 	delete _input;
 	UIManager* ui = dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"));
-	for (auto&& list : _ui) {
-		ui->Del(list.first);
-	}
+	ui->DelAll();
 	return true;
 };
 

@@ -59,8 +59,8 @@ bool	ModeResult::Terminate(){
 
 bool	ModeResult::Process(){
 	_input->Input();
-
-	if(_input->GetTrg(XINPUT_BUTTON_A)){
+	ModeServer* modeServer = ModeServer::GetInstance();
+	if(_input->GetTrg(XINPUT_BUTTON_A) && !modeServer->Search("ModeTitle")){
 		// ƒ‚[ƒh‚ð•ÏX
 		ModeServer::GetInstance()->Add(NEW ModeTitle(), 0, "ModeTitle");
 		std::vector<std::string> modeName = {"ModeResult"};

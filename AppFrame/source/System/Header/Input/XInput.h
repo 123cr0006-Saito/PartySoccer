@@ -89,4 +89,5 @@ private:
 
 	unsigned char _stickInput[4];
 	static  int _connectNum;
+	bool _isConnect;
 };

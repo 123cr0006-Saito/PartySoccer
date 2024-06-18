@@ -15,9 +15,7 @@ SuperManager::SuperManager() {
 SuperManager::~SuperManager() {
 	_instance = nullptr;
 
-	for(auto&& list : _superManager){
-		delete std::get<2>(list);
-	}
+	DelAll();
 };
 
 bool SuperManager::Init() {

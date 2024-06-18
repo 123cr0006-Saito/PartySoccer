@@ -42,7 +42,6 @@ bool RenderManager::UpdateInit(){
 	for (auto list : _delModelList) {
 		for (auto itr = _modelList.begin(); itr != _modelList.end();++itr) {
 			if (std::get<0>(*itr) == list) {
-				MV1DeleteModel(std::get<2>(*itr));
 				itr = _modelList.erase(itr);
 				break;
 			}

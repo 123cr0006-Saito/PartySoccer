@@ -18,8 +18,6 @@ ModeBase::ModeBase() {
 	SetCallPerFrame(1);
 	SetCallOfCount(1);
 
-	
-	//effect = 
 }
 
 ModeBase::~ModeBase() {

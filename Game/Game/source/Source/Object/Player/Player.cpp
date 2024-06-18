@@ -28,7 +28,6 @@ Player::Player(std::string name, std::pair<XInput*, int> param) : ObjectBase(nam
 };
 
 Player::~Player(){
-	delete _capsule;
 	delete _Input;
 	MV1DeleteModel(_modelHandle);
 };

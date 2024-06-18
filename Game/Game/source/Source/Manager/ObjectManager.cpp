@@ -5,7 +5,7 @@ ObjectManager::ObjectManager(){
 };
 
 ObjectManager::~ObjectManager(){
-
+	DelAll();
 };
 
 bool ObjectManager::Init() {

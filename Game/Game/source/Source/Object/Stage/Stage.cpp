@@ -1,8 +1,9 @@
 #include "../../../Header/Object/Stage/Stage.h"
 #include "../../../Header/Manager/RenderManager.h"
 #include "../../../Header/Manager/SuperManager.h"
+#include "../../AppFrame/source/System/Header/Resource/ResourceServer.h"
 Stage::Stage(std::string name) : ObjectBase(name) {
-	_modelHandle = MV1LoadModel("Res/Model/Stage/Stadium.mv1");
+	_modelHandle = ResourceServer::MV1LoadModel("Stage","Res/Model/Stage/Stadium.mv1");
 	MV1SetPosition(_modelHandle, VGet(0, 0, 0));
 	RenderManager* renderManager = dynamic_cast<RenderManager*>(SuperManager::GetInstance()->GetManager("renderManager"));
 	renderManager->Add(_name, 1, _modelHandle);
@@ -14,7 +15,7 @@ Stage::Stage(std::string name) : ObjectBase(name) {
 };
 
 Stage::~Stage() {
-	MV1DeleteModel(_modelHandle);
+	
 };
 
 bool Stage::Init(){

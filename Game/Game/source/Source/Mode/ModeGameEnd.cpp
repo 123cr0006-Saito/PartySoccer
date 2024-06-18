@@ -17,17 +17,14 @@ ModeGameEnd::~ModeGameEnd(){
 
 };
 
-bool	ModeGameEnd::Initialize(){
+bool ModeGameEnd::Initialize(){
 	_currentTime =GetNowCount();
 	UIGameEnd* ui = new UIGameEnd();
 	_ui = std::make_pair("GameEnd",ui->GetParam());
 	return true;
 };
 
-bool	ModeGameEnd::Terminate(){
-	UIManager* ui = dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"));
-	ui->Del(_ui.first);
-
+bool ModeGameEnd::Terminate(){
 	return true;
 };
 

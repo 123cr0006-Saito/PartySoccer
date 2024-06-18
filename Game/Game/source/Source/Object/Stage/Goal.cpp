@@ -3,8 +3,9 @@
 #include "../../../Header/Manager/CollisionManager.h"
 #include "../../../Header/Manager/SuperManager.h"
 #include "../AppFrame/MemoryLeak.h"
+#include "../../AppFrame/source/System/Header/Resource/ResourceServer.h"
 Goal::Goal(std::string name, Vector3D pos, Vector3D rotation) : ObjectBase(name) {
-	_modelHandle = MV1LoadModel("Res/Model/Goal/goal.mv1");
+	_modelHandle = ResourceServer::MV1LoadModel("Goal","Res/Model/Goal/goal.mv1");
 	MV1SetPosition(_modelHandle, pos.toVECTOR());
 	MV1SetRotationXYZ(_modelHandle, rotation.toVECTOR());
 	MV1SetScale(_modelHandle, (Vector3D(1.0f, 1.0f, 1.0f) * 5).toVECTOR());
@@ -22,7 +23,7 @@ Goal::Goal(std::string name, Vector3D pos, Vector3D rotation) : ObjectBase(name)
 
 Goal::~Goal(){
 	MV1DeleteModel(_modelHandle);
-	delete _obb;
+
 };
 
 
