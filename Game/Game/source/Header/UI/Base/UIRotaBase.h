@@ -21,7 +21,9 @@ public:
 	void Update()override;
 	void Draw()override;
 
-	UIRotaParam* GetParam() { return &_param; }
+	void SetParam(UIRotaParam param) { _param = param; }
+	UIRotaParam GetParam() { return _param; }
+	UIRotaParam* GetParamPtr() { return &_param; }
 	//--------------------------------------
 	//•Ï”
 protected:

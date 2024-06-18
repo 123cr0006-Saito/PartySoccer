@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\Source\Animation\Animation.cpp" />
     <ClCompile Include="source\Source\Mode\ModeGameEnd.cpp" />
     <ClCompile Include="source\Source\Mode\ModeFade.cpp" />
     <ClCompile Include="source\Source\Mode\ModeFadeComeBack.cpp" />
@@ -54,6 +55,7 @@
     <ClCompile Include="source\Source\UI\UIGameEnd.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\Header\Animation\Animation.h" />
     <ClInclude Include="source\Header\Mode\ModeGameEnd.h" />
     <ClInclude Include="source\Header\Mode\ModeFade.h" />
     <ClInclude Include="source\Header\Mode\ModeFadeComeBack.h" />

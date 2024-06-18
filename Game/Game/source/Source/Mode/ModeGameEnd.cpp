@@ -20,7 +20,7 @@ ModeGameEnd::~ModeGameEnd(){
 bool ModeGameEnd::Initialize(){
 	_currentTime =GetNowCount();
 	UIGameEnd* ui = new UIGameEnd();
-	_ui = std::make_pair("GameEnd",ui->GetParam());
+	_ui = std::make_pair("GameEnd",ui->GetParamPtr());
 	return true;
 };
 

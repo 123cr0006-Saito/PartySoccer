@@ -37,7 +37,7 @@ ModeGoal::ModeGoal(std::string name){
 	int count  = 0;
 	for (auto&& list :_uiParam) {
 		UIRotaBase* base = NEW UIRotaBase(list.second);
-		_ui[list.first] = base->GetParam();
+		_ui[list.first] = base->GetParamPtr();
 		_ui[list.first]->_alpha = 0;
 		if(count > 2){
 			_ui[list.first]->_handle = _numHandle[_nowScore[count - 3]];

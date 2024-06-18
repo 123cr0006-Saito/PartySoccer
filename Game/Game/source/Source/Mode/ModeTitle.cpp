@@ -52,7 +52,7 @@ bool	ModeTitle::Initialize(){
 	int loopCount = 0;
 	for (auto&& list : _uiParam) {
 		UIRotaBase* base = NEW UIRotaBase(list.second);
-		_ui[list.first] = base->GetParam();
+		_ui[list.first] = base->GetParamPtr();
 		// サーバーに追加
 		ui->Add(list.first, 100 + loopCount, base);
 		loopCount++;

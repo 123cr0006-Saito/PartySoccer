@@ -34,6 +34,7 @@
     <ClCompile Include="source\Source\UI\UIFade.cpp" />
     <ClCompile Include="source\Source\Mode\ModeGameEnd.cpp" />
     <ClCompile Include="source\Source\UI\UIGameEnd.cpp" />
+    <ClCompile Include="source\Source\Animation\Animation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Header\Object\Player\Player.h" />
@@ -69,5 +70,6 @@
     <ClInclude Include="source\Header\UI\UIFade.h" />
     <ClInclude Include="source\Header\Mode\ModeGameEnd.h" />
     <ClInclude Include="source\Header\UI\UIGameEnd.h" />
+    <ClInclude Include="source\Header\Animation\Animation.h" />
   </ItemGroup>
 </Project>
