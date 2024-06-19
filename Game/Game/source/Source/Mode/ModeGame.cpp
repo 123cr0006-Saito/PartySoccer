@@ -63,10 +63,11 @@ bool ModeGame::Terminate() {
 void ModeGame::ReSetGame(){
 	// ƒ{[ƒ‹‚ÌˆÊ’u‚ğİ’è
 	ObjectManager* objectManager = dynamic_cast<ObjectManager*>(_superManager->GetManager("objectManager"));
-	objectManager->Get("Ball")->SetPos(Vector3D(0, 0, 0));
+	Ball* ball = dynamic_cast<Ball*>(objectManager->Get("Ball"));
+	ball->SetPos(Vector3D(0, 350, 0));
+	ball->SetSpeed(0);
 	PlayerManager* playerManager = dynamic_cast<PlayerManager*>(_superManager->GetManager("playerManager"));
 	playerManager->SetPos();
-
 	UIStartCount* uiStartCount = NEW UIStartCount();
 
 };

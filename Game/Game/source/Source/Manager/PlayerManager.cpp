@@ -64,7 +64,7 @@ void PlayerManager::DelAll(){
 
 void PlayerManager::SetPos(){
 	for(int i = 0; i < _player.size(); i++){
-		_player[i].second->SetPos(_originPos[i]);
+		_player[i].second->SetPos(Vector3D(1500.0f * pow(-1, i), 0,i / 2 * 2000.0f));
 	}
 };
 
