@@ -20,16 +20,16 @@ ModeFade::ModeFade(int time,bool isFadeIn) {
 	_currentTime = GetNowCount();
 	_fadeTime = time;
 	_isFadeIn = isFadeIn;
-	UIFade* ui = NEW UIFade(GetColor(0,0,0));
-	_alphaFade = ui->LinkAlpha();
+	_ui = NEW UIFade(GetColor(0,0,0));
+	//_alphaFade = ui->LinkAlpha();
 	// サーバーに追加
 	UIManager* uiManager = dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"));
-	uiManager->Add("Fade", 999999, ui);
+	uiManager->Add("Fade", 999999, _ui);
 	if (isFadeIn) {
-		(*_alphaFade) = 255;
+		_alphaFade = 255;
 	}
 	else {
-		(*_alphaFade) = 0;
+		_alphaFade = 0;
 	}
 };
 
@@ -61,13 +61,14 @@ bool ModeFade::Process() {
 	base::Process();
 	if (_isFadeIn) {
 	    // FadeIn
-		(*_alphaFade) = Easing::Linear(GetNowCount() - _currentTime,255,0,_fadeTime);
+		_alphaFade = Easing::Linear(GetNowCount() - _currentTime,255,0,_fadeTime);
 	}
 	else {
 		// FadeOut
-		(*_alphaFade) = Easing::Linear(GetNowCount() - _currentTime, 0, 255, _fadeTime);
+		_alphaFade = Easing::Linear(GetNowCount() - _currentTime, 0, 255, _fadeTime);
 	}
 
+	_ui->SetAlpha(_alphaFade);
 	// 時間経過で削除
 	if (GetNowCount() - _currentTime > _fadeTime) {
 		ModeServer::GetInstance()->Del(this);

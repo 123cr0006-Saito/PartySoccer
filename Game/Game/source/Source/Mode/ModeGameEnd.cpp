@@ -7,7 +7,7 @@
 #include "../../Header/Mode/ModeResult.h"
 #include "../../Header/Manager/SuperManager.h"
 #include "../../Header/Manager/UIManager.h"
-
+#include "../../Header/UI/Animation/LocationAnim.h"
 ModeGameEnd::ModeGameEnd(){
 
 };
@@ -20,7 +20,9 @@ ModeGameEnd::~ModeGameEnd(){
 bool ModeGameEnd::Initialize(){
 	_currentTime =GetNowCount();
 	UIGameEnd* ui = new UIGameEnd();
-	_ui = std::make_pair("GameEnd",ui->GetParamPtr());
+	LocationAnim* anim = new LocationAnim(ui, "Data/UIAnimation/GameEndAnimation.csv");
+	ui->SetAnimation(anim);
+	_ui = std::make_pair("GameEnd",ui);
 	return true;
 };
 
@@ -31,8 +33,6 @@ bool ModeGameEnd::Terminate(){
 bool	ModeGameEnd::Process(){
 	ModeServer::GetInstance()->SkipProcessUnderLayer();
 	int nowTime = GetNowCount() - _currentTime;
-	Easing::CallingFunction(&_ui.second->_extrate.x,nowTime,0.0f,1.0f,2000,Easing::Linear);
-	Easing::CallingFunction(&_ui.second->_extrate.y, nowTime, 0.0f, 1.0f, 2000, Easing::Linear);
 	if(nowTime >2500 && !ModeServer::GetInstance()->Search("ModeFadeComeBack")) {
 		std::vector<std::string> modeName = {"ModeGame","ModeGameEnd"};
 		ModeServer::GetInstance()->Add(NEW ModeResult(), 0, "ModeResult");

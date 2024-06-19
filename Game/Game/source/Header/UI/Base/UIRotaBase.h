@@ -1,32 +1,32 @@
 #pragma once
 #include "UIBase.h"
-
-class UIRotaParam : public UIParam {
-public:
-	UIRotaParam() : UIParam(){
-		_angle = 0;
-	}
-public:
-	Vector3D _center;
-	Vector3D _extrate;
-	float _angle;
-};
+#include <vector>
 
 class UIRotaBase : public UIBase
 {
 public:
-	UIRotaBase() { _param._extrate = Vector3D(1,1,1); };
-	UIRotaBase(UIRotaParam param);
+	UIRotaBase();
+	UIRotaBase( Vector3D pos, Vector3D center, Vector3D extrate, float angle, int alpha, int handle);
 	virtual ~UIRotaBase();
 	void Update()override;
 	void Draw()override;
 
-	void SetParam(UIRotaParam param) { _param = param; }
-	UIRotaParam GetParam() { return _param; }
-	UIRotaParam* GetParamPtr() { return &_param; }
+	void SetAnimation(class AnimationBase* anim) { _animation.emplace_back(anim); }
+
+	
+	Vector3D GetCenter() { return _center; }
+	Vector3D GetExtrate() { return _extrate; }
+	float GetAngle() { return _angle; }
+
+	void SetParam(std::tuple<Vector3D, Vector3D, float,float>);
+	void SetExtrateX(float x) { _extrate.x = x; }
+	void SetExtrateY(float y) { _extrate.y = y; }
+	void SetAngle(float angle) { _angle = angle; }
 	//--------------------------------------
 	//ïœêî
 protected:
-	UIRotaParam _param;
+	std::vector<class AnimationBase*> _animation;
+	Vector3D _center;
+	Vector3D _extrate;
+	float _angle;
 };
-

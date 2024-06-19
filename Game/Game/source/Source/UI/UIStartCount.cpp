@@ -10,8 +10,8 @@ UIStartCount::UIStartCount() : UIRotaBase(){
 	int x,y,depth,handleX,handleY;
 	GetScreenState(&x,&y,&depth);
 	GetGraphSize(_startCountHandle[0], &handleX, &handleY);
-	_param._pos = Vector3D(x/2,y/2,0);
-	_param._center = Vector3D(handleX / 2, handleY / 2, 0);
+	_pos = Vector3D(x/2,y/2,0);
+	_center = Vector3D(handleX / 2, handleY / 2, 0);
 	_currentTime= GetNowCount();
 	dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"))->Add("countDown", 20, this);
 };
@@ -23,7 +23,7 @@ UIStartCount::~UIStartCount(){
 void UIStartCount::Update(){
 	int countDown = 3000 - (GetNowCount() - _currentTime);
 	int count = countDown > 0 ? countDown / 1000 : 0;
-	_param._handle = _startCountHandle[count];
+	_handle = _startCountHandle[count];
 	SuperManager::GetInstance()->Skip();
 	if(countDown < 0){
 		dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"))->Del("countDown");

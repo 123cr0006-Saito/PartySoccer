@@ -14,8 +14,6 @@ public:
 protected:
 	class XInput* _input;
 	class SuperManager* _superManager;
-	std::map<std::string, UIRotaParam> _uiParam;
-	std::map<std::string, UIRotaParam*> _ui;
-	std::array<int, 4> _handleShiftValue;
+	std::map<std::string, UIRotaBase*> _ui;
 };
 

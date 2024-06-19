@@ -9,6 +9,7 @@
 //----------------------------------------------------------------------
 #include "../../Header/Mode/ModeFadeComeBack.h"
 #include "../AppFrame/source/Mode/ModeServer.h"
+#include "../../Header/UI/UIFade.h"
 //----------------------------------------------------------------------
 // @brief コンストラクタ
 // @param Time フェード時間
@@ -86,11 +87,11 @@ bool ModeFadeComeBack::Process(){
 	ModeServer::GetInstance()->PauseProcessUnderLayer();
 	int nowTime = GetNowCount() - _currentTime;
 	// フェード処理
-	(*_alphaFade) = Easing::Linear(nowTime, _fadeStart, _fadeEnd, _fadeTime);
+	_alphaFade = Easing::Linear(nowTime, _fadeStart, _fadeEnd, _fadeTime);
 	// フェード終了
-	if ((*_alphaFade) >= 255) {
+	if (_alphaFade >= 255) {
 		// 値の入れ替え
-		(*_alphaFade) = _fadeEnd;
+		_alphaFade = _fadeEnd;
 
 		int temp = _fadeStart;
         _fadeStart = _fadeEnd;
@@ -108,11 +109,11 @@ bool ModeFadeComeBack::Process(){
 			ModeServer::GetInstance()->ChangeLayer(_changeModeName, _changeLayer);
 		}
 	}
-	else if ((*_alphaFade) < 0) {
+	else if (_alphaFade < 0) {
 		// フェード終了 削除
 		ModeServer::GetInstance()->Del(this);
 	}
-
+	_ui->SetAlpha(_alphaFade);
 	return true;
 };
 //----------------------------------------------------------------------

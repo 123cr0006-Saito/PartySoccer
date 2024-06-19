@@ -7,11 +7,8 @@ public:
 	~UIFade();
 	void Draw()override;
 
-	int* LinkAlpha() { return &_alpha; }
+	void SetAlpha(int alpha) {_alpha = alpha; }
 	int  SetColor(int color) { _color = color; }
 protected:
-	int _alpha;
 	int _color;
 };
-
-

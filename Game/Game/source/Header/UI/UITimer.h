@@ -9,7 +9,9 @@ class UITimer : public UIRotaBase
 	void Draw()override;
 protected:
 	std::unordered_map<int, int> _timeHandle;
-	UIRotaParam _timeHandleParam;
+	Vector3D _timeHandlePos;
+	Vector3D _timeHandleCenter;
+
 	class TimeLimit* _timer;
 };
 

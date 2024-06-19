@@ -11,15 +11,14 @@ class ModeGoal : public ModeBase
 	virtual bool	Process()override;
 	virtual bool	Render()override;
 
-	void LoadUIOnce();
+	void LoadUI();
 	void AnimationProcess();
 protected:
 	std::string _name;
 	int _nowScore[2];
 	class Score* _score;
 	static bool _isLoadUI;
-	static std::map<std::string, UIRotaParam> _uiParam;
-	std::map<std::string, UIRotaParam*> _ui;
+	std::vector<std::pair<std::string, UIRotaBase*>> _ui;
 	std::unordered_map<int,int> _numHandle;
 	int _currentTime;
 };

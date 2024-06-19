@@ -10,6 +10,6 @@ public:
 	virtual bool	Process()override;
 protected:
 	int _currentTime;
-	std::pair<std::string , class UIRotaParam*> _ui;
+	std::pair<std::string , class UIGameEnd*> _ui;
 };
 

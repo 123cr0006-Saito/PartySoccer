@@ -1,6 +1,6 @@
 // 独自計算ライブラリ
 #include "../../Header/Function/Easing.h"
-
+#include "../../Header/Function/mymath.h"
 
 
 // イージング
@@ -131,7 +131,7 @@ float Easing::OutElastic(float cnt, float start, float end, float frames)
         return  start + (end - start) * rate;
     }
 }
-void Easing::CallingFunction(float* value, float nowTime, float start, float end, float maxTime, float (*easing)(float, float, float, float)){
+void Easing::CallingFunction(float* value, float nowTime, float start, float end, float maxTime,float (*easing)(float, float, float, float) ){
     if (nowTime > 0) {
         if (nowTime > maxTime) {
             nowTime = maxTime;
