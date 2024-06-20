@@ -3,15 +3,15 @@
 #include "../../../Header/Manager/CollisionManager.h"
 #include "../../../AppFrame/MemoryLeak.h"
 #include "../../../Header/Manager/SuperManager.h"
-Player::Player(std::string name, std::pair<XInput*, int> param) : ObjectBase(name) {
-	_Input = param.first;
-	_modelHandle = param.second;
+Player::Player(std::tuple<std::string, XInput*, int> param) : ObjectBase(std::get<0>(param)) {
+	_Input = std::get<1>(param);
+	_modelHandle = std::get<2>(param);
 	_forwardVec = Vector3D(0.0f, 0.0f, -1.0f);
 
 	MV1SetScale(_modelHandle, VScale(VGet(1.0f, 1.0f, 1.0f), 30.0f));
 	MV1SetPosition(_modelHandle, _pos.toVECTOR());
 	RenderManager* renderManager = dynamic_cast<RenderManager*>(SuperManager::GetInstance()->GetManager("renderManager"));
-	renderManager->Add(name, 10, _modelHandle);
+	renderManager->Add(std::get<0>(param) , 10, _modelHandle);
 
 	_capsule = NEW Capsule();
 	_capsule->SetName("player");
@@ -25,6 +25,13 @@ Player::Player(std::string name, std::pair<XInput*, int> param) : ObjectBase(nam
 	_power = 0;
 	_glavity = 0.0f;
 
+	// アニメーションの設定
+	std::string name = "Res/Model/Player/Animation/" + _name + "_Walk.mv1";
+	int animHandle = MV1LoadModel(name.c_str());;
+	_animIndex = MV1AttachAnim(_modelHandle, 0, animHandle, FALSE);
+	_totalTime = MV1GetAttachAnimTotalTime(_modelHandle,_animIndex);
+	_playTime = 0;
+	_animBlendRate = 0;
 };
 
 Player::~Player(){
@@ -138,6 +145,24 @@ bool Player::Update(){
 		}
 	}
 	//--------------------------------------------------------------------------------------------------
+
+	// アニメーションの設定-------------------------------------------------------------------------------------
+	// アニメーションの再生
+	_playTime += 1.0f;
+	if (_playTime >= _totalTime) {
+		_playTime = 0;
+	}
+	// アニメーションのブレンド
+	if (normalDir.Len()) {
+		if(_animBlendRate < 1.0f) _animBlendRate += 0.1f;
+	}
+	else {
+		if (_animBlendRate > 0.0f) _animBlendRate -= 0.1f;
+	}
+	// アニメーションの設定
+	MV1SetAttachAnimBlendRate(_modelHandle, _animIndex, _animBlendRate);
+	MV1SetAttachAnimTime(_modelHandle, _animIndex, _playTime);
+	//--------------------------------------------------------------------------------------------------------------
 	
 	_glavity += 3;
 	_pos.y -= _glavity;
@@ -146,8 +171,12 @@ bool Player::Update(){
 		_pos.y = 0.0f;
 		_glavity = 0.0f;
 	}
-
+	
 	return true;
+};
+
+void Player::AnimationUpdate(){
+
 };
 
 bool Player::UpdateEnd() {

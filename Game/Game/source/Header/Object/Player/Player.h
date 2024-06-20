@@ -7,11 +7,12 @@
 class Player : public ObjectBase
 {
 public:
-	Player(std::string name, std::pair<XInput*,int> param);
+	Player(std::tuple<std::string,XInput*,int> param);
 	~Player();
 	virtual bool Init() override;
 	virtual bool Update()override;
 	virtual bool UpdateEnd()override;
+	void AnimationUpdate();
 	virtual bool DebugDraw()override;
 
 	void SetKnockBack(int knockBack, Vector3D knockBackVec);
@@ -22,17 +23,23 @@ public:
 	const Vector3D GetForwardVec() { return _forwardVec; }
 	XInput* GetInput() { return _Input; }
 protected:
-	XInput* _Input;
+	XInput* _Input; // 入力
 	int _dash; // ダッシュ時のスピード
-	int _stamina;
-	bool _isTired;
-	int _power;
-	int _glavity;
-	Vector3D _forwardVec;
-	Capsule* _capsule;
+	int _stamina; // プレイヤーのスタミナ
+	bool _isTired; // 疲れているかどうか
+	int _power;	// プレイヤーの攻撃力
+	int _glavity; // 重力
+	Vector3D _forwardVec; // 前方向のベクトル
+	Capsule* _capsule; // 当たり判定
 
-	bool _isKnockBack;
-	int _knockBack;
-	Vector3D _knockBackVec;
+	bool _isKnockBack; // ノックバック中かどうか
+	int _knockBack; // ノックバックの強さ
+	Vector3D _knockBackVec; // ノックバックの方向
+
+	//アニメーション
+	int _animIndex;// アニメーションハンドル
+	float _totalTime;// アニメーションの総再生時間
+	float _playTime;// アニメーションの再生時間
+	float _animBlendRate;// アニメーションのブレンドレート
 };
 

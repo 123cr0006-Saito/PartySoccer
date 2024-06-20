@@ -9,7 +9,7 @@ class PlayerManager : public ManagerBase
 	PlayerManager();
 	~PlayerManager();
 
-	void Add(std::vector<std::pair<XInput*, int>> param);
+	void Add(std::vector<std::tuple<std::string, XInput*, int>> param);
 	void DelAll();
 
 	void SetPos();

@@ -16,14 +16,15 @@ bool ModeSelectPlayer::Initialize() {
 
 	//コントローラーと同じ数になるまで追加する
 	for (int i = 0; i < GetJoypadNum(); i++) {
-		_playerParam.push_back(std::make_pair(NEW XInput(), 0));
+		_playerParam.push_back(std::make_tuple("",NEW XInput(), 0));
 		_selectCharacter.push_back(std::make_pair(false, 0));
 	}
 	// モデルの読み込み
-	std::string path[4] = {"Cat/cat","Fox/fox","Kappa/kappa","Rabbit/rabbit"};
+	std::string name[4] = {"Cat","Fox","Kappa","Rabbit"};
 	for (int i = 0; i < 4; i++){
-		std::string modelPath = "Res/Model/Player/" + path[i] + ".mv1";
-		_modelHandle[i] = ResourceServer::MV1LoadModel(path[i],modelPath.c_str());
+		std::string modelPath = "Res/Model/Player/" + name[i] + ".mv1";
+		int model = ResourceServer::MV1LoadModel(name[i],modelPath.c_str());
+		_modelParam.push_back(std::make_pair(name[i],model));
 	}
 	VECTOR pos[4] = {VGet(0,0,0),VGet(1920,0,0),VGet(0,1080,0),VGet(1920,1080,0)};
 	std::pair<int,int> uv[4] = {std::make_pair(0,0),std::make_pair(1,0),std::make_pair(0,1),std::make_pair(1,1)};
@@ -57,7 +58,7 @@ bool ModeSelectPlayer::PlayerNumAdjust(){
 		if (controllerNum > connectNum) {
 			//コントローラーと同じ数になるまで追加する
 			for (int i = connectNum; i < controllerNum; i++) {
-				_playerParam.push_back(std::make_pair(NEW XInput(),0));
+				_playerParam.push_back(std::make_tuple("",NEW XInput(), 0));
 				_selectCharacter.push_back(std::make_pair(false,0));
 			}
 		}
@@ -65,7 +66,7 @@ bool ModeSelectPlayer::PlayerNumAdjust(){
 		else {
 			// コントローラーと同じ数になるまで削除する
 			for (int i = connectNum; i > controllerNum; i--) {
-				delete _playerParam[i-1].first;
+				delete std::get<1>(_playerParam[i-1]);
 				_playerParam.pop_back();
 				_selectCharacter.pop_back();
 				XInput::SetConnectNum(controllerNum);
@@ -80,24 +81,25 @@ bool ModeSelectPlayer::PlayerSelect(){
 	for (int i = 0; i < _playerParam.size(); i++) {
 
 		// コントローラーの更新
-		_playerParam[i].first->Input();
+		XInput* input = std::get<1>(_playerParam[i]);
+		input->Input();
 
 		// キャラクターの選択
 		if(!_selectCharacter[i].first){
-			if(_playerParam[i].first->GetTrg(XINPUT_BUTTON_STICK_RIGHT)){
+			if(input->GetTrg(XINPUT_BUTTON_STICK_RIGHT)){
 				_selectCharacter[i].second = (4 + _selectCharacter[i].second + 1) % 4;
 			}
-			else if(_playerParam[i].first->GetTrg(XINPUT_BUTTON_STICK_LEFT)){
+			else if(input->GetTrg(XINPUT_BUTTON_STICK_LEFT)){
 				_selectCharacter[i].second = (4 + _selectCharacter[i].second - 1) % 4;
 			}
 		}
 
 		// 選択終了・解除
-		if (_playerParam[i].first->GetTrg(XINPUT_BUTTON_B)) {
+		if (input->GetTrg(XINPUT_BUTTON_B)) {
 			if(_selectCharacter[i].first){
 			    // 選択したキャラクターを使用しているか？
 			    _selectCharacter[i].first = !_selectCharacter[i].first;
-				_playerParam[i].second = 0;
+				std::get<2>(_playerParam[i]) = 0;
 			}
 			else{
 				// 選択したキャラクターを使用しているか？
@@ -107,7 +109,8 @@ bool ModeSelectPlayer::PlayerSelect(){
 				// すべてのプレイヤーが選択していない場合
 				if (allTrue) {
 					_selectCharacter[i].first = !_selectCharacter[i].first;
-					_playerParam[i].second = _modelHandle[_selectCharacter[i].second];
+					std::get<0>(_playerParam[i]) = _modelParam[_selectCharacter[i].second].first;
+					std::get<2>(_playerParam[i]) = _modelParam[_selectCharacter[i].second].second;
 				}
 			}
 		}
@@ -124,7 +127,7 @@ bool ModeSelectPlayer::PlayerSelect(){
 
 		for (int i = 0; i < _playerParam.size(); i++) {
 			//誰かがBボタンを押したときに次に進む
-			if(_playerParam[i].first->GetTrg(XINPUT_BUTTON_A)){
+			if(std::get<1>(_playerParam[i])->GetTrg(XINPUT_BUTTON_A)){
 				// プレイヤーの生成
 				_playerManager->Add(_playerParam);
 				_superManager->Add("playerManager",5,_playerManager);
@@ -150,25 +153,24 @@ bool ModeSelectPlayer::Process(){
 
 bool ModeSelectPlayer::Render(){
 
-
-
 	int playerNum = _playerParam.size();
 	unsigned short textureIndex[6] = {0,1,2,2,1,3};
 	DrawPrimitiveIndexed2D(_vertex.data(), 4, textureIndex, 6, DX_PRIMTYPE_TRIANGLELIST, textureHandle, TRUE);
 
 	for(int i = 0; i < playerNum; i++) {
+		int handle = _modelParam[_selectCharacter[i].second].second;
 		if(playerNum == 1){
 			// プレイヤーが一人の場合　中心
-			MV1SetPosition(_modelHandle[_selectCharacter[i].second], VGet(0, 0, 0));
+			MV1SetPosition(handle, VGet(0, 0, 0));
 		}
 		else{
 			// プレイヤーが複数の場合　等間隔
 			float dis = 100.0f;
 			float length = dis / (playerNum - 1);
-		    MV1SetPosition(_modelHandle[_selectCharacter[i].second], VGet(-dis/2 + length * i, 0, 0));
+		    MV1SetPosition(handle, VGet(-dis/2 + length * i, 0, 0));
 		}
 		// モデルの描画
-		MV1DrawModel(_modelHandle[_selectCharacter[i].second]);
+		MV1DrawModel(handle);
 		printfDx("\n\nPlayer%d : %s",i+1,(_selectCharacter[i].first) ? "選択完了" : "選択中");
 	}
 	return true;

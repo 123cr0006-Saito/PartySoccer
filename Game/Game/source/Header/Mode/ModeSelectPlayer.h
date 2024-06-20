@@ -20,12 +20,12 @@ public:
 	bool PlayerNumAdjust();
 	bool PlayerSelect();
 protected:
-	std::vector<std::pair<XInput*,int>> _playerParam; // <コントローラー,選択キャラクター>
+	std::vector<std::tuple<std::string,XInput*,int>> _playerParam; // <コントローラー,選択キャラクター>
 	std::vector<std::pair<bool,int>> _selectCharacter; // <選択終了チェック,選択済みキャラクター>
 	PlayerManager* _playerManager;
 	SuperManager* _superManager;
 
-	std::array<int,4> _modelHandle;
+	std::vector<std::pair<std::string,int>>_modelParam;
 	std::array<VERTEX2D, 4> _vertex;
 	int _scrollSpeed;
 	int textureHandle;
