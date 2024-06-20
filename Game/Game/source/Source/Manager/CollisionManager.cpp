@@ -309,8 +309,12 @@ bool CollisionManager::CollisionCheckForSphere(std::pair<ObjectBase*, CollisionB
 					DebugErrar();
 					return false;
 				}
-				Vector3D dirVec = (hitPos - ball->GetPos()).Normalize();
-				ball->SetForwardVec(Reflect(ball->GetForwardVec(),dirVec));
+				//押し出し処理
+				Vector3D correctionVector = ball->GetPos() - hitPos;
+				ball->SetPos(ball->GetPos() + correctionVector.Normalize() * (sphere1->r - correctionVector.Len()));
+				// 反射処理
+				ball->SetForwardVec(Reflect(ball->GetForwardVec(), correctionVector.Normalize()));
+				// 反射時スピード加算
 				ball->AddSpeed(10);
 			}
 		}

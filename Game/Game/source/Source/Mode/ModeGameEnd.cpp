@@ -14,7 +14,6 @@ ModeGameEnd::ModeGameEnd(){
 
 ModeGameEnd::~ModeGameEnd(){
 	SuperManager::GetInstance()->GetManager("uiManager")->Del(_ui.first);
-
 };
 
 bool ModeGameEnd::Initialize(){
