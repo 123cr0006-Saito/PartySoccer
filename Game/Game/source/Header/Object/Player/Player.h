@@ -7,7 +7,7 @@
 class Player : public ObjectBase
 {
 public:
-	Player(std::tuple<std::string,XInput*,int> param);
+	Player(std::string,XInput*,int);
 	~Player();
 	virtual bool Init() override;
 	virtual bool Update()override;

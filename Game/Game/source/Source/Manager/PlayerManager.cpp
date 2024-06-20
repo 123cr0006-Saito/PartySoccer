@@ -49,7 +49,7 @@ bool PlayerManager::UpdateEnd(){
 void PlayerManager::Add(std::vector<std::tuple<std::string, XInput*, int>> param) {
 	for (int i = 0; i < param.size(); i++) {
 		std::string name = "Player" + std::to_string(i + 1);
-		_player.emplace_back(std::make_pair(name, NEW Player(param[i])));
+		_player.emplace_back(std::make_pair(name, NEW Player(std::get<0>(param[i]), std::get<1>(param[i]), std::get<2>(param[i]))));
 	}
 	SetPos();
 };

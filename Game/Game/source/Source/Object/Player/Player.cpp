@@ -3,15 +3,15 @@
 #include "../../../Header/Manager/CollisionManager.h"
 #include "../../../AppFrame/MemoryLeak.h"
 #include "../../../Header/Manager/SuperManager.h"
-Player::Player(std::tuple<std::string, XInput*, int> param) : ObjectBase(std::get<0>(param)) {
-	_Input = std::get<1>(param);
-	_modelHandle = std::get<2>(param);
+Player::Player(std::string name, XInput* input , int handle) : ObjectBase(name) {
+	_Input = input;
+	_modelHandle = handle;
 	_forwardVec = Vector3D(0.0f, 0.0f, -1.0f);
 
 	MV1SetScale(_modelHandle, VScale(VGet(1.0f, 1.0f, 1.0f), 30.0f));
 	MV1SetPosition(_modelHandle, _pos.toVECTOR());
 	RenderManager* renderManager = dynamic_cast<RenderManager*>(SuperManager::GetInstance()->GetManager("renderManager"));
-	renderManager->Add(std::get<0>(param) , 10, _modelHandle);
+	renderManager->Add(name , 10, _modelHandle);
 
 	_capsule = NEW Capsule();
 	_capsule->SetName("player");
@@ -26,8 +26,8 @@ Player::Player(std::tuple<std::string, XInput*, int> param) : ObjectBase(std::ge
 	_glavity = 0.0f;
 
 	// アニメーションの設定
-	std::string name = "Res/Model/Player/Animation/" + _name + "_Walk.mv1";
-	int animHandle = MV1LoadModel(name.c_str());;
+	std::string animationPath = "Res/Model/Player/Animation/" + _name + "_Walk.mv1";
+	int animHandle = MV1LoadModel(animationPath.c_str());;
 	_animIndex = MV1AttachAnim(_modelHandle, 0, animHandle, FALSE);
 	_totalTime = MV1GetAttachAnimTotalTime(_modelHandle,_animIndex);
 	_playTime = 0;
