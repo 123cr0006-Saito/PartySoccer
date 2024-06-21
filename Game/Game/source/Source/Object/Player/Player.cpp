@@ -8,7 +8,6 @@ Player::Player(std::string name, XInput* input , int handle) : ObjectBase(name) 
 	_modelHandle = handle;
 	_forwardVec = Vector3D(0.0f, 0.0f, -1.0f);
 
-	MV1SetScale(_modelHandle, VScale(VGet(1.0f, 1.0f, 1.0f), 30.0f));
 	MV1SetPosition(_modelHandle, _pos.toVECTOR());
 	RenderManager* renderManager = dynamic_cast<RenderManager*>(SuperManager::GetInstance()->GetManager("renderManager"));
 	renderManager->Add(name , 10, _modelHandle);

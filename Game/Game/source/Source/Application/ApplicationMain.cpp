@@ -63,4 +63,3 @@ bool ApplicationMain::Render() {
 	_fpsController->DrawFps(0,0);
 	return true;
 }
-

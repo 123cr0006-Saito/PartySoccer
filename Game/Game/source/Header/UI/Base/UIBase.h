@@ -5,7 +5,8 @@ class UIBase
 {
 public:
 	UIBase();
-	UIBase(Vector3D,float,int);
+	UIBase(Vector3D, float, int);
+	UIBase(Vector3D,float,float,int);
 	virtual ~UIBase();
 	virtual void Update();
 	virtual void Draw();
@@ -22,4 +23,6 @@ protected:
 	int _handle;
 	Vector3D _pos;
 	float _alpha;
+private:
+	float _expansionRate;
 };

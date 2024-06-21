@@ -74,8 +74,8 @@ void ModeGame::ReSetGame(){
 
 bool ModeGame::LoadObject(){
 	ObjectManager* objectManager = dynamic_cast<ObjectManager*>(_superManager->GetManager("objectManager"));
-	//ステージの生成
-	objectManager->Add("Stage", NEW Stage("Stage"));
+	////ステージの生成
+	//objectManager->Add("Stage", NEW Stage("Stage"));
 	//ボールの生成
 	objectManager->Add("Ball", NEW Ball("Ball"));
 	//ゴールの生成
@@ -153,9 +153,6 @@ bool ModeGame::Process() {
 
 bool ModeGame::Render() {
 	base::Render();
-	SetUseZBuffer3D(TRUE);
-	SetWriteZBuffer3D(TRUE);
-	SetUseBackCulling(TRUE);
 	_camera->Draw();
 	return true;
 }

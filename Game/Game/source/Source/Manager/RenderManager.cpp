@@ -72,6 +72,9 @@ bool RenderManager::Update() {
 };
 
 bool RenderManager::Draw() {
+	SetUseZBuffer3D(TRUE);
+	SetWriteZBuffer3D(TRUE);
+	SetUseBackCulling(TRUE);
 	for (auto list : _modelList) {
 		MV1DrawModel(std::get<2>(list));
 	}

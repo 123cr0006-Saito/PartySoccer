@@ -1,7 +1,9 @@
 #include "../../Header/Mode/ModeSelectPlayer.h"
 #include "../../Header/Mode/ModeGame.h"
-
-
+#include "../../Header/Object/Stage/Stage.h"
+#include "../../Header/Manager/ObjectManager.h"
+#include "../../Header/UI/Base/UIRotaBase.h"
+#include "../../Header/Manager/UIManager.h"
 ModeSelectPlayer::ModeSelectPlayer() {
 	_superManager = SuperManager::GetInstance();
 	_playerManager = nullptr;
@@ -13,39 +15,39 @@ ModeSelectPlayer::~ModeSelectPlayer() {
 
 bool ModeSelectPlayer::Initialize() {
 	_playerManager = NEW PlayerManager();
+	ObjectManager* objectManager = dynamic_cast<ObjectManager*>(_superManager->GetManager("objectManager"));
+	//ステージの生成
+	objectManager->Add("Stage", NEW Stage("Stage"));
 
 	//コントローラーと同じ数になるまで追加する
 	for (int i = 0; i < GetJoypadNum(); i++) {
 		_playerParam.push_back(std::make_tuple("",NEW XInput(), 0));
 		_selectCharacter.push_back(std::make_pair(false, 0));
+		UIBase* uiRota = NEW UIBase(Vector3D(0,0,0), 0.5f,255,0);
+		dynamic_cast<UIManager*>(_superManager->GetManager("uiManager"))->Add("CheckUI_" + std::to_string(i), i, uiRota);
+		_ui.push_back(uiRota);
 	}
 	// モデルの読み込み
 	std::string name[4] = {"Cat","Fox","Kappa","Rabbit"};
 	for (int i = 0; i < 4; i++){
 		std::string modelPath = "Res/Model/Player/" + name[i] + ".mv1";
 		int model = ResourceServer::MV1LoadModel(name[i],modelPath.c_str());
+		MV1SetScale(model, VScale(VGet(1.0f, 1.0f, 1.0f), 30.0f));
 		_modelParam.push_back(std::make_pair(name[i],model));
 	}
-	VECTOR pos[4] = {VGet(0,0,0),VGet(1920,0,0),VGet(0,1080,0),VGet(1920,1080,0)};
-	std::pair<int,int> uv[4] = {std::make_pair(0,0),std::make_pair(1,0),std::make_pair(0,1),std::make_pair(1,1)};
-	for(int i = 0; i < 4; i++){
-		_vertex[i].dif = GetColorU8(255, 255, 255, 255);
-		_vertex[i].pos = pos[i];
-		_vertex[i].rhw = 1.0f;
-		_vertex[i].u = uv[i].first;
-		_vertex[i].v = uv[i].second;
-	}
-	_scrollSpeed = 5;
-	_selectTeamMember = 0;
-	textureHandle = LoadGraph("Res/Grass_col.JPG");
 
-	// カメラの設定
-	SetupCamera_Ortho(100);
-	SetCameraPositionAndTarget_UpVecY(VGet(0, 0, -100), VGet(0, 0, 0));
+	_graphHandle["yes"] = LoadGraph("Res/YES.png");
+	_graphHandle["no"] = LoadGraph("Res/NO.png");
+	
+	SetCameraPositionAndTarget_UpVecY(VGet(0, 800, -2000), VGet(0, 0, 0));
 	return true;
 };
 
 bool ModeSelectPlayer::Terminate(){
+	UIManager* uiManager = dynamic_cast<UIManager*>(_superManager->GetManager("uiManager"));
+	for(int deleteNum = XInput::GetConnectNum(); deleteNum > 0; deleteNum-- ){
+		uiManager->Del("CheckUI_" + std::to_string(deleteNum - 1));
+	}
 	return true;
 };
 
@@ -60,6 +62,9 @@ bool ModeSelectPlayer::PlayerNumAdjust(){
 			for (int i = connectNum; i < controllerNum; i++) {
 				_playerParam.push_back(std::make_tuple("",NEW XInput(), 0));
 				_selectCharacter.push_back(std::make_pair(false,0));
+				UIBase* uiRota = NEW UIBase(Vector3D(0, 0, 0), 0.5f, 255, 0);
+				dynamic_cast<UIManager*>(_superManager->GetManager("uiManager"))->Add("CheckUI_" + std::to_string(i), i, uiRota);
+				_ui.push_back(uiRota);
 			}
 		}
 		// プレイヤー数がコントローラーより多い場合
@@ -70,6 +75,8 @@ bool ModeSelectPlayer::PlayerNumAdjust(){
 				_playerParam.pop_back();
 				_selectCharacter.pop_back();
 				XInput::SetConnectNum(controllerNum);
+				dynamic_cast<UIManager*>(_superManager->GetManager("uiManager"))->Del("CheckUI_" + std::to_string(i-1));
+				_ui.pop_back();
 			}
 		}
 		XInput::ReSet();
@@ -154,23 +161,28 @@ bool ModeSelectPlayer::Process(){
 bool ModeSelectPlayer::Render(){
 
 	int playerNum = _playerParam.size();
-	unsigned short textureIndex[6] = {0,1,2,2,1,3};
-	DrawPrimitiveIndexed2D(_vertex.data(), 4, textureIndex, 6, DX_PRIMTYPE_TRIANGLELIST, textureHandle, TRUE);
 
 	for(int i = 0; i < playerNum; i++) {
-		int handle = _modelParam[_selectCharacter[i].second].second;
-		if(playerNum == 1){
-			// プレイヤーが一人の場合　中心
-			MV1SetPosition(handle, VGet(0, 0, 0));
-		}
-		else{
+		Vector3D modelPos;
+		int modelHandle = _modelParam[_selectCharacter[i].second].second;
+		int graphHandle = (_selectCharacter[i].first) ? _graphHandle["yes"] : _graphHandle["no"];
+		if(playerNum > 1){
 			// プレイヤーが複数の場合　等間隔
-			float dis = 100.0f;
+			float dis = 500.0f;
 			float length = dis / (playerNum - 1);
-		    MV1SetPosition(handle, VGet(-dis/2 + length * i, 0, 0));
+			modelPos = Vector3D(-dis / 2 + length * i, 0, 0);
 		}
 		// モデルの描画
-		MV1DrawModel(handle);
+		MV1SetPosition(modelHandle, modelPos.toVECTOR());
+		MV1DrawModel(modelHandle);
+
+
+		Vector3D handlePos = ConvWorldPosToScreenPos(modelPos.toVECTOR());
+		_ui[i]->SetPos(handlePos + Vector3D(0,50,0));
+		_ui[i]->SetHandle(graphHandle);
+		//DrawRotaGraph(handlePos.x, handlePos.y,1.0f,0.0f,graphHandle,true);
+
+
 		printfDx("\n\nPlayer%d : %s",i+1,(_selectCharacter[i].first) ? "選択完了" : "選択中");
 	}
 	return true;
