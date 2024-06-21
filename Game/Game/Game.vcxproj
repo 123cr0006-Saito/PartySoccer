@@ -55,6 +55,7 @@
     <ClCompile Include="source\Source\UI\Base\UIRotaBase.cpp" />
     <ClCompile Include="source\Source\UI\UIFade.cpp" />
     <ClCompile Include="source\Source\UI\UIGameEnd.cpp" />
+    <ClCompile Include="source\Source\UI\UIPlayerParam.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Header\UI\Animation\IterationAnim.h" />
@@ -93,6 +94,7 @@
     <ClInclude Include="source\Header\UI\Base\UIRotaBase.h" />
     <ClInclude Include="source\Header\UI\UIFade.h" />
     <ClInclude Include="source\Header\UI\UIGameEnd.h" />
+    <ClInclude Include="source\Header\UI\UIPlayerParam.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

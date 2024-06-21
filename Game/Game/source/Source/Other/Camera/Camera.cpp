@@ -4,8 +4,6 @@
 #include "../../../Header/Manager/PlayerManager.h"
 Camera::Camera(){
 	_player = dynamic_cast<PlayerManager*>(SuperManager::GetInstance()->GetManager("playerManager"));
-	//ƒJƒƒ‰‚Ì‰Šú‰»
-	SetupCamera_Perspective(60.0f * 180.0f / 3.141592f);
 };
 
 Camera::~Camera(){
@@ -24,7 +22,7 @@ bool Camera::Update(){
 	_pos.first = targetPos + Vector3D(0, 3500, -3000)*2;
 	SpringDamperSystem(targetPos);
 
-	SetCameraPositionAndTarget_UpVecY(_pos.first.toVECTOR(), (_pos.second /*+ (targetPos - _pos.second)/1.3f*/).toVECTOR());
+	SetCameraPositionAndTarget_UpVecY(_pos.first.toVECTOR(), (_pos.second + (targetPos - _pos.second)/1.3f).toVECTOR());
 	return true;
 };
 
