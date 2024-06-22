@@ -67,7 +67,7 @@ void ModeGame::ReSetGame(){
 	ball->SetPos(Vector3D(0, 350, 0));
 	ball->SetSpeed(0);
 	PlayerManager* playerManager = dynamic_cast<PlayerManager*>(_superManager->GetManager("playerManager"));
-	playerManager->SetPos();
+	playerManager->InitParam();
 	UIStartCount* uiStartCount = NEW UIStartCount();
 
 };

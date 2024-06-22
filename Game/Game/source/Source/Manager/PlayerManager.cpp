@@ -2,6 +2,7 @@
 #include "../MemoryLeak.h"
 #include "../AppFrame/source/Application/UtilMacro.h"
 #include "../AppFrame/source/CFile/CFile.h"
+#include "../../Header/UI/UIPlayerParam.h"
 PlayerManager::PlayerManager() {
 	LoadObjectPos();
 };
@@ -47,11 +48,14 @@ bool PlayerManager::UpdateEnd(){
 };
 
 void PlayerManager::Add(std::vector<std::tuple<std::string, XInput*, int>> param) {
+
+	float uiX = 1920.0f / (param.size() + 1);
 	for (int i = 0; i < param.size(); i++) {
 		std::string name = "Player" + std::to_string(i + 1);
 		_player.emplace_back(std::make_pair(name, NEW Player(std::get<0>(param[i]), std::get<1>(param[i]), std::get<2>(param[i]))));
+		UIPlayerParam* ui = NEW UIPlayerParam(_player[i].second, std::get<0>(param[i]), Vector3D(uiX * (i + 1), 900, 0));
 	}
-	SetPos();
+	InitParam();
 };
 
 void PlayerManager::DelAll(){
@@ -62,9 +66,11 @@ void PlayerManager::DelAll(){
 	_originPos.clear();
 };
 
-void PlayerManager::SetPos(){
+void PlayerManager::InitParam(){
 	for(int i = 0; i < _player.size(); i++){
 		_player[i].second->SetPos(Vector3D(1500.0f * pow(-1, i), 0,i / 2 * 2000.0f));
+		_player[i].second->SetStamina(100);
+		_player[i].second->SetPower(0);
 	}
 };
 

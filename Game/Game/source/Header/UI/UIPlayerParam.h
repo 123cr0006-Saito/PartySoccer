@@ -4,7 +4,7 @@
 class UIPlayerParam : public UIBase
 {
 public:
-	UIPlayerParam(std::string, Vector3D);
+	UIPlayerParam(class Player* ,std::string, Vector3D);
 	virtual ~UIPlayerParam();
 	virtual void Update();
 	virtual void Draw();

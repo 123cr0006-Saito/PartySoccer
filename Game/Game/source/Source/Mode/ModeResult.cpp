@@ -36,7 +36,6 @@ bool	ModeResult::Initialize(){
 			float dis = 100.0f;
 			float length = dis / (playerNum - 1);
 			player[i].second->SetPos(Vector3D(-dis / 2 + length * i, 0, 0));
-			player[i].second->SetScale(Vector3D(1,1,1));
 		}
 	}
 

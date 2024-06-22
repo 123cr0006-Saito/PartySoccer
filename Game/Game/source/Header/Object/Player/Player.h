@@ -16,6 +16,9 @@ public:
 	virtual bool DebugDraw()override;
 
 	void SetKnockBack(int knockBack, Vector3D knockBackVec);
+	void SetPower(int power) { _power = power; }
+	void SetStamina(int stamina) { _stamina = stamina; }
+
 	const bool GetIsKnockBack() { return _isKnockBack; }
 	const int GetPower() { return _power; }
 	const int GetStamina() { return _stamina; }
@@ -27,6 +30,7 @@ protected:
 	int _dash; // ダッシュ時のスピード
 	int _stamina; // プレイヤーのスタミナ
 	bool _isTired; // 疲れているかどうか
+	bool _isShoot; // シュートを打ったかどうか
 	int _power;	// プレイヤーの攻撃力
 	int _glavity; // 重力
 	Vector3D _forwardVec; // 前方向のベクトル

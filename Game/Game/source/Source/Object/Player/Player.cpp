@@ -20,6 +20,7 @@ Player::Player(std::string name, XInput* input , int handle) : ObjectBase(name) 
 
 	_stamina = 100;
 	_isTired = false;
+	_isShoot = false;
 	_dash = 0;
 	_power = 0;
 	_glavity = 0.0f;
@@ -58,7 +59,6 @@ bool Player::Update(){
 		if ((*param) > min) (*param)-=value;
 	};
 
-	static bool isShoot = false;
 	float speed = 50.0f;
 	// スティックの入力を取得
 	_Input->Input();
@@ -77,9 +77,9 @@ bool Player::Update(){
 	//-----------------------------------------------------------------------------------------------
 
 	// シュート処理が終了している場合は初期化-------------------------------------
-	if (isShoot) {
+	if (_isShoot) {
 		CollisionManager::GetInstance()->Del("shoot");
-		isShoot = false;
+		_isShoot = false;
 		_power = 0;
 		_dash = 0;
 	}
@@ -122,7 +122,7 @@ bool Player::Update(){
 		SetSphere(sphere);
 		CollisionManager* collisionManager = dynamic_cast<CollisionManager*>(SuperManager::GetInstance()->GetManager("collisionManager"));
 		CollisionManager::GetInstance()->Add(this, sphere);
-		isShoot = true;
+		_isShoot = true;
 	}
 	//--------------------------------------------------------------------------------------------------
 

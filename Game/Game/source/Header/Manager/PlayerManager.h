@@ -12,7 +12,7 @@ class PlayerManager : public ManagerBase
 	void Add(std::vector<std::tuple<std::string, XInput*, int>> param);
 	void DelAll();
 
-	void SetPos();
+	void InitParam();
 
 	void LoadObjectPos();
 	
