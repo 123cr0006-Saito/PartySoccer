@@ -5,6 +5,13 @@
 #include "../../../Header/Manager/SuperManager.h"
 #include "../../../Header/Model/RimLightModel.h"
 #include "../AppFrame/source/System/Header/Input/XInput.h"
+
+namespace{
+	constexpr auto POWER_MAX = 50;
+	constexpr auto DASH_MAX = 25;
+	constexpr auto STAMINA_MAX = 100;
+}
+
 Player::Player(std::string name, XInput* input, int handle) : ObjectBase(name) {
 	_Input = input;
 	int modelHandle = handle;
@@ -22,11 +29,15 @@ Player::Player(std::string name, XInput* input, int handle) : ObjectBase(name) {
 	CollisionManager::GetInstance()->Add(this, _capsule);
 
 	_stamina = 100;
-	_isTired = false;
-	_isShoot = false;
+	_knockBack = 0;
 	_dash = 0;
 	_power = 0;
-	_glavity = 0.0f;
+	_glavity = 0;
+
+	_isTired = false;
+	_isShoot = false;
+	_isPowerMax = false;
+	_isKnockBack = false;
 
 	// アニメーションの設定
 	std::string animationPath = "Res/Model/Player/Animation/" + _name + "_Walk.mv1";
@@ -46,31 +57,31 @@ bool Player::Init(){
 };
 
 bool Player::Update(){
-	// 球の設定
-	auto SetSphere = [&](Sphere* sphere) {
-		sphere->pos = _pos +Vector3D(0,_capsule->up/2,0) + (_forwardVec * 350);
-		sphere->r = 100.0f;
-		sphere->name = "shoot";
-	};
-	// パラメータの加算
-	auto AddParam = [](int* param,int max,int value){
-		if ((*param) < max) (*param)+=value;
-	};
+	UpdateGame();
+	//UpdateResult();
+	return true;
+};
+
+bool Player::UpdateGame(){
 	// パラメータの減算
 	auto SubParam = [](int* param, int min, int value) {
-		if ((*param) > min) (*param)-=value;
+		if ((*param) > min) (*param) -= value;
 	};
 
-	float speed = 50.0f;
 	// スティックの入力を取得
 	_Input->Input();
 	auto inputStick = _Input->GetAdjustedStick_L();
 
-	// ノックバック処理が終了している場合は初期化-------------------------------------
+	// 移動方向を計算
+	Vector3D moveDir(inputStick.x, 0, inputStick.y);
+	// 正規化
+	Vector3D normalDir = moveDir.Normalize();
+
+	// ノックバック処理が終了している場合は初期化--------------------------------
 	if (_isKnockBack) {
 		_pos += _knockBackVec * _knockBack;
 		SubParam(&_knockBack, 0, 5);
-		if(_knockBack <= 0){
+		if (_knockBack <= 0) {
 			_knockBack = 0;
 			_isKnockBack = false;
 		}
@@ -82,23 +93,43 @@ bool Player::Update(){
 	if (_isShoot) {
 		CollisionManager::GetInstance()->Del("shoot");
 		_isShoot = false;
+		_isPowerMax = false;
 		_model->SetIsShader(false);
 		_power = 0;
 		_dash = 0;
 	}
 	//-----------------------------------------------------------------------------------------------
-	
-	// 移動処理-------------------------------------
-	// 移動方向を計算
-	Vector3D moveDir(inputStick.x,0,inputStick.y);
-	// 正規化
-	Vector3D normalDir = moveDir.Normalize();
+
+	// 移動処理
+	MoveUpdate(normalDir);
+	// シュート処理
+	ShootUpdate();
+	// ダッシュ処理
+	DashUpdate();
+	// 重力処理
+	GravityUpdate();
+	// アニメーションの設定
+	AnimationUpdate(normalDir);
+	return true;
+};
+
+bool Player::UpdateResult(){
+	if(_Input->GetTrg(XINPUT_BUTTON_B) && _pos.y == 0){
+		_glavity = -30.0f;
+	}
+	// 重力処理
+	GravityUpdate();
+	return true;
+};
+
+
+void Player::MoveUpdate(const Vector3D& normalDir){
+	float speed = 50.0f;
 	// 移動値として加算
 	_pos += normalDir * (speed + _dash);
-	// -------------------------------------------------
 
-	// 回転処理------------------------------------------------------------------------------------
-	if(normalDir.Len()){
+	// 回転処理
+	if (normalDir.Len()) {
 		float angle = Math::CalcVectorAngle(_forwardVec.toVECTOR(), normalDir.toVECTOR());
 		float rotRad = 20.0f * DX_PI_F / 180.0f; // 回転上限20度
 		if (rotRad > angle) {
@@ -111,13 +142,28 @@ bool Player::Update(){
 			_forwardVec = VTransform(_forwardVec.toVECTOR(), MGetRotAxis(vN.toVECTOR(), rotRad));
 		}
 	}
-	//--------------------------------------------------------------------------------------------------
+};
 
-	//shootの設定-------------------------------------------------------------------------------------
+void Player::ShootUpdate(){
+	// 球の設定
+	auto SetSphere = [&](Sphere* sphere) {
+		sphere->pos = _pos + Vector3D(0, _capsule->up / 2, 0) + (_forwardVec * 350);
+		sphere->r = 100.0f;
+		sphere->name = "shoot";
+	};
+	// パラメータの加算
+	auto AddParam = [](int* param, int max, int value) {
+		if ((*param) < max) (*param) += value;
+	};
+	// パラメータの減算
+	auto SubParam = [](int* param, int min, int value) {
+		if ((*param) > min) (*param) -= value;
+	};
+
 	if (_Input->GetKey(XINPUT_BUTTON_B)) {
 		// パワーが50未満の場合は増加
-		AddParam(&_power, 50, 1);
-		SubParam(&_dash,-25,1);
+		AddParam(&_power, POWER_MAX, 1);
+		SubParam(&_dash, -DASH_MAX, 1);
 	}
 
 	if (_Input->GetRel(XINPUT_BUTTON_B)) {
@@ -128,30 +174,37 @@ bool Player::Update(){
 		CollisionManager::GetInstance()->Add(this, sphere);
 		_isShoot = true;
 	}
-	//--------------------------------------------------------------------------------------------------
+};
 
-	// dashの設定-------------------------------------------------------------------------------------
-	if (_Input->GetKey(XINPUT_BUTTON_A) && !_isTired) {
+void Player::DashUpdate(){
+	// パラメータの加算
+	auto AddParam = [](int* param, int max, int value) {
+		if ((*param) < max) (*param) += value;
+	};
+	// パラメータの減算
+	auto SubParam = [](int* param, int min, int value) {
+		if ((*param) > min) (*param) -= value;
+	};
+
+	if (!_isTired && _Input->GetKey(XINPUT_BUTTON_A)) {
 		// スタミナが0以上の場合は減少
 		SubParam(&_stamina, 0, 1);
-		AddParam(&_dash, 25, 1);
+		AddParam(&_dash, DASH_MAX, 1);
 		if (_stamina == 0) {
 			_isTired = true;
 		}
 	}
 	else {
 		// スタミナが100未満の場合は増加
-		AddParam(&_stamina, 100, 1);
+		AddParam(&_stamina, STAMINA_MAX, 1);
 		SubParam(&_dash, 0, 1);
 		if (_stamina >= 100) {
 			_isTired = false;
 		}
 	}
-	//--------------------------------------------------------------------------------------------------
+};
 
-	// アニメーションの設定
-	AnimationUpdate(normalDir);
-	
+void Player::GravityUpdate(){
 	_glavity += 3;
 	_pos.y -= _glavity;
 
@@ -159,8 +212,6 @@ bool Player::Update(){
 		_pos.y = 0.0f;
 		_glavity = 0.0f;
 	}
-	
-	return true;
 };
 
 void Player::AnimationUpdate(const Vector3D& moveDir){
@@ -177,11 +228,12 @@ void Player::AnimationUpdate(const Vector3D& moveDir){
 		if (_animBlendRate > 0.0f) _animBlendRate -= 0.1f;
 	}
 
-	if(_power == 25){
+	if(_power == POWER_MAX / 2){
 		_model->SetIsShader(true);
 		_model->SetRimColor(0.0f,0.0f,1.0f);
 	}
-	else if(_power == 49){
+	else if(!_isPowerMax && _power == POWER_MAX){
+		_isPowerMax = true;
 		_model->SetIsShader(true);
 		_model->SetRimColor(1.0f,0.0f,0.0f);
 	}
@@ -193,21 +245,18 @@ void Player::AnimationUpdate(const Vector3D& moveDir){
 };
 
 bool Player::UpdateEnd() {
-	// 設定-------------------------------------------------------------------------------------------
 	// カプセルの設定
 	_capsule->pos = _pos;
 	_capsule->Update();
 	// モデルの設定
-
 	_model->SetModelForwardRotationY(_forwardVec);
 	_model->SetPos(_pos);
-	//-------------------------------------------------------------------------------------------------
 	return true;
 };
 
 void Player::SetKnockBack(int knockBack, Vector3D knockBackVec){
 	_knockBack = knockBack;
-	_knockBackVec = knockBackVec.Normalize();_knockBackVec.y *= -1;
+	_knockBackVec = knockBackVec.Normalize();
 	_isKnockBack = true;
 };
 

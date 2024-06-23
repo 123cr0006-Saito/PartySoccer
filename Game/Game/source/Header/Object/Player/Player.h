@@ -10,8 +10,16 @@ public:
 	~Player();
 	virtual bool Init() override;
 	virtual bool Update()override;
+	bool UpdateGame();
+	bool UpdateResult();
 	virtual bool UpdateEnd()override;
-	void AnimationUpdate(const Vector3D& moveDir);
+
+	void MoveUpdate(const Vector3D& normalDir);
+	void ShootUpdate();
+	void DashUpdate();
+	void GravityUpdate();
+	void AnimationUpdate(const Vector3D& normalDir);
+
 	virtual bool DebugDraw()override;
 
 	void SetKnockBack(int knockBack, Vector3D knockBackVec);
@@ -30,10 +38,12 @@ protected:
 
 	int _dash; // ダッシュ時のスピード
 	int _stamina; // プレイヤーのスタミナ
-	bool _isTired; // 疲れているかどうか
-	bool _isShoot; // シュートを打ったかどうか
 	int _power;	// プレイヤーの攻撃力
 	int _glavity; // 重力
+
+	bool _isTired; // 疲れているかどうか
+	bool _isShoot; // シュートを打ったかどうか
+	bool _isPowerMax; // パワーが最大かどうか
 
 	Vector3D _forwardVec; // 前方向のベクトル
 	Capsule* _capsule; // 当たり判定
