@@ -49,11 +49,13 @@ int CollisionManager::GetListSize() {
 bool CollisionManager::UpdateInit(){
 	// deleteList‚Ì’†‚É’l‚ª‚ ‚é‚Æ‚«íœ
 	for (auto list : _delCollisionList) {
-		for (auto itr = _collisionList.begin(); itr != _collisionList.end();++itr) {
+		for (auto itr = _collisionList.begin(); itr != _collisionList.end();) {
 			if (itr->second->GetName() == list) {
 				delete itr->second;
-				_collisionList.erase(itr);
-				break;
+				itr = _collisionList.erase(itr);
+			}
+			else{
+				++itr;
 			}
 		}
 	}
@@ -105,7 +107,7 @@ bool CollisionManager::Update(){
 
 bool CollisionManager::Draw(){
 	for (auto&& list : _collisionList) {
-		//list.second->Render(0xff0000);
+		list.second->Render(0xff0000);
 	}
 	return true;
 };

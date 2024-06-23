@@ -14,7 +14,8 @@ protected:
 	class SuperManager* _superManager;
 	class PlayerManager* _playerManager;
 	class Score* _score;
-	std::string _winnerTeam;
 	class XInput* _input;
+	class Camera* _camera;
+	std::string _winnerTeam;
 };
 

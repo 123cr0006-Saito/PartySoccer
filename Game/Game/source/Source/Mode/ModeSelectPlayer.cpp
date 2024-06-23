@@ -1,9 +1,13 @@
 #include "../../Header/Mode/ModeSelectPlayer.h"
+#include "../../Header/Manager/SuperManager.h"
+#include "../../Header/Manager/PlayerManager.h"
 #include "../../Header/Mode/ModeGame.h"
 #include "../../Header/Object/Stage/Stage.h"
 #include "../../Header/Manager/ObjectManager.h"
 #include "../../Header/UI/Base/UIRotaBase.h"
 #include "../../Header/Manager/UIManager.h"
+#include "../../Header/UI/UIStartCount.h"
+#include "../../Header/Other/Camera/Camera.h"
 ModeSelectPlayer::ModeSelectPlayer() {
 	_superManager = SuperManager::GetInstance();
 	_playerManager = nullptr;
@@ -15,6 +19,10 @@ ModeSelectPlayer::~ModeSelectPlayer() {
 
 bool ModeSelectPlayer::Initialize() {
 	_playerManager = NEW PlayerManager();
+	_superManager->Add("playerManager", 5, _playerManager);
+	_camera = NEW Camera();
+	_camera->SetPos(Vector3D(0, 800, -2000));
+	_camera->SetTarget(Vector3D(0,0,0));
 	ObjectManager* objectManager = dynamic_cast<ObjectManager*>(_superManager->GetManager("objectManager"));
 	//ステージの生成
 	objectManager->Add("Stage", NEW Stage("Stage"));
@@ -137,7 +145,6 @@ bool ModeSelectPlayer::PlayerSelect(){
 			if(std::get<1>(_playerParam[i])->GetTrg(XINPUT_BUTTON_A)){
 				// プレイヤーの生成
 				_playerManager->Add(_playerParam);
-				_superManager->Add("playerManager",5,_playerManager);
 				// モードの変更
 				ModeServer::GetInstance()->Add(NEW ModeGame(), 1, "ModeGame");
 				ModeServer::GetInstance()->Del(this);
@@ -150,7 +157,7 @@ bool ModeSelectPlayer::PlayerSelect(){
 
 bool ModeSelectPlayer::Process(){
 	ModeBase::Process();
-
+	_camera->Update();
 	// プレイヤー数の調整
 	PlayerNumAdjust();
 	// プレイヤーの選択

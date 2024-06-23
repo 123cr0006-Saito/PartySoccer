@@ -5,6 +5,7 @@
 #include "../AppFrame/source/Mode/ModeServer.h"
 #include "../../Header/Mode/ModeFadeComeBack.h"
 #include "../../Header/Other/Score.h"
+#include "../../Header/Other/Camera/Camera.h"
 #include "../AppFrame/MemoryLeak.h"
 
 ModeResult::ModeResult(){
@@ -19,6 +20,7 @@ bool	ModeResult::Initialize(){
 	_superManager = SuperManager::GetInstance();
 	_playerManager = dynamic_cast<PlayerManager*>(_superManager->GetManager("playerManager"));
 	_score = Score::GetInstance();
+	_camera = Camera::GetInstance();
 	_input = NEW XInput(PLAYER_1);
 	// 勝者を取得
 	_winnerTeam = _score->GetWinner();
@@ -39,9 +41,7 @@ bool	ModeResult::Initialize(){
 		}
 	}
 
-	// カメラの設定
-	SetupCamera_Ortho(100);
-	SetCameraPositionAndTarget_UpVecY(VGet(0, 0, -100), VGet(0, 0, 0));
+
 
 	return true;
 };
@@ -50,6 +50,7 @@ bool	ModeResult::Terminate(){
 	_superManager->Del("playerManager");
 	_superManager->GetManager("collisionManager")->DelAll();
 	_superManager->GetManager("renderManager")->DelAll();
+	_superManager->GetManager("objectManager")->DelAll();
 	//_superManager->GetManager("uiManager")->DelAll();
 	delete _score;
 	delete _input;
@@ -58,6 +59,8 @@ bool	ModeResult::Terminate(){
 
 bool	ModeResult::Process(){
 	_input->Input();
+	_camera->Update();
+	SetCameraPositionAndTarget_UpVecY(VGet(0, 800, -2000), VGet(0, 0, 0));
 	ModeServer* modeServer = ModeServer::GetInstance();
 	if(_input->GetTrg(XINPUT_BUTTON_A) && !modeServer->Search("ModeTitle")){
 		// モードを変更

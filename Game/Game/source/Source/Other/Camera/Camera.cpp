@@ -2,8 +2,17 @@
 #include "../.../../AppFrame/source/System/Header/Function/Timer.h"
 #include "../../../Header/Manager/SuperManager.h"
 #include "../../../Header/Manager/PlayerManager.h"
-Camera::Camera(){
+#include "../AppFrame/source/Application/UtilMacro.h"
+#include "../AppFrame/source/System/Header/Function/mymath.h"
+
+Camera* Camera::_instance = nullptr;
+
+Camera::Camera() :
+	_isGame(false),
+	_currentTime(GetNowCount())
+{
 	_player = dynamic_cast<PlayerManager*>(SuperManager::GetInstance()->GetManager("playerManager"));
+	_instance = this;
 };
 
 Camera::~Camera(){
@@ -11,20 +20,52 @@ Camera::~Camera(){
 };
 
 bool Camera::Update(){
+	if(_isGame){
+		UpdateGame();
+	}	
+	else{
+		UpdateSelectAndResult();
+	}
+	return true;
+};
+
+void Camera::UpdateSelectAndResult(){
+	int moveTime = 1000;
+	float nowTimeRate = Math::Clamp(0.0f,1.0f,(float)(GetNowCount() - _currentTime) / moveTime);
+
+	Vector3D pos = Lerp(_holdPos.first, _pos.first, nowTimeRate);
+	Vector3D target = Lerp(_holdPos.second, _pos.second, nowTimeRate);
+
+	SetCameraPositionAndTarget_UpVecY(pos.toVECTOR(), target.toVECTOR());
+};
+
+void Camera::UpdateGame(){
+
+	if(_player == nullptr){
+		DebugErrar();
+	}
+
 	std::vector<std::pair<std::string, Player*>> player = _player->GetList();
 
 	Vector3D pos;
-	for(int i = 0; i < player.size(); i++){
+	for (int i = 0; i < player.size(); i++) {
 		pos += player[i].second->GetPos();
 	}
 
 	Vector3D targetPos = pos / player.size();
-	_pos.first = targetPos + Vector3D(0, 3500, -3000)*2;
+	_pos.first = targetPos + Vector3D(0, 3500, -3000) * 2;
+
 	SpringDamperSystem(targetPos);
 
-	SetCameraPositionAndTarget_UpVecY(_pos.first.toVECTOR(), (_pos.second + (targetPos - _pos.second)/1.3f).toVECTOR());
-	return true;
+	SetCameraPositionAndTarget_UpVecY(_pos.first.toVECTOR(), (_pos.second + (targetPos - _pos.second) / 1.3f).toVECTOR());
 };
+
+void Camera::SetIsGame(bool isGame) {
+	_isGame = isGame; 
+	_holdPos.first = _pos.first;
+	_holdPos.second = _pos.second;
+	_currentTime = GetNowCount();
+}
 
 bool Camera::SpringDamperSystem(Vector3D targetPos){
 	float springConstant = 100.0f;

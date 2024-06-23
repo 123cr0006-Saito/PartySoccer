@@ -50,11 +50,13 @@ std::vector<std::tuple<std::string, int,UIBase*>>* UIManager::GetUiList()
 bool UIManager::UpdateInit(){
 	// deleteList‚Ì’†‚É’l‚ª‚ ‚é‚Æ‚«íœ
 	for (auto list : _delUiList) {
-		for (auto itr = _uiList.begin(); itr != _uiList.end();++itr) {
+		for (auto itr = _uiList.begin(); itr != _uiList.end();) {
 			if (std::get<0>(*itr) == list) {
 				delete std::get<2>(*itr);
-				_uiList.erase(itr);
-				break;
+				itr = _uiList.erase(itr);
+			}
+			else{
+				++itr;
 			}
 		}
 	}

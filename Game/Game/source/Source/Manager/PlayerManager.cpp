@@ -1,8 +1,9 @@
 #include "../../Header/Manager/PlayerManager.h"
-#include "../MemoryLeak.h"
+#include "../AppFrame/source/System/Header/Input/XInput.h"
 #include "../AppFrame/source/Application/UtilMacro.h"
 #include "../AppFrame/source/CFile/CFile.h"
 #include "../../Header/UI/UIPlayerParam.h"
+#include "../MemoryLeak.h"
 PlayerManager::PlayerManager() {
 	LoadObjectPos();
 };
@@ -80,7 +81,7 @@ int PlayerManager::GetListSize(){
 
 bool PlayerManager::Draw(){
 	for(auto&& list : _player){
-		//list.second->DebugDraw();
+		list.second->DebugDraw();
 	}
 	return true;
 }

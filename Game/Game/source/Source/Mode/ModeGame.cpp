@@ -33,10 +33,12 @@ bool ModeGame::Initialize() {
 	// オブジェクトの生成
 	LoadObject();
 	// カメラの生成
-	_camera = NEW Camera();
+	_camera = Camera::GetInstance();
+	_camera->SetIsGame(true);
 	_score = NEW Score();
 	_timeLimit = NEW TimeLimit();
-	_timeLimit->SetTimeLimit(0, 30);
+	_timeLimit->SetTimeLimit(0, 5);
+	_timeLimit->Stop();
 
 	Vector3D pos[2] = { Vector3D(600,100,0),Vector3D(1300,100,0) };
 	for(int i = 0; i < 2; i++){
@@ -50,13 +52,33 @@ bool ModeGame::Initialize() {
 
 bool ModeGame::Terminate() {
 	base::Terminate();
+	// オブジェクトの削除
+	ObjectManager* objectManager = dynamic_cast<ObjectManager*>(_superManager->GetManager("objectManager"));
+	for(auto&& list : _objectName){
+		objectManager->Del(list);
+	}
+	// モデルの削除
+	RenderManager* renderManager = dynamic_cast<RenderManager*>(_superManager->GetManager("renderManager"));
+	for (auto&& list : _objectName) {
+		renderManager->Del(list);
+	}
+	// UIの削除
+	UIManager* uiManager = dynamic_cast<UIManager*>(_superManager->GetManager("uiManager"));
+	PlayerManager* playerManager = dynamic_cast<PlayerManager*>(_superManager->GetManager("playerManager"));
+	std::vector<std::pair<std::string, Player*>> player = playerManager->GetList();
+	for(auto&& list : player){
+		uiManager->Del(list.second->GetName() + "Frame");
+	}
+	uiManager->Del("scoreBoard"); 
+	uiManager->Del("scoreNum");
+	uiManager->Del("Time");
 
-	_superManager->GetManager("objectManager")->DelAll();
-	_superManager->GetManager("uiManager")->DelAll();
 	_superManager->GetManager("collisionManager")->DelAll();
-	_superManager->GetManager("renderManager")->DelAll();
-	
-	delete _camera;
+
+	_camera->SetIsGame(false);
+	_camera->SetPos(Vector3D(0, 800, -2000));
+	_camera->SetTarget(Vector3D(0, 0, 0));
+
 	delete _timeLimit;
 	return true;
 }
@@ -70,15 +92,13 @@ void ModeGame::ReSetGame(){
 	PlayerManager* playerManager = dynamic_cast<PlayerManager*>(_superManager->GetManager("playerManager"));
 	playerManager->InitParam();
 	UIStartCount* uiStartCount = NEW UIStartCount();
-
 };
 
 bool ModeGame::LoadObject(){
 	ObjectManager* objectManager = dynamic_cast<ObjectManager*>(_superManager->GetManager("objectManager"));
-	////ステージの生成
-	//objectManager->Add("Stage", NEW Stage("Stage"));
 	//ボールの生成
 	objectManager->Add("Ball", NEW Ball("Ball"));
+	_objectName.push_back("Ball");
 	//ゴールの生成
 	std::vector<std::tuple<std::string, Vector3D, Vector3D>> goalList = LoadObjectParam("Data/GoalParam.csv");
 	int count = 1;
@@ -86,6 +106,7 @@ bool ModeGame::LoadObject(){
 		std::string name = std::get<0>(list) + std::to_string(count);
 		Goal* goal = new Goal(name, std::get<1>(list), std::get<2>(list).Radian());
 		objectManager->Add(name, goal);
+		_objectName.push_back(name);
 		count++;
 	}
 	//ゴールネットコリジョンの生成
@@ -96,6 +117,7 @@ bool ModeGame::LoadObject(){
 		wall->SetColPos(std::get<1>(list));
 		wall->SetColLength(std::get<2>(list));
 		objectManager->Add(std::get<0>(list), wall);
+		_objectName.push_back(std::get<0>(list));
 	}
 	//壁コリジョンの生成
 	std::vector<std::tuple<std::string, Vector3D, Vector3D>> wallList = LoadObjectParam("Data/WallParam.csv");
@@ -104,6 +126,7 @@ bool ModeGame::LoadObject(){
 		wall->SetColPos(std::get<1>(list));
 		wall->SetColLength(std::get<2>(list));
 		objectManager->Add(std::get<0>(list), wall);
+		_objectName.push_back(std::get<0>(list));
 	}
 
 	return true;

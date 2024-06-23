@@ -41,8 +41,10 @@ bool ObjectManager::Update(){
 		for (auto itr = _objectList.begin(); itr != _objectList.end();) {
 			if (itr->first == list) {
 				delete itr->second;
-			    _objectList.erase(itr);
-				break;
+			  itr = _objectList.erase(itr);
+			}
+			else{
+				++itr;
 			}
 		}
 	}
@@ -55,6 +57,9 @@ bool ObjectManager::Update(){
 	for (auto&& list : _objectList) {
 		list.second->Update();
 	}
+
+	_delObjectList.clear();
+	_addObjectList.clear();
 	return true;
 };
 
@@ -68,7 +73,7 @@ bool ObjectManager::UpdateEnd()
 
 bool ObjectManager::Draw() {
 	for (auto&& list : _objectList) {
-	//	list.second->DebugDraw();
+		list.second->DebugDraw();
 	}
 	return true;
 };

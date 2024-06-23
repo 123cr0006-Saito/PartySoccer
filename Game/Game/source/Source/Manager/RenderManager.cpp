@@ -48,11 +48,13 @@ int RenderManager::GetListSize(){
 bool RenderManager::UpdateInit(){
 	// deleteList‚Ì’†‚É’l‚ª‚ ‚é‚Æ‚«íœ
 	for (auto list : _delModelList) {
-		for (auto itr = _modelList.begin(); itr != _modelList.end();++itr) {
+		for (auto itr = _modelList.begin(); itr != _modelList.end();) {
 			if ((*itr).second->GetName() == list) {
 				delete (*itr).second;
 				itr = _modelList.erase(itr);
-				break;
+			}
+			else{
+				++itr;
 			}
 		}
 	}

@@ -35,7 +35,7 @@ bool	ModeGameEnd::Process(){
 	if(nowTime >2500 && !ModeServer::GetInstance()->Search("ModeFadeComeBack")) {
 		std::vector<std::string> modeName = {"ModeGame","ModeGameEnd"};
 		ModeServer::GetInstance()->Add(NEW ModeResult(), 0, "ModeResult");
-		ModeServer::GetInstance()->Add(NEW 	ModeFadeComeBack(1000, modeName, true), 100,"ModeFadeComeBack");
+		ModeServer::GetInstance()->Add(NEW 	ModeFadeComeBack(500, modeName, false), 100,"ModeFadeComeBack");
 	}
 	return true;
 };
