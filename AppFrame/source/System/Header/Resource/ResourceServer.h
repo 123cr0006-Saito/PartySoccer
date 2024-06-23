@@ -41,6 +41,9 @@ public:
 	static int LoadDivGraph(std::string key_name, std::string handle_name, int AllNum, int XNum, int YNum, int XSize, int YSize); //画像ハンドルの複数分割の読み込み
 	static int LoadMultGraph(std::string key_name, std::string handle_name, std::string extension, int AllNum);
 
+	static int LoadVertexShader(std::string key_name, std::string handle_name);//頂点シェーダーの読み込み
+	static int LoadPixelShader(std::string key_name, std::string handle_name);//ピクセルシェーダーの読み込み
+
 	static int SearchSingle(std::string search_key, TYPE resouceType);
 	static bool SearchMult(std::string search_key,int* handle, int size);
 	static ResourceServer::Mult SearchMult(std::string search_key);
@@ -61,5 +64,6 @@ public:
 	static std::unordered_map<std::string, int >_effekseerMap;//エフェクシアのエフェクトを保存する変数
 	static std::unordered_map<std::string, int >_modelOriginMap;//dxlibのモデルハンドルを保存する変数
 	static std::unordered_map<std::string, std::vector<int> >_modelMap;//dxlibのモデルハンドルを保存する変数
-
+	static std::unordered_map<std::string, int > _pixelShaderMap;//ピクセルシェーダーを保存する変数
+	static std::unordered_map<std::string, int > _vertexShaderMap;//頂点シェーダーを保存する変数
 };

@@ -7,7 +7,8 @@ std::unordered_map<std::string, ResourceServer::Mult> ResourceServer::_multMap;
 std::unordered_map<std::string, int >ResourceServer::_effekseerMap;
 std::unordered_map<std::string, std::vector<int> >ResourceServer::_modelMap;
 std::unordered_map<std::string, int >ResourceServer::_modelOriginMap;
-
+std::unordered_map<std::string, int > ResourceServer::_pixelShaderMap;
+std::unordered_map<std::string, int > ResourceServer::_vertexShaderMap;
 int ResourceServer::Load(std::string key, std::string handleName) {
 	int value = 0;
 	int size = handleName.length();
@@ -234,6 +235,40 @@ int ResourceServer::MV1LoadModel(std::string key_name, std::string model_name, b
 	return value;
 };
 
+int ResourceServer::LoadVertexShader(std::string key_name, std::string handle_name){
+	int value = 0;
+
+	auto itr = _vertexShaderMap.find(key_name);
+	if (itr != _vertexShaderMap.end()) {
+		//記録されたものが見つかったので値を返す
+		value = itr->second;
+	}
+	else {
+		//記録された名前がなかったので読み込み
+		value = ::LoadVertexShader(handle_name.c_str());
+		_vertexShaderMap[key_name] = value;
+	}
+
+	return value;
+};
+
+int ResourceServer::LoadPixelShader(std::string key_name, std::string handle_name){
+	int value = 0;
+
+	auto itr = _pixelShaderMap.find(key_name);
+	if (itr != _pixelShaderMap.end()) {
+		//記録されたものが見つかったので値を返す
+		value = itr->second;
+	}
+	else {
+		//記録された名前がなかったので読み込み
+		value = ::LoadPixelShader(handle_name.c_str());
+		_pixelShaderMap[key_name] = value;
+	}
+
+	return value;
+};
+
 int ResourceServer::SearchSingle(std::string search_key, TYPE resouceType) {
 	std::unordered_map<std::string, int>* resourceMap = nullptr;
 	//リソースの種類によって検索するリソースを変更
@@ -371,21 +406,11 @@ bool ResourceServer::MV1DeleteModelOrigin(std::string key) {
 };
 
 void ResourceServer::DeleteResourceAll() {
-	//画像の削除
-	for (auto itr = _handleMap.begin(); itr != _handleMap.end(); itr++) {
-		DeleteGraph((*itr).second);
-	}
 	//エフェクシアのエフェクトの削除
 	for (auto itr = _effekseerMap.begin(); itr != _effekseerMap.end(); itr++) {
 		DeleteEffekseerEffect((*itr).second);
 	}
-	//モデルの削除
-	for (auto itr = _modelMap.begin(); itr != _modelMap.end(); itr++) {
-		for (int i = 0; i < itr->second.size(); i++) {
-			::MV1DeleteModel(itr->second.at(i));
-		}
-	}
-
+	// 分割して読み込んだ画像の削除
 	for (auto itr = _multMap.begin(); itr != _multMap.end(); ++itr) {
 		for (int i = 0; i < itr->second.AllNum; i++) {
 			DeleteGraph(itr->second.handle[i]);
@@ -393,10 +418,19 @@ void ResourceServer::DeleteResourceAll() {
 		delete[] itr->second.handle;
 	}
 
-	InitSoundMem();//音だけは読み込んだものをまとめて消せるのでこの関数で削除する
+	// 関数でまとめて削除できるものは関数で削除
+	InitGraph();
+	MV1InitModel();
+	InitSoundMem();
+	InitShader();
+
 	//配列の削除
 	_handleMap.clear();
 	_effekseerMap.clear();
 	_modelMap.clear();
 	_soundMap.clear();
+	_multMap.clear();
+	_modelOriginMap.clear();
+	_pixelShaderMap.clear();
+	_vertexShaderMap.clear();
 };

@@ -105,7 +105,7 @@ bool CollisionManager::Update(){
 
 bool CollisionManager::Draw(){
 	for (auto&& list : _collisionList) {
-		list.second->Render(0xff0000);
+		//list.second->Render(0xff0000);
 	}
 	return true;
 };
