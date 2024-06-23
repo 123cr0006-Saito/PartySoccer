@@ -14,7 +14,6 @@ public:
 	virtual bool UpdateEnd();
 	virtual bool DebugDraw();
 
-	bool SetModelAndLayer(int modelHandle, int layer);
 	std::string GetName() { return _name; }
 	Vector3D GetForwardVec() { return _forwardVec; }
 	Vector3D GetPos() { return _pos; }
@@ -26,6 +25,5 @@ protected:
 	Vector3D _oldPos;
 	Vector3D _forwardVec;
 	std::string _name;
-	int _modelHandle;
 };
 

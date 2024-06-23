@@ -29,6 +29,7 @@ bool ModeGame::Initialize() {
 	if (!base::Initialize()) { return false; }
 	// マネージャーの取得
 	_superManager = SuperManager::GetInstance();
+	ChangeLightTypeDir(VGet(0,0,1));
 	// オブジェクトの生成
 	LoadObject();
 	// カメラの生成

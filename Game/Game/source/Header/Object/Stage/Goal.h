@@ -9,4 +9,5 @@ class Goal : public ObjectBase {
 	bool DebugDraw()override;
 protected:
 	OBB* _obb;
+	class ModelBase* _model;
 };

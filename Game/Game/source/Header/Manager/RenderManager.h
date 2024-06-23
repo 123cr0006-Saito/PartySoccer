@@ -7,7 +7,7 @@ public :
 	~RenderManager();
 
 	bool Init();
-	void Add(std::string name ,int layer ,int model);
+	void Add(int layer , class ModelBase* model);
 	void Del(std::string name)override;
 	void DelAll()override;
 	void Sort();
@@ -18,8 +18,8 @@ public :
 	bool Draw()override;
 	
 protected:
-	std::vector<std::tuple<std::string,int,int>> _modelList;
-	std::vector<std::tuple<std::string, int, int>> _addModelList;
+	std::vector<std::pair<int,class ModelBase*>> _modelList;
+	std::vector<std::pair<int, class ModelBase*>> _addModelList;
 	std::vector<std::string> _delModelList;
 };
 

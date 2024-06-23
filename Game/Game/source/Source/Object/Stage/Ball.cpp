@@ -5,15 +5,17 @@
 #include "../AppFrame/source/System/Header/Function/mymath.h"
 #include "../../../Header/Manager/SuperManager.h"
 #include "../../AppFrame/source/System/Header/Resource/ResourceServer.h"
+#include "../../../Header/Model/Base/ModelBase.h"
 Ball::Ball(std::string name) : ObjectBase(name){
-	_modelHandle = ResourceServer::MV1LoadModel("Ball", "Res/Model/Ball/SoccerBall.mv1");
-	MV1SetScale(_modelHandle, VScale(VGet(1.0f, 1.0f, 1.0f), 10.0f));
-	MV1SetPosition(_modelHandle, _pos.toVECTOR());
+	int handle = ResourceServer::MV1LoadModel("Ball", "Res/Model/Ball/SoccerBall.mv1");
+	_model = NEW ModelBase(name, handle);
+	_model->SetScale(Vector3D(10,10,10));
+	_model->SetPos(_pos);
 
 	_sphere = NEW Sphere();
 	_pos = Vector3D(0.0f, 350.0f, 0.0f);
 	_sphere->pos = _pos;
-	_sphere->name = "ball";
+	_sphere->SetName("ball");
 	_sphere->r = 500.0f;
 	_isShoot= false;
 	_speed = 0.0f;
@@ -21,7 +23,7 @@ Ball::Ball(std::string name) : ObjectBase(name){
 	_glavity = 0.0f;
 	_oldPos = _pos;
 	 RenderManager* renderManager = dynamic_cast<RenderManager*>(SuperManager::GetInstance()->GetManager("renderManager"));
-	 renderManager->Add(name, 10, _modelHandle);
+	 renderManager->Add(10, _model);
 	 CollisionManager::GetInstance()->Add(this, _sphere);
 };
 
@@ -65,8 +67,8 @@ bool Ball::Update() {
 };
 
 bool Ball::UpdateEnd() {
-	MV1SetRotationXYZ(_modelHandle, _dirVec.toVECTOR());
-	MV1SetPosition(_modelHandle, _pos.toVECTOR());
+	_model->SetRotation(_dirVec);
+	_model->SetPos(_pos);
 	return true;
 }
 

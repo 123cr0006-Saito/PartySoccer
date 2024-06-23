@@ -80,7 +80,7 @@ int PlayerManager::GetListSize(){
 
 bool PlayerManager::Draw(){
 	for(auto&& list : _player){
-		list.second->DebugDraw();
+		//list.second->DebugDraw();
 	}
 	return true;
 }

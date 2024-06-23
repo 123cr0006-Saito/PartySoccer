@@ -15,7 +15,8 @@ class Ball : public ObjectBase {
 	void SetPosToOldPos() { _pos = _oldPos; }
 
 	void SetForwardVec(Vector3D forwardVec) ;
-protected: 	
+protected: 
+	class ModelBase* _model;
 	bool _isShoot;
 	Sphere* _sphere;
 	Vector3D _dirVec;

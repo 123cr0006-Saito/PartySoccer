@@ -4,14 +4,16 @@
 #include "../../../Header/Manager/SuperManager.h"
 #include "../AppFrame/MemoryLeak.h"
 #include "../../AppFrame/source/System/Header/Resource/ResourceServer.h"
+#include "../../../Header/Model/Base/ModelBase.h"
 Goal::Goal(std::string name, Vector3D pos, Vector3D rotation) : ObjectBase(name) {
-	_modelHandle = ResourceServer::MV1LoadModel("Goal","Res/Model/Goal/goal.mv1");
-	MV1SetPosition(_modelHandle, pos.toVECTOR());
-	MV1SetRotationXYZ(_modelHandle, rotation.toVECTOR());
-	MV1SetScale(_modelHandle, (Vector3D(1.0f, 1.0f, 1.0f) * 5).toVECTOR());
+	int handle = ResourceServer::MV1LoadModel("Goal","Res/Model/Goal/goal.mv1");
+	_model = NEW ModelBase(name, handle);
+	_model->SetPos(pos);
+	_model->SetRotation(rotation);
+	_model->SetScale(Vector3D(5, 5, 5));
 
 	RenderManager* renderManager = dynamic_cast<RenderManager*>(SuperManager::GetInstance()->GetManager("renderManager"));
-	renderManager->Add(_name, 1, _modelHandle);
+	renderManager->Add(1, _model);
 
 	_obb = NEW OBB();
 	_obb->SetName("goal");
@@ -22,8 +24,7 @@ Goal::Goal(std::string name, Vector3D pos, Vector3D rotation) : ObjectBase(name)
 };
 
 Goal::~Goal(){
-	MV1DeleteModel(_modelHandle);
-
+	
 };
 
 

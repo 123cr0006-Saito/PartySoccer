@@ -1,5 +1,6 @@
 #include "../../Header/Manager/RenderManager.h"
 #include "../AppFrame/source/Application/UtilMacro.h"
+#include "../../Header/Model/Base/ModelBase.h"
 
 RenderManager::RenderManager() {
 
@@ -13,8 +14,8 @@ bool RenderManager::Init() {
 	return true;
 };
 
-void RenderManager::Add(std::string name, int layer, int model){
-	_addModelList.emplace_back(std::make_tuple(name, layer, model));
+void RenderManager::Add( int layer, ModelBase* model){
+	_addModelList.emplace_back(std::pair(layer, model));
 };
 
 void RenderManager::Del(std::string name){
@@ -22,14 +23,21 @@ void RenderManager::Del(std::string name){
 };
 
 void RenderManager::DelAll() {
+	for(auto&& list : _modelList){
+		delete list.second;
+	}
+	for(auto&& list : _addModelList){
+		delete list.second;
+	}
+
 	_modelList.clear();
 	_addModelList.clear();
 	_delModelList.clear();
 }
 
 void RenderManager::Sort(){
-	std::sort(_modelList.begin(), _modelList.end(), [](const std::tuple<std::string, int, int> a,const std::tuple<std::string, int, int> b) {
-		return std::get<1>(a) < std::get<1>(b);
+	std::sort(_modelList.begin(), _modelList.end(), [](const std::pair<int, ModelBase*> a,const std::pair< int, ModelBase*> b) {
+		return a.first < b.first;
 	});
 };
 
@@ -41,7 +49,8 @@ bool RenderManager::UpdateInit(){
 	// deleteList‚Ì’†‚É’l‚ª‚ ‚é‚Æ‚«íœ
 	for (auto list : _delModelList) {
 		for (auto itr = _modelList.begin(); itr != _modelList.end();++itr) {
-			if (std::get<0>(*itr) == list) {
+			if ((*itr).second->GetName() == list) {
+				delete (*itr).second;
 				itr = _modelList.erase(itr);
 				break;
 			}
@@ -76,7 +85,7 @@ bool RenderManager::Draw() {
 	SetWriteZBuffer3D(TRUE);
 	SetUseBackCulling(TRUE);
 	for (auto list : _modelList) {
-		MV1DrawModel(std::get<2>(list));
+		list.second->Render();
 	}
 	return true;
 };

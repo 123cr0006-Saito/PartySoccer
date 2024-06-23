@@ -3,14 +3,17 @@
 #include "../../../Header/Manager/CollisionManager.h"
 #include "../../../AppFrame/MemoryLeak.h"
 #include "../../../Header/Manager/SuperManager.h"
-Player::Player(std::string name, XInput* input , int handle) : ObjectBase(name) {
+#include "../../../Header/Model/RimLightModel.h"
+#include "../AppFrame/source/System/Header/Input/XInput.h"
+Player::Player(std::string name, XInput* input, int handle) : ObjectBase(name) {
 	_Input = input;
-	_modelHandle = handle;
+	int modelHandle = handle;
+	_model = NEW RimLightModel(name, modelHandle);
+	_model->SetPos(_pos);
 	_forwardVec = Vector3D(0.0f, 0.0f, -1.0f);
 
-	MV1SetPosition(_modelHandle, _pos.toVECTOR());
 	RenderManager* renderManager = dynamic_cast<RenderManager*>(SuperManager::GetInstance()->GetManager("renderManager"));
-	renderManager->Add(name , 10, _modelHandle);
+	renderManager->Add(10, _model);
 
 	_capsule = NEW Capsule();
 	_capsule->SetName("player");
@@ -28,15 +31,14 @@ Player::Player(std::string name, XInput* input , int handle) : ObjectBase(name) 
 	// アニメーションの設定
 	std::string animationPath = "Res/Model/Player/Animation/" + _name + "_Walk.mv1";
 	int animHandle = MV1LoadModel(animationPath.c_str());;
-	_animIndex = MV1AttachAnim(_modelHandle, 0, animHandle, FALSE);
-	_totalTime = MV1GetAttachAnimTotalTime(_modelHandle,_animIndex);
+	_animIndex = MV1AttachAnim(modelHandle, 0, animHandle, FALSE);
+	_totalTime = MV1GetAttachAnimTotalTime(modelHandle,_animIndex);
 	_playTime = 0;
 	_animBlendRate = 0;
 };
 
 Player::~Player(){
 	delete _Input;
-	MV1DeleteModel(_modelHandle);
 };
 
 bool Player::Init(){
@@ -80,10 +82,12 @@ bool Player::Update(){
 	if (_isShoot) {
 		CollisionManager::GetInstance()->Del("shoot");
 		_isShoot = false;
+		_model->SetIsShader(false);
 		_power = 0;
 		_dash = 0;
 	}
 	//-----------------------------------------------------------------------------------------------
+	
 	// 移動処理-------------------------------------
 	// 移動方向を計算
 	Vector3D moveDir(inputStick.x,0,inputStick.y);
@@ -145,23 +149,8 @@ bool Player::Update(){
 	}
 	//--------------------------------------------------------------------------------------------------
 
-	// アニメーションの設定-------------------------------------------------------------------------------------
-	// アニメーションの再生
-	_playTime += 1.0f;
-	if (_playTime >= _totalTime) {
-		_playTime = 0;
-	}
-	// アニメーションのブレンド
-	if (normalDir.Len()) {
-		if(_animBlendRate < 1.0f) _animBlendRate += 0.1f;
-	}
-	else {
-		if (_animBlendRate > 0.0f) _animBlendRate -= 0.1f;
-	}
 	// アニメーションの設定
-	MV1SetAttachAnimBlendRate(_modelHandle, _animIndex, _animBlendRate);
-	MV1SetAttachAnimTime(_modelHandle, _animIndex, _playTime);
-	//--------------------------------------------------------------------------------------------------------------
+	AnimationUpdate(normalDir);
 	
 	_glavity += 3;
 	_pos.y -= _glavity;
@@ -174,8 +163,33 @@ bool Player::Update(){
 	return true;
 };
 
-void Player::AnimationUpdate(){
+void Player::AnimationUpdate(const Vector3D& moveDir){
+	_playTime += 1.0f;
+	if (_playTime >= _totalTime) {
+		_playTime = 0;
+	}
 
+	// アニメーションのブレンド
+	if (moveDir.Sqlen()) {
+		if (_animBlendRate < 1.0f) _animBlendRate += 0.1f;
+	}
+	else {
+		if (_animBlendRate > 0.0f) _animBlendRate -= 0.1f;
+	}
+
+	if(_power == 25){
+		_model->SetIsShader(true);
+		_model->SetRimColor(0.0f,0.0f,1.0f);
+	}
+	else if(_power == 49){
+		_model->SetIsShader(true);
+		_model->SetRimColor(1.0f,0.0f,0.0f);
+	}
+	
+
+	// アニメーションの設定
+	_model->SetAttachAnimBlendRate(_animIndex, _animBlendRate);
+	_model->SetAttachAnimTime(_animIndex, _playTime);
 };
 
 bool Player::UpdateEnd() {
@@ -184,8 +198,9 @@ bool Player::UpdateEnd() {
 	_capsule->pos = _pos;
 	_capsule->Update();
 	// モデルの設定
-	Math::SetModelForward_RotationY(_modelHandle, _forwardVec.toVECTOR());
-	MV1SetPosition(_modelHandle, _pos.toVECTOR());
+
+	_model->SetModelForwardRotationY(_forwardVec);
+	_model->SetPos(_pos);
 	//-------------------------------------------------------------------------------------------------
 	return true;
 };
