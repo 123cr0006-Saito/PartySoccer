@@ -69,7 +69,7 @@ void PlayerManager::DelAll(){
 
 void PlayerManager::InitParam(){
 	for(int i = 0; i < _player.size(); i++){
-		_player[i].second->SetPos(Vector3D(1500.0f * pow(-1, i), 0,i / 2 * 2000.0f));
+		_player[i].second->SetPos(Vector3D(1500.0f * pow(-1, i+1), 0,i / 2 * 2000.0f));
 		_player[i].second->SetStamina(100);
 		_player[i].second->SetPower(0);
 	}
@@ -80,8 +80,10 @@ int PlayerManager::GetListSize(){
 };
 
 bool PlayerManager::Draw(){
-	//for(auto&& list : _player){
-	//	list.second->DebugDraw();
-	//}
+#ifdef _DEBUG
+	for(auto&& list : _player){
+		list.second->DebugDraw();
+	}
+#endif
 	return true;
 }

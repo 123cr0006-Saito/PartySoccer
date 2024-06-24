@@ -22,6 +22,7 @@ public:
 	virtual bool Render()override;
 
 	bool LoadObject();
+	bool LoadUI();
 	void ReSetGame();
 	std::vector<std::tuple<std::string, Vector3D, Vector3D>> LoadObjectParam(std::string fileName);
 protected:

@@ -40,12 +40,8 @@ bool ModeGame::Initialize() {
 	_timeLimit->SetTimeLimit(3, 0);
 	_timeLimit->Stop();
 
-	Vector3D pos[2] = { Vector3D(600,100,0),Vector3D(1300,100,0) };
-	for(int i = 0; i < 2; i++){
-		UIScoreBoard* uiScore = NEW UIScoreBoard(pos[i], "Goal_" + std::to_string(i+1), _score);
-	}
-	UIStartCount* uiStartCount = NEW UIStartCount();
-	UITimer* uiTimer = NEW UITimer(_timeLimit);
+	LoadUI();
+
 	global._soundServer->DirectPlay("BGM_Game");
 	return true;
 }
@@ -68,6 +64,7 @@ bool ModeGame::Terminate() {
 	std::vector<std::pair<std::string, Player*>> player = playerManager->GetList();
 	for(auto&& list : player){
 		uiManager->Del(list.second->GetName() + "Frame");
+		uiManager->Del(list.second->GetName() + "Icon");
 	}
 	uiManager->Del("scoreBoard"); 
 	uiManager->Del("scoreNum");
@@ -129,6 +126,31 @@ bool ModeGame::LoadObject(){
 		_objectName.push_back(std::get<0>(list));
 	}
 
+	return true;
+};
+
+bool ModeGame::LoadUI(){
+	Vector3D scoreBoardPos[2] = { Vector3D(600,100,0),Vector3D(1300,100,0) };
+
+	for (int i = 0; i < 2; i++) {
+		UIScoreBoard* uiScore = NEW UIScoreBoard(scoreBoardPos[i], "Goal_" + std::to_string(i + 1), _score);
+	}
+
+	std::vector<std::pair<std::string, Player*>> player = dynamic_cast<PlayerManager*>(_superManager->GetManager("playerManager"))->GetList();
+	UIManager* uiManager = dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"));
+	int size = player.size();
+	int shouldMoveIcon = size > 2 ? 1 : 0;
+	std::string path[4] = { "Cat","Fox","Kappa","Rabbit" };
+	for(int i = 0; i < size; i++){
+		std::string name = player[i].second->GetName();
+		int handle = LoadGraph(("Res/UI/Icon/" + name  + ".png").c_str());
+		float iconOfset = i >= 2 ? 50 : -50;
+		UIBase* uiIcon = NEW UIBase(scoreBoardPos[i % 2] + Vector3D(iconOfset * shouldMoveIcon, 150, 0), 0.2f, 255, handle);
+		uiManager->Add(name + "Icon", 1000+i, uiIcon);
+	}
+
+	UIStartCount* uiStartCount = NEW UIStartCount();
+	UITimer* uiTimer = NEW UITimer(_timeLimit);
 	return true;
 };
 

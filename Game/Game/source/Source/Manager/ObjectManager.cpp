@@ -72,9 +72,11 @@ bool ObjectManager::UpdateEnd()
 };
 
 bool ObjectManager::Draw() {
+#ifdef _DEBUG
 	for (auto&& list : _objectList) {
 		list.second->DebugDraw();
 	}
+#endif
 	return true;
 };
 
