@@ -24,7 +24,7 @@ Player::Player(std::string name, XInput* input, int handle) : ObjectBase(name) {
 
 	_capsule = NEW Capsule();
 	_capsule->SetName("player");
-	_capsule->up = 500.0f;
+	_capsule->up = 600.0f;
 	_capsule->r = 170.0f;
 	CollisionManager::GetInstance()->Add(this, _capsule);
 

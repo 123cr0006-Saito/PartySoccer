@@ -65,7 +65,7 @@ void Camera::SetIsGame(bool isGame) {
 	_holdPos.first = _pos.first;
 	_holdPos.second = _pos.second;
 	_currentTime = GetNowCount();
-}
+};
 
 bool Camera::SpringDamperSystem(Vector3D targetPos){
 	float springConstant = 100.0f;

@@ -101,7 +101,7 @@ bool Math::CheckAcuteAngle(Vector3D p1, Vector3D p2, Vector3D p3) {
 bool Math::CheckParallelRelation(Vector3D line_1_start, Vector3D line_1_end, Vector3D line_2_start, Vector3D line_2_end) {
 	Vector3D line_1 = line_1_end - line_1_start;
 	Vector3D line_2 = line_2_end - line_2_start;
-	float value = line_1.Cross(line_2).Len();
+	float value = (line_1.Cross(line_2)).Len();
 	float effective_range = 0.001f;
 	return -effective_range <= value && value <= effective_range;
 }

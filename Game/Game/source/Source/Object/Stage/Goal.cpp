@@ -17,9 +17,9 @@ Goal::Goal(std::string name, Vector3D pos, Vector3D rotation) : ObjectBase(name)
 
 	_obb = NEW OBB();
 	_obb->SetName("goal");
-	_obb->pos = pos;
+	_obb->pos = pos + Vector3D(-300*cos(rotation.y), 0, 0);
 	_obb->Rotate(rotation);
-	_obb->SetLength(Vector3D(1300, 1800, 2500));
+	_obb->SetLength(Vector3D(600, 1800, 2500));
 	CollisionManager::GetInstance()->Add(this, _obb);
 };
 

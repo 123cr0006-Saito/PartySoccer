@@ -107,9 +107,11 @@ bool CollisionManager::Update(){
 };
 
 bool CollisionManager::Draw(){
-	/*for (auto&& list : _collisionList) {
+#ifdef _DEBUG
+	for (auto&& list : _collisionList) {
 		list.second->Render(0xff0000);
-	}*/
+	}
+#endif
 	return true;
 };
 
@@ -129,6 +131,8 @@ bool CollisionManager::CollisionCheckForCapsule(std::pair<ObjectBase*, Collision
 		if (second.second->name == "shoot" || second.second->name == "goal")continue;
 
 		if(second.second->name == "player"){
+			// 同じ名前のオブジェクト同士は判定を行わない
+
 			Capsule* capsule2 = dynamic_cast<Capsule*>(second.second);
 			// キャスト失敗
 			if (!capsule2) {
@@ -146,24 +150,15 @@ bool CollisionManager::CollisionCheckForCapsule(std::pair<ObjectBase*, Collision
 				if (!player2) {
 					DebugErrar();
 				}
-				int speed = player1->GetDash() - player2->GetDash();
 				first.second->isHit = second.second->isHit = true;
-				//if (speed > 0) {
-				//	// player2を吹き飛ばす
-				//	Vector3D dirVec = capsule1->pos - capsule2->up_pos;
-				//	if (!player2->GetIsKnockBack()) {
-				//		global._soundServer->DirectPlay("SE_KnockBack");
-				//		player2->SetKnockBack(100, dirVec);
-				//	}
-				//}
-				//else if(speed < 0){
-				//	// player1を吹き飛ばす
-				//	Vector3D dirVec = capsule2->pos - capsule1->up_pos;
-				//	if (!player2->GetIsKnockBack()) {
-				//		global._soundServer->DirectPlay("SE_KnockBack");
-				//		player2->SetKnockBack(100, dirVec);
-				//	}
-				//}
+				if (player1->GetDash() > player2->GetDash()) {
+					// player2を吹き飛ばす
+					Vector3D dirVec = capsule2->up_pos - capsule1->pos;
+					if (!player2->GetIsKnockBack()) {
+						global._soundServer->DirectPlay("SE_KnockBack");
+						player2->SetKnockBack(150, dirVec);
+					}
+				}
 			}
 		}
 		else if (second.second->name == "ball") {
@@ -354,7 +349,7 @@ bool CollisionManager::CollisionCheckForSphere(std::pair<ObjectBase*, CollisionB
 			}
 		}
 	}
-	// 壁の判定 壁は平面の当たり判定で考える
+	// 超えてはいけない領域を超えたときの処理
 	Vector3D pos1 = sphere1->pos;
 	Vector3D normal = Vector3D(0, 0, 0);
 
@@ -363,6 +358,12 @@ bool CollisionManager::CollisionCheckForSphere(std::pair<ObjectBase*, CollisionB
 	}
 	else if (pos1.z > 4876) {
 		normal = Vector3D(0, 0, -1);
+	}
+	else if (pos1.x < -7335) {
+		normal = Vector3D(1, 0, 0);
+	}
+	else if (pos1.x > 7335) {
+		normal = Vector3D(-1, 0, 0);
 	}
 	// 壁に当たったときの処理
 	if(normal.Sqlen() > 0){
