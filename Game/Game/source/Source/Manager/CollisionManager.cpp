@@ -9,6 +9,7 @@
 #include "../../Header/Mode/ModeGame.h"
 #include "../../Header/Mode/ModeGoal.h"
 #include "../AppFrame/MemoryLeak.h"
+#include "../AppFrame/source/Application/Global.h"
 CollisionManager* CollisionManager::_instance = nullptr;
 CollisionManager::CollisionManager(){
 	if (_instance != nullptr) {
@@ -106,18 +107,18 @@ bool CollisionManager::Update(){
 };
 
 bool CollisionManager::Draw(){
-	for (auto&& list : _collisionList) {
+	/*for (auto&& list : _collisionList) {
 		list.second->Render(0xff0000);
-	}
+	}*/
 	return true;
 };
 
 bool CollisionManager::CollisionCheckForCapsule(std::pair<ObjectBase*, CollisionBase*>& first){
 
-	Capsule* capsule = dynamic_cast<Capsule*>(first.second);
+	Capsule* capsule1 = dynamic_cast<Capsule*>(first.second);
 
 	// キャスト失敗
-	if(!capsule){
+	if(!capsule1){
 		DebugErrar();
 		return false;
 	}
@@ -135,7 +136,7 @@ bool CollisionManager::CollisionCheckForCapsule(std::pair<ObjectBase*, Collision
 				return false;
 			}
 
-			if (Collision3D::TwoCapsuleCol((*capsule), (*capsule2))) {
+			if (Collision3D::TwoCapsuleCol((*capsule1), (*capsule2))) {
 				//衝突処理
 				Player* player1 = dynamic_cast<Player*>(first.first);
 				if (!player1) {
@@ -147,15 +148,22 @@ bool CollisionManager::CollisionCheckForCapsule(std::pair<ObjectBase*, Collision
 				}
 				int speed = player1->GetDash() - player2->GetDash();
 				first.second->isHit = second.second->isHit = true;
-				if (speed > 0) {
-					// player2を吹き飛ばす
-				}
-				else if(speed < 0){
-					// player1を吹き飛ばす
-				}
-				else {
-					//押し出し処理
-				}
+				//if (speed > 0) {
+				//	// player2を吹き飛ばす
+				//	Vector3D dirVec = capsule1->pos - capsule2->up_pos;
+				//	if (!player2->GetIsKnockBack()) {
+				//		global._soundServer->DirectPlay("SE_KnockBack");
+				//		player2->SetKnockBack(100, dirVec);
+				//	}
+				//}
+				//else if(speed < 0){
+				//	// player1を吹き飛ばす
+				//	Vector3D dirVec = capsule2->pos - capsule1->up_pos;
+				//	if (!player2->GetIsKnockBack()) {
+				//		global._soundServer->DirectPlay("SE_KnockBack");
+				//		player2->SetKnockBack(100, dirVec);
+				//	}
+				//}
 			}
 		}
 		else if (second.second->name == "ball") {
@@ -166,14 +174,14 @@ bool CollisionManager::CollisionCheckForCapsule(std::pair<ObjectBase*, Collision
 				return false;
 			}
 
-			if (Collision3D::SphereCapsuleCol((*sphere),(*capsule))) {
+			if (Collision3D::SphereCapsuleCol((*sphere),(*capsule1))) {
 				//衝突処理		
 				Ball* ball = dynamic_cast<Ball*>(second.first);
 				if (!ball) {
 					DebugErrar();
 				}
 				bool IsShoot = ball->GetIsShoot();
-				Vector3D pos1 = capsule->pos;
+				Vector3D pos1 = capsule1->pos;
 				Vector3D pos2 = sphere->pos;
 				Player* player = dynamic_cast<Player*>(first.first);
 				if (!player) {
@@ -184,6 +192,7 @@ bool CollisionManager::CollisionCheckForCapsule(std::pair<ObjectBase*, Collision
 					// player1を吹き飛ばす
 					Vector3D dirVec = pos1 - pos2;
 					if (!player->GetIsKnockBack()) {
+						global._soundServer->DirectPlay("SE_KnockBack");
 						player->SetKnockBack(250, dirVec);
 					}
 				}
@@ -197,6 +206,7 @@ bool CollisionManager::CollisionCheckForCapsule(std::pair<ObjectBase*, Collision
 					float angle = Math::CalcVectorAngle(forwardVec, ballVec.Normalize());
 					// 正面からぶつかったときだけスピードを上げる
 					if (angle < Math::DegToRad(90)) {
+						global._soundServer->DirectPlay("SE_Dribble");
 						ball->SetSpeed(130);
 					}
 				}
@@ -213,7 +223,7 @@ bool CollisionManager::CollisionCheckForCapsule(std::pair<ObjectBase*, Collision
 		if (pos < min) pos = min;
 		else if (pos > max) pos = max;
 	};
-	Vector3D pos = capsule->pos;
+	Vector3D pos = capsule1->pos;
 	PositionLimit(pos.x, 6335, -6335);
 	PositionLimit(pos.z, 4876, -3180);
 	player->SetPos(pos);
@@ -256,7 +266,7 @@ bool CollisionManager::CollisionCheckForSphere(std::pair<ObjectBase*, CollisionB
 					return false;
 				}
 				first.second->isHit = second.second->isHit = true;
-			
+				global._soundServer->DirectPlay("SE_Shoot");
 				ball->SetForwardVec(dirVec);
 				int power = player->GetPower();
 				if (!ball->GetIsShoot()) {
@@ -288,6 +298,8 @@ bool CollisionManager::CollisionCheckForSphere(std::pair<ObjectBase*, CollisionB
 				}
 				ModeServer* modeServer = ModeServer::GetInstance();
 				if (!modeServer->Search("ModeGoal")){
+					global._soundServer->DirectPlay("SE_Whistle");
+					global._soundServer->DirectPlay("SE_Cheers");
 					modeServer->Add(NEW ModeGoal(second.first->GetName()),1000,"ModeGoal");
 				}
 			}		
@@ -311,6 +323,7 @@ bool CollisionManager::CollisionCheckForSphere(std::pair<ObjectBase*, CollisionB
 					DebugErrar();
 					return false;
 				}
+				global._soundServer->DirectPlay("SE_Bound");
 				//押し出し処理
 				Vector3D correctionVector = ball->GetPos() - hitPos;
 				ball->SetPos(ball->GetPos() + correctionVector.Normalize() * (sphere1->r - correctionVector.Len()));

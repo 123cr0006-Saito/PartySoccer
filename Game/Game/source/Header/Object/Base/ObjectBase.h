@@ -19,6 +19,7 @@ public:
 	Vector3D GetPos() { return _pos; }
 	void SetPos(Vector3D pos) { _pos = pos; }
 	void SetOldPos(Vector3D pos) { _oldPos = pos; }
+	void SetForwardVec(Vector3D forward) { _forwardVec = forward; }
 	
 protected:
 	Vector3D _pos;

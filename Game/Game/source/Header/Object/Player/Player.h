@@ -25,12 +25,12 @@ public:
 	void SetKnockBack(int knockBack, Vector3D knockBackVec);
 	void SetPower(int power) { _power = power; }
 	void SetStamina(int stamina) { _stamina = stamina; }
+	void SetIsGame(bool isGame) { _isGame = isGame; }
 
 	const bool GetIsKnockBack() { return _isKnockBack; }
 	const int GetPower() { return _power; }
 	const int GetStamina() { return _stamina; }
 	const int GetDash() { return _dash; }
-	const Vector3D GetForwardVec() { return _forwardVec; }
 protected:
 
 	class XInput* _Input; // 入力
@@ -44,8 +44,8 @@ protected:
 	bool _isTired; // 疲れているかどうか
 	bool _isShoot; // シュートを打ったかどうか
 	bool _isPowerMax; // パワーが最大かどうか
+	bool _isGame;//メインゲームかどうか
 
-	Vector3D _forwardVec; // 前方向のベクトル
 	Capsule* _capsule; // 当たり判定
 
 	bool _isKnockBack; // ノックバック中かどうか

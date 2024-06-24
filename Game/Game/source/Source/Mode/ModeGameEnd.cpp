@@ -29,7 +29,7 @@ bool ModeGameEnd::Terminate(){
 	return true;
 };
 
-bool	ModeGameEnd::Process(){
+bool ModeGameEnd::Process(){
 	ModeServer::GetInstance()->SkipProcessUnderLayer();
 	int nowTime = GetNowCount() - _currentTime;
 	if(nowTime >2500 && !ModeServer::GetInstance()->Search("ModeFadeComeBack")) {

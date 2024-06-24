@@ -7,6 +7,9 @@
 #include "../../Header/Other/Score.h"
 #include "../../Header/Other/Camera/Camera.h"
 #include "../AppFrame/MemoryLeak.h"
+#include "../AppFrame/source/CFile/CFile.h"
+#include "../../Header/UI/Animation/LocationAnim.h"
+#include "../../Header/Manager/UIManager.h"
 
 ModeResult::ModeResult(){
 
@@ -32,6 +35,8 @@ bool	ModeResult::Initialize(){
 		if (playerNum == 1) {
 			// プレイヤーが一人の場合　中心
 			player[i].second->SetPos(Vector3D(0, 0, 0));
+			player[i].second->SetForwardVec(Vector3D(0, 0, -1));
+			player[i].second->SetIsGame(false);
 		}
 		else {
 		// プレイヤーが複数の場合　等間隔
@@ -41,17 +46,26 @@ bool	ModeResult::Initialize(){
 		}
 	}
 
-
-
+	int handle,x,y;
+	handle = LoadGraph(("Res/UI/WinFrame" + _winnerTeam + ".png").c_str());
+	GetGraphSize(handle, &x, &y);
+	UIRotaBase* ui = NEW UIRotaBase(Vector3D(1920/2,-500,0), Vector3D(x/2,y/2,0), Vector3D(1.0f, 1.0f, 0.0f), 0, 255, handle);
+	LocationAnim* anim = NEW LocationAnim(ui, "Data/UIAnimation/WinTeamAnimation.csv");
+	ui->SetAnimation(anim);
+	dynamic_cast<UIManager*>(_superManager->GetManager("uiManager"))->Add("WinTeam",100,ui);
+	global._soundServer->DirectPlay("BGM_Cheers");
+	//global._soundServer->DirectPlay("BGM_Applause");
 	return true;
 };
+
 
 bool	ModeResult::Terminate(){
 	_superManager->Del("playerManager");
 	_superManager->GetManager("collisionManager")->DelAll();
 	_superManager->GetManager("renderManager")->DelAll();
 	_superManager->GetManager("objectManager")->DelAll();
-	//_superManager->GetManager("uiManager")->DelAll();
+	_superManager->GetManager("uiManager")->DelAll();
+	delete _camera;
 	delete _score;
 	delete _input;
 	return true;

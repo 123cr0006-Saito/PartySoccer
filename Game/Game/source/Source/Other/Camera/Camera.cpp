@@ -53,7 +53,7 @@ void Camera::UpdateGame(){
 	}
 
 	Vector3D targetPos = pos / player.size();
-	_pos.first = targetPos + Vector3D(0, 3500, -3000) * 2;
+	_pos.first = targetPos + Vector3D(0, 3500, -3000) *2;
 
 	SpringDamperSystem(targetPos);
 

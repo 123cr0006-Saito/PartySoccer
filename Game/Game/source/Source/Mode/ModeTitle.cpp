@@ -8,6 +8,7 @@
 #include "../AppFrame/MemoryLeak.h"
 #include "../../Header/UI/Animation/IterationAnim.h"
 #include "../../Header/UI/Animation/LocationAnim.h"
+#include "../AppFrame/source/Application/Global.h"
 ModeTitle::ModeTitle(){
 
 };
@@ -65,6 +66,7 @@ bool	ModeTitle::Initialize(){
 	}
 
 	_input = NEW XInput(PLAYER_1);
+	global._soundServer->DirectPlay("BGM_Title");
 	return true;
 };
 

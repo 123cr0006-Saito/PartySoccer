@@ -2,6 +2,7 @@
 #include "../../Header/Manager/SuperManager.h"
 #include "../../Header/Manager/UIManager.h"
 #include "../../Header/Other/TimeLimit.h"
+#include "../AppFrame/source/Application/Global.h"
 UIStartCount::UIStartCount() : UIRotaBase(){
 
 	for(int i = 1; i <= 3 ; i++){
@@ -14,6 +15,7 @@ UIStartCount::UIStartCount() : UIRotaBase(){
 	_center = Vector3D(handleX / 2, handleY / 2, 0);
 	_currentTime= GetNowCount();
 	dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"))->Add("countDown", 20, this);
+	global._soundServer->DirectPlay("SE_CountDown");
 };
 
 UIStartCount::~UIStartCount(){
@@ -21,8 +23,8 @@ UIStartCount::~UIStartCount(){
 };
 
 void UIStartCount::Update(){
-	int countDown = 3000 - (GetNowCount() - _currentTime);
-	int count = countDown > 0 ? countDown / 1000 : 0;
+	int countDown = 2700 - (GetNowCount() - _currentTime);//2.7•b
+	int count = countDown > 0 ? countDown / 900 : 0;//3•ªŠ„
 	_handle = _startCountHandle[count];
 	SuperManager::GetInstance()->Skip();
 	if(countDown < 0){

@@ -38,6 +38,7 @@ Player::Player(std::string name, XInput* input, int handle) : ObjectBase(name) {
 	_isShoot = false;
 	_isPowerMax = false;
 	_isKnockBack = false;
+	_isGame = true;
 
 	// アニメーションの設定
 	std::string animationPath = "Res/Model/Player/Animation/" + _name + "_Walk.mv1";
@@ -57,8 +58,13 @@ bool Player::Init(){
 };
 
 bool Player::Update(){
-	UpdateGame();
-	//UpdateResult();
+	_Input->Input();
+	if(_isGame){
+	 UpdateGame();
+	}
+	else{
+	 UpdateResult();
+	}
 	return true;
 };
 
@@ -69,7 +75,7 @@ bool Player::UpdateGame(){
 	};
 
 	// スティックの入力を取得
-	_Input->Input();
+
 	auto inputStick = _Input->GetAdjustedStick_L();
 
 	// 移動方向を計算
@@ -85,7 +91,6 @@ bool Player::UpdateGame(){
 			_knockBack = 0;
 			_isKnockBack = false;
 		}
-		return true;
 	}
 	//-----------------------------------------------------------------------------------------------
 

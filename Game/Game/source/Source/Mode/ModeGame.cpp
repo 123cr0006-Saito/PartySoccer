@@ -37,7 +37,7 @@ bool ModeGame::Initialize() {
 	_camera->SetIsGame(true);
 	_score = NEW Score();
 	_timeLimit = NEW TimeLimit();
-	_timeLimit->SetTimeLimit(0, 5);
+	_timeLimit->SetTimeLimit(3, 0);
 	_timeLimit->Stop();
 
 	Vector3D pos[2] = { Vector3D(600,100,0),Vector3D(1300,100,0) };
@@ -46,7 +46,7 @@ bool ModeGame::Initialize() {
 	}
 	UIStartCount* uiStartCount = NEW UIStartCount();
 	UITimer* uiTimer = NEW UITimer(_timeLimit);
-
+	global._soundServer->DirectPlay("BGM_Game");
 	return true;
 }
 
@@ -168,7 +168,7 @@ bool ModeGame::Process() {
 	_timeLimit->Update();
 
 	ModeServer* modeServer = ModeServer::GetInstance();
-	if (!modeServer->Search("ModeGameEnd") && _timeLimit->GetTimeLimit() <= 0) {
+	if (_timeLimit->GetTimeLimit() <= 0 && !modeServer->Search("ModeGameEnd")) {
 		ModeServer::GetInstance()->Add(NEW ModeGameEnd(),10,"ModeGameEnd");
 	}
 

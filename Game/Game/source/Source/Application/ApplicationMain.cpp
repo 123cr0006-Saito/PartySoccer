@@ -13,7 +13,7 @@ ApplicationMain				g_oApplicationMain;
 bool ApplicationMain::Initialize(HINSTANCE hInstance) {
 	if (!base::Initialize(hInstance)) { return false; }
 	// 音声の読み込み
-	//global.SoundLoad();
+	global.SoundLoad();
 	
 	// 前の処理から今の処理の計算時間を得るクラス
 	_timer = NEW Timer();
