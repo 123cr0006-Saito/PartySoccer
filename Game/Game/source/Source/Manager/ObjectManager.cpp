@@ -16,6 +16,11 @@ void ObjectManager::Add( ObjectBase* object){
 	_objectList.emplace_back(object);
 };
 
+void ObjectManager::AddInput(void* value){
+	ObjectBase* object = static_cast<ObjectBase*>(value);
+	_addObjectList.emplace_back(object);
+}
+
 void ObjectManager::Del(std::string name){
 	_delObjectList.emplace_back(name);
 };

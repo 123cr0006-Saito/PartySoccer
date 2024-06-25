@@ -8,6 +8,7 @@ public :
 
 	bool Init();
 	void Add(class ModelBase* model);
+	void AddInput(void* value)override;
 	void Del(std::string name)override;
 	void DelAll()override;
 	void Sort();

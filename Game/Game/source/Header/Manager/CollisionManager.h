@@ -9,6 +9,7 @@ public:
 	~CollisionManager();
 	static CollisionManager* GetInstance(){return _instance;};
 	void Add(CollisionBase* collision);
+	void AddInput(void* value)override;
 	void Del(std::string name)override;
 	void DelAll()override;
 

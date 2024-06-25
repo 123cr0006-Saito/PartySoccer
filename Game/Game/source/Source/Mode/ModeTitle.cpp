@@ -59,11 +59,10 @@ bool	ModeTitle::Initialize(){
 	}
 
 	_superManager = SuperManager::GetInstance();
-	UIManager* ui = dynamic_cast<UIManager*>(_superManager->GetManager("uiManager"));
-
+	//UIManager* ui = dynamic_cast<UIManager*>(_superManager->GetManager("uiManager"));
 	for (auto&& list : _ui) {
-		ui->Add(list.second);
-		
+		//ui->Add(list.second);
+		_superManager->GetManager("uiManager")->Add(list.second);
 	}
 
 	_input = NEW XInput(PLAYER_1);

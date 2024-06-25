@@ -16,6 +16,12 @@ void UIManager::Add(UIBase* ui){
 	_addUiList.emplace_back(ui);
 };
 
+void UIManager::AddInput(void* value){
+	UIBase* ui = static_cast<UIBase*>(value);
+	_addUiList.emplace_back(ui);
+
+};
+
 void UIManager::Del(std::string ui){
 	_delUiList.emplace_back(ui);
 };

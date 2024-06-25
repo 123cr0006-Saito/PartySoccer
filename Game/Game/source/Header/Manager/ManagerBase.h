@@ -16,6 +16,14 @@ class ManagerBase
 	virtual bool UpdateEnd();
 	virtual bool Draw();
 
+	template<typename T>
+	void Add(T* value) {
+		void* ptr = static_cast<void*>(value);
+		AddInput(ptr);
+	};
+
+	virtual void AddInput(void* value){};
+
 	virtual void Del(std::string){};
 	virtual void DelAll(){};
 

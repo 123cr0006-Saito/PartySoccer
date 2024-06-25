@@ -18,6 +18,11 @@ void RenderManager::Add(ModelBase* model){
 	_addModelList.emplace_back(model);
 };
 
+void RenderManager::AddInput(void* value){
+	ModelBase* model = static_cast<ModelBase*>(value);
+	_addModelList.emplace_back(model);
+};
+
 void RenderManager::Del(std::string name){
 	_delModelList.emplace_back(name);
 };

@@ -28,6 +28,11 @@ void CollisionManager::Add(CollisionBase* collision){
 	_addCollisionList.emplace_back(collision);
 };
 
+void CollisionManager::AddInput(void* value){
+	CollisionBase* collision = static_cast<CollisionBase*>(value);
+	_addCollisionList.emplace_back(collision);
+};
+
 void  CollisionManager::Del(std::string name){
 	_delCollisionList.emplace_back(name);
 };

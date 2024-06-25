@@ -8,6 +8,7 @@ class ObjectManager : public ManagerBase
 	bool Init() override;
 
 	void Add(class ObjectBase* object);
+	void AddInput(void* value)override;
 	void Del(std::string name)override;
 	void DelAll()override;
 
