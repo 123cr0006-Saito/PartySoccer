@@ -6,8 +6,9 @@ UIPlayerParam::UIPlayerParam(Player* player,std::string name,Vector3D pos) :
 	UIBase()
 {
 	_player = player;
-
+	_name = name + "Frame";
 	_pos = pos;
+	_layer = 10;
 	_handle = LoadGraph(("Res/UI/Frame/" + name + "Frame.png").c_str());
 
 	COLOR_U8 color = GetColorU8(0, 255, 0, 255);
@@ -40,7 +41,7 @@ UIPlayerParam::UIPlayerParam(Player* player,std::string name,Vector3D pos) :
 		_shootGauge[i].v = uv[i][1];
 		_shootGauge[i].rhw = 1.0f;
 	}
-	dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"))->Add(name + "Frame",10,this);
+	dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"))->Add(this);
 };
 
 UIPlayerParam::~UIPlayerParam(){

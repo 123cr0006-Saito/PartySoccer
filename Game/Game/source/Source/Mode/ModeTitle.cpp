@@ -18,7 +18,7 @@ ModeTitle::~ModeTitle(){
 };
 
 bool	ModeTitle::Initialize(){
-	
+	int loopCount = 0;
 	CFile file("Data/UITitleParam.csv");
 	// ファイルが開けた場合
 	if (file.Success()) {
@@ -45,12 +45,13 @@ bool	ModeTitle::Initialize(){
 			handle = LoadGraph(handlePath.c_str());
 			alpha = 255;
 
-			UIRotaBase* ui = NEW UIRotaBase(pos, center, extrate, angle, alpha, handle);
+			UIRotaBase* ui = NEW UIRotaBase(name,pos, center, extrate, angle, alpha, handle,100+loopCount);
 			if(animPath != ""){
 				IterationAnim* anim = NEW IterationAnim(ui, animPath,true);
 				ui->SetAnimation(anim);
 			}
 			_ui[name] = ui;
+			loopCount++;
 		}
 	}
 	else {
@@ -59,10 +60,10 @@ bool	ModeTitle::Initialize(){
 
 	_superManager = SuperManager::GetInstance();
 	UIManager* ui = dynamic_cast<UIManager*>(_superManager->GetManager("uiManager"));
-	int loopCount = 0;
+
 	for (auto&& list : _ui) {
-		ui->Add(list.first, 100 + loopCount, list.second);
-		loopCount++;
+		ui->Add(list.second);
+		
 	}
 
 	_input = NEW XInput(PLAYER_1);

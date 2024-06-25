@@ -5,6 +5,8 @@
 
 UITimer::UITimer(TimeLimit* timer){
 	_timer = timer;
+	_name = "Time";
+	_layer = 1;
 	for (int i = 0; i < 10; i++) {
 		_timeHandle[i] = LoadGraph(("Res/UI/Time/" + std::to_string(i) + ".png").c_str());
 	}
@@ -21,7 +23,7 @@ UITimer::UITimer(TimeLimit* timer){
 	_timeHandlePos = _pos;
 	_timeHandleCenter = Vector3D(handleX, handleY / 2, 0);
 
-	dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"))->Add("Time", 1, this);
+	dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"))->Add(this);
 };
 
 UITimer::~UITimer(){

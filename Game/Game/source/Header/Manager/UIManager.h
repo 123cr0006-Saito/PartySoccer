@@ -10,15 +10,14 @@ class UIManager : public ManagerBase
 	bool Update()override;
 	bool Draw()override;
 
-	void Add(std::string, int, class UIBase*);
+	void Add(class UIBase*);
 	void Del(std::string ui)override;
 	void DelAll()override;
 	void Sort();
 
-	std::vector<std::tuple<std::string, int, class UIBase*>>* GetUiList();
 	int GetListSize()override;
 protected:
-	std::vector<std::tuple<std::string, int,class UIBase*>> _addUiList;
-	std::vector<std::tuple<std::string, int, class UIBase*>> _uiList;
+	std::vector<class UIBase*> _addUiList;
+	std::vector<class UIBase*> _uiList;
 	std::vector<std::string> _delUiList;
 };

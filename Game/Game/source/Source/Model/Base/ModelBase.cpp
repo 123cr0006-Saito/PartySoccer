@@ -3,6 +3,7 @@
 #include "../AppFrame/source/System/Header/Function/mymath.h"
 ModelBase::ModelBase() :
 	_name(""),
+	_layer(0),
 	_modelHandle(0),
 	_vertexShader(0),
 	_pixelShader(0),
@@ -10,8 +11,9 @@ ModelBase::ModelBase() :
 {
 };
 
-ModelBase::ModelBase(std::string name,int handle) :
+ModelBase::ModelBase(std::string name,int layer, int handle) :
 	_name(name),
+	_layer(layer),
 	_modelHandle(handle),
 	_vertexShader(0),
 	_pixelShader(0),

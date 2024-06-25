@@ -5,9 +5,12 @@ class ModelBase
 {
 public:
 	ModelBase();
-	ModelBase(std::string name,int handle);
+	ModelBase(std::string name, int layer, int handle);
 	virtual ~ModelBase();
 	void Render();
+
+	// LayerŠÖ˜A--------------------------------------
+	int GetLayer(){return _layer;};
 
 	// ModelŠÖ˜A--------------------------------------
 	std::string GetName(){return _name;};
@@ -31,6 +34,8 @@ public:
 protected:
 	int _modelHandle;
 	std::string _name;
+	int _layer;
+
 	int _vertexShader;
 	int _pixelShader;
 	bool _isShader;

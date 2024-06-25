@@ -45,11 +45,11 @@ void Camera::UpdateGame(){
 		DebugErrar();
 	}
 
-	std::vector<std::pair<std::string, Player*>> player = _player->GetList();
+	std::vector<Player*> player = _player->GetList();
 
 	Vector3D pos;
 	for (int i = 0; i < player.size(); i++) {
-		pos += player[i].second->GetPos();
+		pos += player[i]->GetPos();
 	}
 
 	Vector3D targetPos = pos / player.size();

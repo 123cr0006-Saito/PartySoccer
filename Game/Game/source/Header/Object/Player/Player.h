@@ -1,5 +1,6 @@
 #pragma once
 #include "../Base/ObjectBase.h"
+#include "../../AppFrame/source/System/Header/Collision/MyStructure.h"
 #include <string>
 #include <utility>
 #include <algorithm>
@@ -31,6 +32,7 @@ public:
 	const int GetPower() { return _power; }
 	const int GetStamina() { return _stamina; }
 	const int GetDash() { return _dash; }
+	const Capsule* GetCapsule() { return _capsule; }
 protected:
 
 	class XInput* _Input; // “ü—Í

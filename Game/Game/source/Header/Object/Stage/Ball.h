@@ -10,6 +10,8 @@ class Ball : public ObjectBase {
 	bool DebugDraw()override;
 
 	bool GetIsShoot() { return _isShoot; }
+	const Sphere* GetSphere() { return _sphere; }
+
 	void SetSpeed(float speed) { _speed = speed; }
 	void AddSpeed(float speed) { _speed += speed; }
 	void SetPosToOldPos() { _pos = _oldPos; }

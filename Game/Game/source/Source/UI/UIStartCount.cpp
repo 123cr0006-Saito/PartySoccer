@@ -4,7 +4,8 @@
 #include "../../Header/Other/TimeLimit.h"
 #include "../AppFrame/source/Application/Global.h"
 UIStartCount::UIStartCount() : UIRotaBase(){
-
+	_name = "countDown";
+	_layer = 20;
 	for(int i = 1; i <= 3 ; i++){
 		_startCountHandle[i-1] = LoadGraph(("Res/UI/Count/number_" + std::to_string(i) + ".png").c_str());
 	}
@@ -14,7 +15,7 @@ UIStartCount::UIStartCount() : UIRotaBase(){
 	_pos = Vector3D(x/2,y/2,0);
 	_center = Vector3D(handleX / 2, handleY / 2, 0);
 	_currentTime= GetNowCount();
-	dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"))->Add("countDown", 20, this);
+	dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"))->Add(this);
 	global._soundServer->DirectPlay("SE_CountDown");
 };
 

@@ -14,8 +14,8 @@ bool RenderManager::Init() {
 	return true;
 };
 
-void RenderManager::Add( int layer, ModelBase* model){
-	_addModelList.emplace_back(std::pair(layer, model));
+void RenderManager::Add(ModelBase* model){
+	_addModelList.emplace_back(model);
 };
 
 void RenderManager::Del(std::string name){
@@ -24,10 +24,10 @@ void RenderManager::Del(std::string name){
 
 void RenderManager::DelAll() {
 	for(auto&& list : _modelList){
-		delete list.second;
+		delete list;
 	}
 	for(auto&& list : _addModelList){
-		delete list.second;
+		delete list;
 	}
 
 	_modelList.clear();
@@ -36,8 +36,8 @@ void RenderManager::DelAll() {
 }
 
 void RenderManager::Sort(){
-	std::sort(_modelList.begin(), _modelList.end(), [](const std::pair<int, ModelBase*> a,const std::pair< int, ModelBase*> b) {
-		return a.first < b.first;
+	std::sort(_modelList.begin(), _modelList.end(), [](ModelBase* a,ModelBase* b) {
+		return a->GetLayer() < b->GetLayer();
 	});
 };
 
@@ -49,8 +49,8 @@ bool RenderManager::UpdateInit(){
 	// deleteList‚Ì’†‚É’l‚ª‚ ‚é‚Æ‚«íœ
 	for (auto list : _delModelList) {
 		for (auto itr = _modelList.begin(); itr != _modelList.end();) {
-			if ((*itr).second->GetName() == list) {
-				delete (*itr).second;
+			if ((*itr)->GetName() == list) {
+				delete (*itr);
 				itr = _modelList.erase(itr);
 			}
 			else{
@@ -87,7 +87,7 @@ bool RenderManager::Draw() {
 	SetWriteZBuffer3D(TRUE);
 	SetUseBackCulling(TRUE);
 	for (auto list : _modelList) {
-		list.second->Render();
+		list->Render();
 	}
 	return true;
 };

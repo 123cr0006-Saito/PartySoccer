@@ -31,10 +31,9 @@ ModeGoal::ModeGoal(std::string name){
 
 	UIManager* ui = dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"));
 
-	int count = 0;
+
 	for(auto&& list : _ui){
-		ui->Add(list.first, 10000 + count, list.second);
-		count++;
+		ui->Add(list.second);
 
 		if(list.first == "Goal_1"){
 			list.second->SetHandle(_numHandle[_nowScore[0]]);
@@ -56,6 +55,7 @@ bool	ModeGoal::Initialize(){
 };
 
 void ModeGoal::LoadUI(){
+	int count = 0;
 	CFile file("Data/GoalUIParam.csv");
 	// ファイルが開けた場合
 	if (file.Success()) {
@@ -82,7 +82,7 @@ void ModeGoal::LoadUI(){
 			handle = LoadGraph(handlePath.c_str());
 			alpha = 255;
 
-			UIRotaBase* ui = NEW UIRotaBase(pos, center, extrate, angle, alpha, handle);
+			UIRotaBase* ui = NEW UIRotaBase(name, pos, center, extrate, angle, alpha, handle,10000+count);
 			if (animPath != "") {
 				LocationAnim* anim = NEW LocationAnim(ui, animPath);
 				ui->SetAnimation(anim);
@@ -94,6 +94,7 @@ void ModeGoal::LoadUI(){
 			}
 
 			_ui.emplace_back(name,ui);
+			count++;
 		}
 	}
 	else {

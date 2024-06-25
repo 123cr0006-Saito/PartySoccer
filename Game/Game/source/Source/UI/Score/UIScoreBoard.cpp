@@ -9,11 +9,13 @@ UIScoreBoard::UIScoreBoard(Vector3D pos,std::string name, Score* score) :
 {
 	_handle = LoadGraph("Res/GoalAnimation/scoreBoard.png");
 	_pos = pos;
+	_layer = 10;
+	_name = "scoreBoard";
 	int sizeX, sizeY;
 	GetGraphSize(_handle, &sizeX, &sizeY);
 	_center = Vector3D(sizeX/2, sizeY/2, 0);
 	_score = NEW UIScore(pos, name, score);
-	dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"))->Add("scoreBoard", 10, this);
+	dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"))->Add(this);
 };
 
 UIScoreBoard::~UIScoreBoard(){

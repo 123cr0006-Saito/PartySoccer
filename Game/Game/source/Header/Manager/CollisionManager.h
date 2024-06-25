@@ -8,7 +8,7 @@ public:
 	CollisionManager();
 	~CollisionManager();
 	static CollisionManager* GetInstance(){return _instance;};
-	void Add(ObjectBase* object, CollisionBase* collision);
+	void Add(CollisionBase* collision);
 	void Del(std::string name)override;
 	void DelAll()override;
 
@@ -18,13 +18,13 @@ public:
 
 	virtual int GetListSize() override;
 
-	bool CollisionCheckForCapsule(std::pair<ObjectBase*, CollisionBase*>&);
-	bool CollisionCheckForSphere(std::pair<ObjectBase*, CollisionBase*>&);
+	bool CollisionCheckForCapsule(CollisionBase*);
+	bool CollisionCheckForSphere(CollisionBase*);
 
 protected:
 	static CollisionManager* _instance;	
-	std::vector<std::pair<ObjectBase*, CollisionBase*>> _addCollisionList;
-	std::vector<std::pair<ObjectBase*,CollisionBase*>> _collisionList;
+	std::vector<CollisionBase*> _addCollisionList;
+	std::vector<CollisionBase*> _collisionList;
 	std::vector<std::string> _delCollisionList;
 };
 

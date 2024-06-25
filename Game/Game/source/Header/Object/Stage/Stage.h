@@ -1,4 +1,5 @@
 #include "../Base/ObjectBase.h"
+#include "../../AppFrame/source/System/Header/Collision/MyStructure.h"
 class Stage : public ObjectBase
 {
 public:

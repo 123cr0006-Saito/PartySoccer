@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 
+#include "../Game/Game/source/Header/Object/Base/ObjectBase.h"
+
 // 円周率
 #define	PI				(3.141592653589793)
 
@@ -46,15 +48,20 @@ struct TWOLINE_SHORT {
 class CollisionBase
 {
 public:
-	CollisionBase() { name = "";isHit = false; isHitOld = false;};
+	CollisionBase() { name = "";isHit = false; isHitOld = false; object = nullptr;};
+	CollisionBase(std::string name, ObjectBase* object) { this->name = name; this->object = object; isHit = false; isHitOld = false;};
 	virtual ~CollisionBase() {};
 	void SetName(std::string name) { this->name = name; }
 	virtual void Render(unsigned int color) =0;
 	std::string GetName() { return name; }
+	ObjectBase* GetObje() { return object; }
+public:
 	Vector3D pos;
-	std::string name;
 	bool isHit;
 	bool isHitOld;
+protected:
+	std::string name;
+	ObjectBase* object;
 };
 
 class Sphere : public CollisionBase
@@ -65,7 +72,11 @@ public:
 		r = 0.0f;
 	}
 	Sphere(Vector3D pos, float r) : CollisionBase() {
-		pos = pos;
+		this->pos = pos;
+		this->r = r;
+	}
+	Sphere(std::string name, Vector3D pos, float r, ObjectBase* object) : CollisionBase(name, object) {
+		this->pos = pos;
 		this->r = r;
 	}
 
@@ -87,6 +98,24 @@ public:
 		for (int i = 0; i < 3; ++i) {			
 			length[i] = 0.0f;
 		}
+	}
+	OBB(std::string name, Vector3D pos, ObjectBase* object) : CollisionBase(name, object) {
+		this->pos = pos;
+		// 初期状態ではワールドの軸と平行な状態にする（AABB）
+		dir_vec[0] = Vector3D(1.0f, 0.0f, 0.0f);
+		dir_vec[1] = Vector3D(0.0f, 1.0f, 0.0f);
+		dir_vec[2] = Vector3D(0.0f, 0.0f, 1.0f);
+
+		for (int i = 0; i < 3; ++i) {
+			length[i] = 0.0f;
+		}
+	}
+	OBB(std::string name,Vector3D pos, Vector3D length, ObjectBase* object) : CollisionBase(name,object) {
+		this->pos = pos;
+		dir_vec[0] = Vector3D(1.0f, 0.0f, 0.0f);
+		dir_vec[1] = Vector3D(0.0f, 1.0f, 0.0f);
+		dir_vec[2] = Vector3D(0.0f, 0.0f, 1.0f);
+		SetLength(length);
 	}
 
 	void SetLength(Vector3D value) {
@@ -118,7 +147,14 @@ public:
 			direction[i] = 0;
 		}
 	};
-
+	Capsule(std::string name, Vector3D pos, float up, float r, ObjectBase* object) : CollisionBase(name, object) {
+		this->pos = pos;
+		this->up = up;
+		this->r = r;
+		for (int i = 0; i < 3; i++) {
+			direction[i] = 0;
+		}
+	};
 	void Update() {
 		up_pos = pos + Vector3D(0,up,0);
 	};

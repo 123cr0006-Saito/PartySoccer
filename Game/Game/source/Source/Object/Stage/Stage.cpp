@@ -10,11 +10,10 @@ Stage::Stage(std::string name) : ObjectBase(name) {
 		MV1SetFrameVisible(handle, 351 + i, false);// 使用しないフレームの番号を指定　非表示に設定
 	}
 
-	_model = NEW ModelBase(name, handle);
+	_model = NEW ModelBase(name, 1,handle);
 	_model->SetPos(_pos);
 	RenderManager* renderManager = dynamic_cast<RenderManager*>(SuperManager::GetInstance()->GetManager("renderManager"));
-	renderManager->Add(1, _model);
-	
+	renderManager->Add(_model);
 };
 
 Stage::~Stage() {

@@ -7,20 +7,16 @@
 #include "../../../Header/Model/Base/ModelBase.h"
 Goal::Goal(std::string name, Vector3D pos, Vector3D rotation) : ObjectBase(name) {
 	int handle = ResourceServer::MV1LoadModel("Goal","Res/Model/Goal/goal.mv1");
-	_model = NEW ModelBase(name, handle);
+	_model = NEW ModelBase(name, 1, handle);
 	_model->SetPos(pos);
 	_model->SetRotation(rotation);
 	_model->SetScale(Vector3D(5, 5, 5));
 
 	RenderManager* renderManager = dynamic_cast<RenderManager*>(SuperManager::GetInstance()->GetManager("renderManager"));
-	renderManager->Add(1, _model);
+	renderManager->Add(_model);
 
-	_obb = NEW OBB();
-	_obb->SetName("goal");
-	_obb->pos = pos + Vector3D(-300*cos(rotation.y), 0, 0);
-	_obb->Rotate(rotation);
-	_obb->SetLength(Vector3D(600, 1800, 2500));
-	CollisionManager::GetInstance()->Add(this, _obb);
+	_obb = NEW OBB("goal", pos + Vector3D(-300 * cos(rotation.y), 0, 0), Vector3D(600, 1800, 2500), this);
+	CollisionManager::GetInstance()->Add(_obb);
 };
 
 Goal::~Goal(){

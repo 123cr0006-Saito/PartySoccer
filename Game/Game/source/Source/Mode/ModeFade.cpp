@@ -24,7 +24,7 @@ ModeFade::ModeFade(int time,bool isFadeIn) {
 	//_alphaFade = ui->LinkAlpha();
 	// サーバーに追加
 	UIManager* uiManager = dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"));
-	uiManager->Add("Fade", 999999, _ui);
+	uiManager->Add(_ui);
 	if (isFadeIn) {
 		_alphaFade = 255;
 	}

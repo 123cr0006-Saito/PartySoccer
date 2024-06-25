@@ -15,18 +15,15 @@ namespace{
 Player::Player(std::string name, XInput* input, int handle) : ObjectBase(name) {
 	_Input = input;
 	int modelHandle = handle;
-	_model = NEW RimLightModel(name, modelHandle);
+	_model = NEW RimLightModel(name,10, modelHandle);
 	_model->SetPos(_pos);
 	_forwardVec = Vector3D(0.0f, 0.0f, -1.0f);
 
 	RenderManager* renderManager = dynamic_cast<RenderManager*>(SuperManager::GetInstance()->GetManager("renderManager"));
-	renderManager->Add(10, _model);
+	renderManager->Add(_model);
 
-	_capsule = NEW Capsule();
-	_capsule->SetName("player");
-	_capsule->up = 600.0f;
-	_capsule->r = 170.0f;
-	CollisionManager::GetInstance()->Add(this, _capsule);
+	_capsule = NEW Capsule("player",_pos,600.0f,170.0f,this);
+	CollisionManager::GetInstance()->Add(_capsule);
 
 	_stamina = 100;
 	_knockBack = 0;
@@ -150,12 +147,6 @@ void Player::MoveUpdate(const Vector3D& normalDir){
 };
 
 void Player::ShootUpdate(){
-	// 球の設定
-	auto SetSphere = [&](Sphere* sphere) {
-		sphere->pos = _pos + Vector3D(0, _capsule->up / 2, 0) + (_forwardVec * 350);
-		sphere->r = 100.0f;
-		sphere->name = "shoot";
-	};
 	// パラメータの加算
 	auto AddParam = [](int* param, int max, int value) {
 		if ((*param) < max) (*param) += value;
@@ -173,10 +164,9 @@ void Player::ShootUpdate(){
 
 	if (_Input->GetRel(XINPUT_BUTTON_B)) {
 		// シュート処理
-		Sphere* sphere = NEW Sphere();
-		SetSphere(sphere);
+		Sphere* sphere = NEW Sphere("shoot", _pos + Vector3D(0, _capsule->up / 2, 0) + (_forwardVec * 350),100,this);
 		CollisionManager* collisionManager = dynamic_cast<CollisionManager*>(SuperManager::GetInstance()->GetManager("collisionManager"));
-		CollisionManager::GetInstance()->Add(this, sphere);
+		CollisionManager::GetInstance()->Add(sphere);
 		_isShoot = true;
 	}
 };

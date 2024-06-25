@@ -61,10 +61,10 @@ bool ModeGame::Terminate() {
 	// UIの削除
 	UIManager* uiManager = dynamic_cast<UIManager*>(_superManager->GetManager("uiManager"));
 	PlayerManager* playerManager = dynamic_cast<PlayerManager*>(_superManager->GetManager("playerManager"));
-	std::vector<std::pair<std::string, Player*>> player = playerManager->GetList();
+	std::vector< Player*> player = playerManager->GetList();
 	for(auto&& list : player){
-		uiManager->Del(list.second->GetName() + "Frame");
-		uiManager->Del(list.second->GetName() + "Icon");
+		uiManager->Del(list->GetName() + "Frame");
+		uiManager->Del(list->GetName() + "Icon");
 	}
 	uiManager->Del("scoreBoard"); 
 	uiManager->Del("scoreNum");
@@ -94,7 +94,7 @@ void ModeGame::ReSetGame(){
 bool ModeGame::LoadObject(){
 	ObjectManager* objectManager = dynamic_cast<ObjectManager*>(_superManager->GetManager("objectManager"));
 	//ボールの生成
-	objectManager->Add("Ball", NEW Ball("Ball"));
+	objectManager->Add(NEW Ball("Ball"));
 	_objectName.push_back("Ball");
 	//ゴールの生成
 	std::vector<std::tuple<std::string, Vector3D, Vector3D>> goalList = LoadObjectParam("Data/GoalParam.csv");
@@ -102,27 +102,22 @@ bool ModeGame::LoadObject(){
 	for (auto&& list : goalList) {
 		std::string name = std::get<0>(list) + std::to_string(count);
 		Goal* goal = new Goal(name, std::get<1>(list), std::get<2>(list).Radian());
-		objectManager->Add(name, goal);
+		objectManager->Add(goal);
 		_objectName.push_back(name);
 		count++;
 	}
 	//ゴールネットコリジョンの生成
 	std::vector<std::tuple<std::string, Vector3D, Vector3D>> goalNetList = LoadObjectParam("Data/GoalNetParam.csv");
 	for (auto&& list : goalNetList) {
-		Wall* wall = NEW Wall();
-		wall->SetName(std::get<0>(list));
-		wall->SetColPos(std::get<1>(list));
-		wall->SetColLength(std::get<2>(list));
-		objectManager->Add(std::get<0>(list), wall);
+		Wall* wall = NEW Wall(std::get<0>(list), std::get<1>(list), std::get<2>(list));
+		objectManager->Add(wall);
 		_objectName.push_back(std::get<0>(list));
 	}
 	//壁コリジョンの生成
 	std::vector<std::tuple<std::string, Vector3D, Vector3D>> wallList = LoadObjectParam("Data/WallParam.csv");
 	for (auto&& list : wallList) {
-		Wall* wall = NEW Wall();
-		wall->SetColPos(std::get<1>(list));
-		wall->SetColLength(std::get<2>(list));
-		objectManager->Add(std::get<0>(list), wall);
+		Wall* wall = NEW Wall(std::get<0>(list), std::get<1>(list), std::get<2>(list));
+		objectManager->Add(wall);
 		_objectName.push_back(std::get<0>(list));
 	}
 
@@ -136,17 +131,16 @@ bool ModeGame::LoadUI(){
 		UIScoreBoard* uiScore = NEW UIScoreBoard(scoreBoardPos[i], "Goal_" + std::to_string(i + 1), _score);
 	}
 
-	std::vector<std::pair<std::string, Player*>> player = dynamic_cast<PlayerManager*>(_superManager->GetManager("playerManager"))->GetList();
+	std::vector< Player*> player = dynamic_cast<PlayerManager*>(_superManager->GetManager("playerManager"))->GetList();
 	UIManager* uiManager = dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"));
 	int size = player.size();
 	int shouldMoveIcon = size > 2 ? 1 : 0;
-	std::string path[4] = { "Cat","Fox","Kappa","Rabbit" };
 	for(int i = 0; i < size; i++){
-		std::string name = player[i].second->GetName();
+		std::string name = player[i]->GetName();
 		int handle = LoadGraph(("Res/UI/Icon/" + name  + ".png").c_str());
 		float iconOfset = i >= 2 ? 50 : -50;
-		UIBase* uiIcon = NEW UIBase(scoreBoardPos[i % 2] + Vector3D(iconOfset * shouldMoveIcon, 150, 0), 0.2f, 255, handle);
-		uiManager->Add(name + "Icon", 1000+i, uiIcon);
+		UIBase* uiIcon = NEW UIBase(name + "Icon", scoreBoardPos[i % 2] + Vector3D(iconOfset * shouldMoveIcon, 150, 0), 0.2f, 255, handle,1000+i);
+		uiManager->Add(uiIcon);
 	}
 
 	UIStartCount* uiStartCount = NEW UIStartCount();

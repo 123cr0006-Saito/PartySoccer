@@ -24,8 +24,8 @@ CollisionManager::~CollisionManager(){
 	DelAll();
 };
 
-void CollisionManager::Add(ObjectBase* object, CollisionBase* collision){
-	_addCollisionList.emplace_back(std::make_pair(object,collision));
+void CollisionManager::Add(CollisionBase* collision){
+	_addCollisionList.emplace_back(collision);
 };
 
 void  CollisionManager::Del(std::string name){
@@ -34,10 +34,10 @@ void  CollisionManager::Del(std::string name){
 
 void CollisionManager::DelAll(){
 	for(auto&& list : _addCollisionList){
-		delete list.second;
+		delete list;
 	}
 	for (auto&& list : _collisionList) {
-		delete list.second;
+		delete list;
 	}
 	_collisionList.clear();
 	_addCollisionList.clear();
@@ -51,8 +51,8 @@ bool CollisionManager::UpdateInit(){
 	// deleteListの中に値があるとき削除
 	for (auto list : _delCollisionList) {
 		for (auto itr = _collisionList.begin(); itr != _collisionList.end();) {
-			if (itr->second->GetName() == list) {
-				delete itr->second;
+			if ((*itr)->GetName() == list) {
+				delete (*itr);
 				itr = _collisionList.erase(itr);
 			}
 			else{
@@ -79,16 +79,16 @@ bool CollisionManager::Update(){
 	// コリジョン判定を取る前の初期化
 	for (auto&& first : _collisionList) {
 		// 前回の判定結果を保存
-		first.second->isHitOld = first.second->isHit;
+		first->isHitOld = first->isHit;
 		// 判定結果を初期化
-		first.second->isHit = false;
+		first->isHit = false;
 	}
 
 	// 衝突判定
 	for(auto&& first :_collisionList){
 		std::vector<std::string> name = { "shoot", "goal","wall","GoalNet"};
 		auto itr = std::find_if(name.begin(), name.end(),[=](std::string temp){
-			return temp == first.second->name;
+			return temp == first->GetName();
 		});
 
 		if (itr != name.end()) {
@@ -96,10 +96,10 @@ bool CollisionManager::Update(){
 			continue;
 		}
 
-		if(first.second->name == "player"){
+		if(first->GetName() == "player"){
 			CollisionCheckForCapsule(first);
 		}
-		else if(first.second->name == "ball"){
+		else if(first->GetName() == "ball"){
 			CollisionCheckForSphere(first);
 		}
 	}
@@ -109,15 +109,15 @@ bool CollisionManager::Update(){
 bool CollisionManager::Draw(){
 #ifdef _DEBUG
 	for (auto&& list : _collisionList) {
-		list.second->Render(0xff0000);
+		list->Render(0xff0000);
 	}
 #endif
 	return true;
 };
 
-bool CollisionManager::CollisionCheckForCapsule(std::pair<ObjectBase*, CollisionBase*>& first){
+bool CollisionManager::CollisionCheckForCapsule(CollisionBase* first){
 
-	Capsule* capsule1 = dynamic_cast<Capsule*>(first.second);
+	Capsule* capsule1 = dynamic_cast<Capsule*>(first);
 
 	// キャスト失敗
 	if(!capsule1){
@@ -128,12 +128,12 @@ bool CollisionManager::CollisionCheckForCapsule(std::pair<ObjectBase*, Collision
 	for (auto&& second : _collisionList) {
 
 		if (first == second)continue;
-		if (second.second->name == "shoot" || second.second->name == "goal")continue;
+		if (second->GetName() == "shoot" || second->GetName() == "goal")continue;
 
-		if(second.second->name == "player"){
+		if(second->GetName() == "player"){
 			// 同じ名前のオブジェクト同士は判定を行わない
 
-			Capsule* capsule2 = dynamic_cast<Capsule*>(second.second);
+			Capsule* capsule2 = dynamic_cast<Capsule*>(second);
 			// キャスト失敗
 			if (!capsule2) {
 				DebugErrar();
@@ -142,15 +142,15 @@ bool CollisionManager::CollisionCheckForCapsule(std::pair<ObjectBase*, Collision
 
 			if (Collision3D::TwoCapsuleCol((*capsule1), (*capsule2))) {
 				//衝突処理
-				Player* player1 = dynamic_cast<Player*>(first.first);
+				Player* player1 = dynamic_cast<Player*>(first->GetObje());
 				if (!player1) {
 					DebugErrar();
 				}
-				Player* player2 = dynamic_cast<Player*>(second.first);
+				Player* player2 = dynamic_cast<Player*>(second->GetObje());
 				if (!player2) {
 					DebugErrar();
 				}
-				first.second->isHit = second.second->isHit = true;
+				first->isHit = second->isHit = true;
 				if (player1->GetDash() > player2->GetDash()) {
 					// player2を吹き飛ばす
 					Vector3D dirVec = capsule2->up_pos - capsule1->pos;
@@ -161,8 +161,8 @@ bool CollisionManager::CollisionCheckForCapsule(std::pair<ObjectBase*, Collision
 				}
 			}
 		}
-		else if (second.second->name == "ball") {
-			Sphere* sphere = dynamic_cast<Sphere*>(second.second);
+		else if (second->GetName() == "ball") {
+			Sphere* sphere = dynamic_cast<Sphere*>(second);
 			// キャスト失敗
 			if (!sphere) {
 				DebugErrar();
@@ -171,18 +171,18 @@ bool CollisionManager::CollisionCheckForCapsule(std::pair<ObjectBase*, Collision
 
 			if (Collision3D::SphereCapsuleCol((*sphere),(*capsule1))) {
 				//衝突処理		
-				Ball* ball = dynamic_cast<Ball*>(second.first);
+				Ball* ball = dynamic_cast<Ball*>(second->GetObje());
 				if (!ball) {
 					DebugErrar();
 				}
 				bool IsShoot = ball->GetIsShoot();
 				Vector3D pos1 = capsule1->pos;
 				Vector3D pos2 = sphere->pos;
-				Player* player = dynamic_cast<Player*>(first.first);
+				Player* player = dynamic_cast<Player*>(first->GetObje());
 				if (!player) {
 					DebugErrar();
 				}
-				first.second->isHit = second.second->isHit = true;
+				first->isHit = second->isHit = true;
 				if (IsShoot) {
 					// player1を吹き飛ばす
 					Vector3D dirVec = pos1 - pos2;
@@ -210,7 +210,7 @@ bool CollisionManager::CollisionCheckForCapsule(std::pair<ObjectBase*, Collision
 	}
 
 	// 壁の判定 壁は平面の当たり判定で考える
-	Player* player = dynamic_cast<Player*>(first.first);
+	Player* player = dynamic_cast<Player*>(first->GetObje());
 	if (!player) {
 		DebugErrar();
 	}
@@ -226,9 +226,9 @@ bool CollisionManager::CollisionCheckForCapsule(std::pair<ObjectBase*, Collision
 	return true;
 };
 
-bool CollisionManager::CollisionCheckForSphere(std::pair<ObjectBase*, CollisionBase*>& first){
+bool CollisionManager::CollisionCheckForSphere(CollisionBase* first){
 
-	Sphere* sphere1 = dynamic_cast<Sphere*>(first.second);
+	Sphere* sphere1 = dynamic_cast<Sphere*>(first);
 
 	// キャスト失敗
 	if (!sphere1) {
@@ -237,11 +237,11 @@ bool CollisionManager::CollisionCheckForSphere(std::pair<ObjectBase*, CollisionB
 	}
 	bool isHitGoalNet = false;
 	for (auto&& second : _collisionList) {
-		if (second.second->name == "player") {
-			first.second->isHit = second.second->isHit = true;
+		if (second->GetName() == "player") {
+			first->isHit = second->isHit = true;
 		}
-		else if (second.second->name == "shoot") {
-			Sphere* sphere2 = dynamic_cast<Sphere*>(second.second);
+		else if (second->GetName() == "shoot") {
+			Sphere* sphere2 = dynamic_cast<Sphere*>(second);
 			if (!sphere2) {
 				DebugErrar();
 				return false;
@@ -250,17 +250,17 @@ bool CollisionManager::CollisionCheckForSphere(std::pair<ObjectBase*, CollisionB
 				Vector3D pos1 = sphere1->pos;
 				Vector3D pos2 = sphere2->pos;
 				Vector3D dirVec =  pos1 - pos2;
-				Ball* ball = dynamic_cast<Ball*>(first.first);
+				Ball* ball = dynamic_cast<Ball*>(first->GetObje());
 				if (!ball) {
 					DebugErrar();
 					return false;
 				}
-				Player* player = dynamic_cast<Player*>(second.first);
+				Player* player = dynamic_cast<Player*>(second->GetObje());
 				if (!player) {
 					DebugErrar();
 					return false;
 				}
-				first.second->isHit = second.second->isHit = true;
+				first->isHit = second->isHit = true;
 				global._soundServer->DirectPlay("SE_Shoot");
 				ball->SetForwardVec(dirVec);
 				int power = player->GetPower();
@@ -272,21 +272,21 @@ bool CollisionManager::CollisionCheckForSphere(std::pair<ObjectBase*, CollisionB
 				}
 			}
 		}
-		else if (second.second->name == "goal") {
-			OBB* obb = dynamic_cast<OBB*>(second.second);
+		else if (second->GetName() == "goal") {
+			OBB* obb = dynamic_cast<OBB*>(second);
 			if (!obb) {
 				DebugErrar();
 				return false;
 			}
 			if (Collision3D::OBBSphereCol((*obb), (*sphere1) )) {
-				first.second->isHit = second.second->isHit = true;
-				if(second.second->isHitOld)continue;
-				Ball* ball = dynamic_cast<Ball*>(first.first);
+				first->isHit = second->isHit = true;
+				if(second->isHitOld)continue;
+				Ball* ball = dynamic_cast<Ball*>(first->GetObje());
 				if (!ball) {
 					DebugErrar();
 					return false;
 				}
-				Goal* goal = dynamic_cast<Goal*>(second.first);
+				Goal* goal = dynamic_cast<Goal*>(second->GetObje());
 				if (!goal) {
 					DebugErrar();
 					return false;
@@ -295,25 +295,25 @@ bool CollisionManager::CollisionCheckForSphere(std::pair<ObjectBase*, CollisionB
 				if (!modeServer->Search("ModeGoal")){
 					global._soundServer->DirectPlay("SE_Whistle");
 					global._soundServer->DirectPlay("SE_Cheers");
-					modeServer->Add(NEW ModeGoal(second.first->GetName()),1000,"ModeGoal");
+					modeServer->Add(NEW ModeGoal(goal->GetName()),1000,"ModeGoal");
 				}
 			}		
 		}
-		else if(second.second->name == "wall" && !isHitGoalNet){
-			OBB* obb = dynamic_cast<OBB*>(second.second);
+		else if(second->GetName() == "wall" && !isHitGoalNet){
+			OBB* obb = dynamic_cast<OBB*>(second);
 			if (!obb) {
 				DebugErrar();
 				return false;
 			}
 			Vector3D hitPos;
 			if (Collision3D::OBBSphereCol((*obb), (*sphere1),&hitPos)) {
-				Ball* ball = dynamic_cast<Ball*>(first.first);
+				Ball* ball = dynamic_cast<Ball*>(first->GetObje());
 				if (!ball) {
 					DebugErrar();
 					return false;
 				}
-				Wall* wall = dynamic_cast<Wall*>(second.first);
-				first.second->isHit = second.second->isHit = true;
+				Wall* wall = dynamic_cast<Wall*>(second->GetObje());
+				first->isHit = second->isHit = true;
 				if (!wall) {
 					DebugErrar();
 					return false;
@@ -328,17 +328,17 @@ bool CollisionManager::CollisionCheckForSphere(std::pair<ObjectBase*, CollisionB
 				ball->AddSpeed(10);
 			}
 		}
-		else if (second.second->name == "GoalNet") {
-			OBB* obb = dynamic_cast<OBB*>(second.second);
+		else if (second->GetName() == "GoalNet") {
+			OBB* obb = dynamic_cast<OBB*>(second);
 			Vector3D hitPos;
 			if (Collision3D::OBBSphereCol((*obb), (*sphere1), &hitPos)) {
-				Ball* ball = dynamic_cast<Ball*>(first.first);
+				Ball* ball = dynamic_cast<Ball*>(first->GetObje());
 				if (!ball) {
 					DebugErrar();
 					return false;
 				}
-				Wall* wall = dynamic_cast<Wall*>(second.first);
-				first.second->isHit = second.second->isHit = true;
+				Wall* wall = dynamic_cast<Wall*>(second->GetObje());
+				first->isHit = second->isHit = true;
 				if (!wall) {
 					DebugErrar();
 					return false;
@@ -372,7 +372,7 @@ bool CollisionManager::CollisionCheckForSphere(std::pair<ObjectBase*, CollisionB
 
 	// 壁に当たったときの処理
 	if(normal.Sqlen() > 0){
-		Ball* ball = dynamic_cast<Ball*>(first.first);
+		Ball* ball = dynamic_cast<Ball*>(first->GetObje());
 		ball->SetForwardVec(Reflect(ball->GetForwardVec(), normal));
 		ball->SetPos(pos1);
 		ball->AddSpeed(10);

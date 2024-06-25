@@ -28,33 +28,32 @@ bool	ModeResult::Initialize(){
 	// 勝者を取得
 	_winnerTeam = _score->GetWinner();
 	// プレイヤーのリストを取得
-	std::vector<std::pair<std::string, Player*>> player = _playerManager->GetList();
+	std::vector<Player*> player = _playerManager->GetList();
 	int playerNum = player.size();
 	// プレイヤーの位置を設定
 	for (int i = 0; i < playerNum; i++) {
 		if (playerNum == 1) {
 			// プレイヤーが一人の場合　中心
-			player[i].second->SetPos(Vector3D(0, 0, 0));
-			player[i].second->SetForwardVec(Vector3D(0, 0, -1));
-			player[i].second->SetIsGame(false);
+			player[i]->SetPos(Vector3D(0, 0, 0));
+			player[i]->SetForwardVec(Vector3D(0, 0, -1));
+			player[i]->SetIsGame(false);
 		}
 		else {
 		// プレイヤーが複数の場合　等間隔
 			float dis = 100.0f;
 			float length = dis / (playerNum - 1);
-			player[i].second->SetPos(Vector3D(-dis / 2 + length * i, 0, 0));
+			player[i]->SetPos(Vector3D(-dis / 2 + length * i, 0, 0));
 		}
 	}
 
 	int handle,x,y;
 	handle = LoadGraph(("Res/UI/WinFrame" + _winnerTeam + ".png").c_str());
 	GetGraphSize(handle, &x, &y);
-	UIRotaBase* ui = NEW UIRotaBase(Vector3D(1920/2,-500,0), Vector3D(x/2,y/2,0), Vector3D(1.0f, 1.0f, 0.0f), 0, 255, handle);
+	UIRotaBase* ui = NEW UIRotaBase("WinTeam",Vector3D(1920 / 2, -500, 0), Vector3D(x / 2, y / 2, 0), Vector3D(1.0f, 1.0f, 0.0f), 0, 255, handle, 100);
 	LocationAnim* anim = NEW LocationAnim(ui, "Data/UIAnimation/WinTeamAnimation.csv");
 	ui->SetAnimation(anim);
-	dynamic_cast<UIManager*>(_superManager->GetManager("uiManager"))->Add("WinTeam",100,ui);
+	dynamic_cast<UIManager*>(_superManager->GetManager("uiManager"))->Add(ui);
 	global._soundServer->DirectPlay("BGM_Cheers");
-	//global._soundServer->DirectPlay("BGM_Applause");
 	return true;
 };
 

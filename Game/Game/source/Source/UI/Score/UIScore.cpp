@@ -10,13 +10,15 @@ UIScore::UIScore(Vector3D pos, std::string name, Score* score) :
 	_score(score)
 {
 	_pos = pos;
+	_layer = 15;
+	_name = "scoreNum";
 	for(int i = 0; i < 10; i++){
 		_scoreHandle[i] = LoadGraph(("Res/UI/Number/timer_0" + std::to_string(i) + ".png").c_str());
 	}
 	int sizeX, sizeY;
 	GetGraphSize(_scoreHandle[0], &sizeX, &sizeY);
 	_center = Vector3D(sizeX / 2, sizeY / 2, 0);
-	dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"))->Add("scoreNum", 15, this);
+	dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"))->Add(this);
 };
 
 UIScore::~UIScore(){

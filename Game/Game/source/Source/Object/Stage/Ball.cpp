@@ -7,24 +7,23 @@
 #include "../../AppFrame/source/System/Header/Resource/ResourceServer.h"
 #include "../../../Header/Model/Base/ModelBase.h"
 Ball::Ball(std::string name) : ObjectBase(name){
+
+	_pos = Vector3D(0.0f, 350.0f, 0.0f);
+
 	int handle = ResourceServer::MV1LoadModel("Ball", "Res/Model/Ball/SoccerBall.mv1");
-	_model = NEW ModelBase(name, handle);
+	_model = NEW ModelBase(name, 10, handle);
 	_model->SetScale(Vector3D(10,10,10));
 	_model->SetPos(_pos);
 
-	_sphere = NEW Sphere();
-	_pos = Vector3D(0.0f, 350.0f, 0.0f);
-	_sphere->pos = _pos;
-	_sphere->SetName("ball");
-	_sphere->r = 500.0f;
+	_sphere = NEW Sphere("ball",_pos,500.0f,this);
 	_isShoot= false;
 	_speed = 0.0f;
 	_dirVec = Vector3D(0.0f, 0.0f, 0.0f);
 	_glavity = 0.0f;
 	_oldPos = _pos;
 	 RenderManager* renderManager = dynamic_cast<RenderManager*>(SuperManager::GetInstance()->GetManager("renderManager"));
-	 renderManager->Add(10, _model);
-	 CollisionManager::GetInstance()->Add(this, _sphere);
+	 renderManager->Add(_model);
+	 CollisionManager::GetInstance()->Add(_sphere);
 };
 
 Ball::~Ball(){

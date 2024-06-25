@@ -7,6 +7,8 @@ class Goal : public ObjectBase {
 	bool Init()override;
 	bool Update()override;
 	bool DebugDraw()override;
+
+	OBB* GetOBB() { return _obb; }
 protected:
 	OBB* _obb;
 	class ModelBase* _model;

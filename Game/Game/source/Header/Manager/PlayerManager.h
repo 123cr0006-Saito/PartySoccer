@@ -16,7 +16,7 @@ class PlayerManager : public ManagerBase
 
 	void LoadObjectPos();
 	
-	std::vector<std::pair<std::string, Player*>> GetList() { return _player; }
+	std::vector<Player*> GetList() { return _player; }
 	int GetListSize()override;
 
 	bool Update()override;
@@ -25,7 +25,7 @@ class PlayerManager : public ManagerBase
 	bool Draw()override;
 	
 protected:
-	std::vector<std::pair<std::string,Player*>> _player;
+	std::vector<Player*> _player;
 	std::vector<Vector3D> _originPos;
 };
 

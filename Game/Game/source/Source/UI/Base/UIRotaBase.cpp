@@ -8,8 +8,8 @@ UIRotaBase::UIRotaBase() :
 {
 };
 
-UIRotaBase::UIRotaBase(Vector3D pos,Vector3D center, Vector3D extrate,float angle, int alpha, int handle):
-UIBase(pos,alpha,handle),
+UIRotaBase::UIRotaBase(std::string name,Vector3D pos,Vector3D center, Vector3D extrate,float angle, int alpha, int handle,int layer):
+UIBase(name,pos,alpha,handle,layer),
 _center(center),
 _extrate(extrate),
 _angle(angle)

@@ -1,7 +1,7 @@
 #include "../../Header/Model/RimLightModel.h"
 #include "../AppFrame/source/System/Header/Resource/ResourceServer.h"
-RimLightModel::RimLightModel(std::string name,int handle) :
-	ModelBase(name,handle)
+RimLightModel::RimLightModel(std::string name, int layer, int handle) :
+	ModelBase(name,layer,handle)
 {
 	_pixelShader = ResourceServer::LoadPixelShader("RimLightPS","Shader/PS/MV1_Rim_PS.pso");
 	_vertexShader = ResourceServer::LoadVertexShader("RimLightVS","Shader/VS/MV1_VS.vso");

@@ -25,14 +25,14 @@ bool ModeSelectPlayer::Initialize() {
 	_camera->SetTarget(Vector3D(0,0,0));
 	ObjectManager* objectManager = dynamic_cast<ObjectManager*>(_superManager->GetManager("objectManager"));
 	//ステージの生成
-	objectManager->Add("Stage", NEW Stage("Stage"));
+	objectManager->Add( NEW Stage("Stage"));
 
 	//コントローラーと同じ数になるまで追加する
 	for (int i = 0; i < GetJoypadNum(); i++) {
 		_playerParam.push_back(std::make_tuple("",NEW XInput(), 0));
 		_selectCharacter.push_back(std::make_pair(false, 0));
-		UIBase* uiRota = NEW UIBase(Vector3D(0,0,0), 0.5f,255,0);
-		dynamic_cast<UIManager*>(_superManager->GetManager("uiManager"))->Add("CheckUI_" + std::to_string(i), i, uiRota);
+		UIBase* uiRota = NEW UIBase("CheckUI_" + std::to_string(i),Vector3D(0,0,0), 0.5f,255,0,i);
+		dynamic_cast<UIManager*>(_superManager->GetManager("uiManager"))->Add(uiRota);
 		_ui.push_back(uiRota);
 	}
 	// モデルの読み込み
@@ -70,8 +70,8 @@ bool ModeSelectPlayer::PlayerNumAdjust(){
 			for (int i = connectNum; i < controllerNum; i++) {
 				_playerParam.push_back(std::make_tuple("",NEW XInput(), 0));
 				_selectCharacter.push_back(std::make_pair(false,0));
-				UIBase* uiRota = NEW UIBase(Vector3D(0, 0, 0), 0.5f, 255, 0);
-				dynamic_cast<UIManager*>(_superManager->GetManager("uiManager"))->Add("CheckUI_" + std::to_string(i), i, uiRota);
+				UIBase* uiRota = NEW UIBase("CheckUI_" + std::to_string(i),Vector3D(0, 0, 0), 0.5f, 255, 0,i);
+				dynamic_cast<UIManager*>(_superManager->GetManager("uiManager"))->Add(uiRota);
 				_ui.push_back(uiRota);
 			}
 		}

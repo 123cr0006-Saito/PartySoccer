@@ -6,7 +6,7 @@ class UIRotaBase : public UIBase
 {
 public:
 	UIRotaBase();
-	UIRotaBase( Vector3D pos, Vector3D center, Vector3D extrate, float angle, int alpha, int handle);
+	UIRotaBase(std::string name, Vector3D pos, Vector3D center, Vector3D extrate, float angle, int alpha, int handle,int layer);
 	virtual ~UIRotaBase();
 	void Update()override;
 	void Draw()override;

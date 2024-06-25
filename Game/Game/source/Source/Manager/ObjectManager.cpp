@@ -12,8 +12,8 @@ bool ObjectManager::Init() {
 	return true;
 };
 
-void ObjectManager::Add(std::string name, ObjectBase* object){
-	_objectList.emplace_back(std::make_pair(name, object));
+void ObjectManager::Add( ObjectBase* object){
+	_objectList.emplace_back(object);
 };
 
 void ObjectManager::Del(std::string name){
@@ -22,25 +22,21 @@ void ObjectManager::Del(std::string name){
 
 void ObjectManager::DelAll(){
 	for (auto&& list : _addObjectList) {
-		delete list.second;
+		delete list;
 	}
 	for(auto&& list : _objectList){
-		delete list.second;
+		delete list;
 	}
 	_objectList.clear();
 	_addObjectList.clear();
-};
-
-void ObjectManager::Sort() {
-
 };
 
 bool ObjectManager::Update(){
 	// deleteList‚Ì’†‚É’l‚ª‚ ‚é‚Æ‚«íœ
 	for (auto list : _delObjectList) {
 		for (auto itr = _objectList.begin(); itr != _objectList.end();) {
-			if (itr->first == list) {
-				delete itr->second;
+			if ((*itr)->GetName() == list) {
+				delete (*itr);
 			  itr = _objectList.erase(itr);
 			}
 			else{
@@ -55,7 +51,7 @@ bool ObjectManager::Update(){
 	}
 
 	for (auto&& list : _objectList) {
-		list.second->Update();
+		list->Update();
 	}
 
 	_delObjectList.clear();
@@ -66,7 +62,7 @@ bool ObjectManager::Update(){
 bool ObjectManager::UpdateEnd() 
 {
 	for (auto&& list : _objectList) {
-		list.second->UpdateEnd();
+		list->UpdateEnd();
 	}
 	return true;
 };
@@ -74,7 +70,7 @@ bool ObjectManager::UpdateEnd()
 bool ObjectManager::Draw() {
 #ifdef _DEBUG
 	for (auto&& list : _objectList) {
-		list.second->DebugDraw();
+		list->DebugDraw();
 	}
 #endif
 	return true;
@@ -82,8 +78,8 @@ bool ObjectManager::Draw() {
 
 ObjectBase* ObjectManager::Get(std::string name){
 	for (auto&& list : _objectList) {
-		if (list.first == name) {
-			return list.second;
+		if (list->GetName() == name) {
+			return list;
 		}
 	}
 	return nullptr;

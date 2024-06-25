@@ -1,7 +1,6 @@
 #pragma once
 #include "dxlib.h"
 #include "../AppFrame/source/System/Header/Function/Vector3D.h"
-#include "../../AppFrame/source/System/Header/Collision/MyStructure.h"
 #include <string>
 class ObjectBase
 {

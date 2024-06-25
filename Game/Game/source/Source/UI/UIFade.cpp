@@ -3,6 +3,8 @@
 UIFade::UIFade(int color){
 	_alpha = 0;
 	_color = color;
+	_layer = 999999;
+	_name = "Fade";
 };
 
 UIFade::~UIFade(){

@@ -12,8 +12,8 @@ bool UIManager::Init(){
 	return true;
 };
 
-void UIManager::Add(std::string name, int layer,UIBase* ui){
-	_addUiList.emplace_back(std::make_tuple(name,layer,ui));
+void UIManager::Add(UIBase* ui){
+	_addUiList.emplace_back(ui);
 };
 
 void UIManager::Del(std::string ui){
@@ -22,10 +22,10 @@ void UIManager::Del(std::string ui){
 
 void UIManager::DelAll(){
 	for (auto&& list : _uiList) {
-		delete std::get<2>(list);
+		delete list;
 	}
 	for (auto&& list : _addUiList) {
-		delete std::get<2>(list);
+		delete list;
 	}
 	_uiList.clear();
 	_addUiList.clear();
@@ -33,26 +33,21 @@ void UIManager::DelAll(){
 };
 
 void UIManager::Sort() {
-	std::sort(_uiList.begin(), _uiList.end(), [](const std::tuple<std::string, int, UIBase*>& a, const std::tuple<std::string, int, UIBase*>& b) {
-		return std::get<1>(a) < std::get<1>(b);
+	std::sort(_uiList.begin(), _uiList.end(), []( UIBase* &a, UIBase* &b) {
+		return a->GetLayer() < b->GetLayer();
 	});
 };
 
 int UIManager::GetListSize(){
 	return _uiList.size();
-}
-
-std::vector<std::tuple<std::string, int,UIBase*>>* UIManager::GetUiList()
-{
-	return &_uiList;
-}
+};
 
 bool UIManager::UpdateInit(){
 	// deleteList‚Ì’†‚É’l‚ª‚ ‚é‚Æ‚«íœ
 	for (auto list : _delUiList) {
 		for (auto itr = _uiList.begin(); itr != _uiList.end();) {
-			if (std::get<0>(*itr) == list) {
-				delete std::get<2>(*itr);
+			if ((*itr)->GetName() == list) {
+				delete (*itr);
 				itr = _uiList.erase(itr);
 			}
 			else{
@@ -83,7 +78,7 @@ bool UIManager::UpdateInit(){
 bool UIManager::Update(){
 	// UI‚ÌXV
 	for (auto&& ui : _uiList) {
-		std::get<2>(ui)->Update();
+		ui->Update();
 	}
 
 	return true;
@@ -91,7 +86,7 @@ bool UIManager::Update(){
 
 bool UIManager::Draw(){
 	for (auto&& ui : _uiList) {
-		std::get<2>(ui)->Draw();
+		ui->Draw();
 	}
 	return true;
 };
