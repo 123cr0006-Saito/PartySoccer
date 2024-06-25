@@ -355,20 +355,26 @@ bool CollisionManager::CollisionCheckForSphere(std::pair<ObjectBase*, CollisionB
 
 	if (pos1.z < -3180) {
 		normal = Vector3D(0, 0, 1);
+		pos1.z = -3180;
 	}
 	else if (pos1.z > 4876) {
 		normal = Vector3D(0, 0, -1);
+		pos1.z = 4876;
 	}
-	else if (pos1.x < -7335) {
+	else if (pos1.x < -7500) {
 		normal = Vector3D(1, 0, 0);
+		pos1.x = -7500;
 	}
-	else if (pos1.x > 7335) {
+	else if (pos1.x > 7500) {
 		normal = Vector3D(-1, 0, 0);
+		pos1.x = 7500;
 	}
+
 	// •Ç‚É“–‚½‚Á‚½‚Æ‚«‚Ìˆ—
 	if(normal.Sqlen() > 0){
 		Ball* ball = dynamic_cast<Ball*>(first.first);
 		ball->SetForwardVec(Reflect(ball->GetForwardVec(), normal));
+		ball->SetPos(pos1);
 		ball->AddSpeed(10);
 	}
 
