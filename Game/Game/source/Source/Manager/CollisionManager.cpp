@@ -10,19 +10,21 @@
 #include "../../Header/Mode/ModeGoal.h"
 #include "../AppFrame/MemoryLeak.h"
 #include "../AppFrame/source/Application/Global.h"
-CollisionManager* CollisionManager::_instance = nullptr;
+
 CollisionManager::CollisionManager(){
-	if (_instance != nullptr) {
-		DebugErrar();
-		return;
-	}
-	_instance = this;
+
 };
 
 CollisionManager::~CollisionManager(){
-	_instance = nullptr;
-	DelAll();
+	_addCollisionList.clear();
+	_delCollisionNameList.clear();
+	_delCollisionList.clear();
+	_collisionList.clear();
 };
+
+bool CollisionManager::Terminate() {
+	return true;
+}
 
 void CollisionManager::Add(CollisionBase* collision){
 	_addCollisionList.emplace_back(collision);
@@ -33,8 +35,13 @@ void CollisionManager::AddInput(void* value){
 	_addCollisionList.emplace_back(collision);
 };
 
-void  CollisionManager::Del(std::string name){
-	_delCollisionList.emplace_back(name);
+void  CollisionManager::DeleteName(std::string name){
+	_delCollisionNameList.emplace_back(name);
+};
+
+void CollisionManager::DeleteInput(void* value){
+	CollisionBase* collision = static_cast<CollisionBase*>(value);
+	_delCollisionList.emplace_back(collision);
 };
 
 void CollisionManager::DelAll(){
@@ -56,6 +63,18 @@ bool CollisionManager::UpdateInit(){
 	// deleteList‚Ì’†‚É’l‚ª‚ ‚é‚Æ‚«íœ
 	for (auto list : _delCollisionList) {
 		for (auto itr = _collisionList.begin(); itr != _collisionList.end();) {
+			if ((*itr) == list) {
+				delete (*itr);
+				itr = _collisionList.erase(itr);
+			}
+			else {
+				++itr;
+			}
+		}
+	}
+
+	for (auto list : _delCollisionNameList) {
+		for (auto itr = _collisionList.begin(); itr != _collisionList.end();) {
 			if ((*itr)->GetName() == list) {
 				delete (*itr);
 				itr = _collisionList.erase(itr);
@@ -73,6 +92,7 @@ bool CollisionManager::UpdateInit(){
 
 	// addList‚ÆdeleteList‚ðƒNƒŠƒA
 	_addCollisionList.clear();
+	_delCollisionNameList.clear();
 	_delCollisionList.clear();
 	return true;
 };

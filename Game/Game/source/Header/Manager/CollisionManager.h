@@ -7,10 +7,11 @@ class CollisionManager:public ManagerBase
 public:
 	CollisionManager();
 	~CollisionManager();
-	static CollisionManager* GetInstance(){return _instance;};
+	virtual bool Terminate()override;
 	void Add(CollisionBase* collision);
 	void AddInput(void* value)override;
-	void Del(std::string name)override;
+	void DeleteName(std::string name)override;
+	void DeleteInput(void* value)override;
 	void DelAll()override;
 
 	bool UpdateInit()override;
@@ -23,9 +24,9 @@ public:
 	bool CollisionCheckForSphere(CollisionBase*);
 
 protected:
-	static CollisionManager* _instance;	
 	std::vector<CollisionBase*> _addCollisionList;
 	std::vector<CollisionBase*> _collisionList;
-	std::vector<std::string> _delCollisionList;
+	std::vector<CollisionBase*> _delCollisionList;
+	std::vector<std::string> _delCollisionNameList;
 };
 

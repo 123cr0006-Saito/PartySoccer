@@ -11,7 +11,7 @@ public:
 	~SuperManager();
 	bool Init();
 	bool Add(std::string name, int id,class ManagerBase* manager);
-	bool Del(std::string);
+	bool DeleteName(std::string);
 	bool DelAll();
 	class ManagerBase* GetManager(std::string name);
 	bool Update();

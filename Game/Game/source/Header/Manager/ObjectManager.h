@@ -5,11 +5,13 @@ class ObjectManager : public ManagerBase
 	public:
 	ObjectManager();
 	~ObjectManager();
+	virtual bool Terminate()override;
 	bool Init() override;
 
 	void Add(class ObjectBase* object);
 	void AddInput(void* value)override;
-	void Del(std::string name)override;
+	void DeleteName(std::string name)override;
+	void DeleteInput(void* value)override;
 	void DelAll()override;
 
 	bool Update()override;
@@ -21,6 +23,7 @@ class ObjectManager : public ManagerBase
 protected:
 	std::vector<class ObjectBase*> _addObjectList;
 	std::vector<class ObjectBase*> _objectList;
-	std::vector<std::string> _delObjectList;
+	std::vector<class ObjectBase*> _delObjectList;
+	std::vector<std::string> _delObjectNameList;
 };
 

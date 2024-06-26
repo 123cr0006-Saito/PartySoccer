@@ -19,11 +19,9 @@ Player::Player(std::string name, XInput* input, int handle) : ObjectBase(name) {
 	_model->SetPos(_pos);
 	_forwardVec = Vector3D(0.0f, 0.0f, -1.0f);
 
-	RenderManager* renderManager = dynamic_cast<RenderManager*>(SuperManager::GetInstance()->GetManager("renderManager"));
-	renderManager->Add(_model);
-
+	SuperManager::GetInstance()->GetManager("renderManager")->Add(_model);
 	_capsule = NEW Capsule("player",_pos,600.0f,170.0f,this);
-	CollisionManager::GetInstance()->Add(_capsule);
+	SuperManager::GetInstance()->GetManager("collisionManager")->Add(_capsule);
 
 	_stamina = 100;
 	_knockBack = 0;
@@ -48,6 +46,8 @@ Player::Player(std::string name, XInput* input, int handle) : ObjectBase(name) {
 
 Player::~Player(){
 	delete _Input;
+	SuperManager::GetInstance()->GetManager("collisionManager")->Delete(_capsule);
+	SuperManager::GetInstance()->GetManager("renderManager")->Delete(_model);
 };
 
 bool Player::Init(){
@@ -93,7 +93,7 @@ bool Player::UpdateGame(){
 
 	// シュート処理が終了している場合は初期化-------------------------------------
 	if (_isShoot) {
-		CollisionManager::GetInstance()->Del("shoot");
+		SuperManager::GetInstance()->GetManager("collisionManager")->DeleteName("shoot");
 		_isShoot = false;
 		_isPowerMax = false;
 		_model->SetIsShader(false);
@@ -165,8 +165,7 @@ void Player::ShootUpdate(){
 	if (_Input->GetRel(XINPUT_BUTTON_B)) {
 		// シュート処理
 		Sphere* sphere = NEW Sphere("shoot", _pos + Vector3D(0, _capsule->up / 2, 0) + (_forwardVec * 350),100,this);
-		CollisionManager* collisionManager = dynamic_cast<CollisionManager*>(SuperManager::GetInstance()->GetManager("collisionManager"));
-		CollisionManager::GetInstance()->Add(sphere);
+		SuperManager::GetInstance()->GetManager("collisionManager")->Add(sphere);
 		_isShoot = true;
 	}
 };

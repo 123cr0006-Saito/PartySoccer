@@ -5,8 +5,13 @@ ObjectManager::ObjectManager(){
 };
 
 ObjectManager::~ObjectManager(){
-	DelAll();
+	
 };
+
+bool ObjectManager::Terminate(){
+	DelAll();
+	return true;
+}
 
 bool ObjectManager::Init() {
 	return true;
@@ -21,8 +26,13 @@ void ObjectManager::AddInput(void* value){
 	_addObjectList.emplace_back(object);
 }
 
-void ObjectManager::Del(std::string name){
-	_delObjectList.emplace_back(name);
+void ObjectManager::DeleteName(std::string name){
+	_delObjectNameList.emplace_back(name);
+};
+
+void ObjectManager::DeleteInput(void* value){
+	ObjectBase* object = static_cast<ObjectBase*>(value);
+	_delObjectList.emplace_back(object);
 };
 
 void ObjectManager::DelAll(){
@@ -37,8 +47,21 @@ void ObjectManager::DelAll(){
 };
 
 bool ObjectManager::Update(){
+
+	for(auto list : _delObjectList) {
+		for (auto itr = _objectList.begin(); itr != _objectList.end();) {
+			if ((*itr) == list) {
+				delete (*itr);
+				itr = _objectList.erase(itr);
+			}
+			else{
+				++itr;
+			}
+		}
+	}
+
 	// deleteList‚Ì’†‚É’l‚ª‚ ‚é‚Æ‚«íœ
-	for (auto list : _delObjectList) {
+	for (auto list : _delObjectNameList) {
 		for (auto itr = _objectList.begin(); itr != _objectList.end();) {
 			if ((*itr)->GetName() == list) {
 				delete (*itr);
@@ -60,6 +83,7 @@ bool ObjectManager::Update(){
 	}
 
 	_delObjectList.clear();
+	_delObjectNameList.clear();
 	_addObjectList.clear();
 	return true;
 };

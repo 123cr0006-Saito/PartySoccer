@@ -33,4 +33,7 @@ protected:
 	class Score* _score;
 	class TimeLimit* _timeLimit;
 	std::vector<std::string> _objectName;
+
+	bool _isAddBall;
+	int _currentTime;
 };

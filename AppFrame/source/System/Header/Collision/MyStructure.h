@@ -52,7 +52,7 @@ public:
 	CollisionBase(std::string name, ObjectBase* object) { this->name = name; this->object = object; isHit = false; isHitOld = false;};
 	virtual ~CollisionBase() {};
 	void SetName(std::string name) { this->name = name; }
-	virtual void Render(unsigned int color) =0;
+	virtual void Render(unsigned int color) = 0;
 	std::string GetName() { return name; }
 	ObjectBase* GetObje() { return object; }
 public:

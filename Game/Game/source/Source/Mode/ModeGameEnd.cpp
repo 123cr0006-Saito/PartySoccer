@@ -13,7 +13,7 @@ ModeGameEnd::ModeGameEnd(){
 };
 
 ModeGameEnd::~ModeGameEnd(){
-	SuperManager::GetInstance()->GetManager("uiManager")->Del(_ui.first);
+	SuperManager::GetInstance()->GetManager("uiManager")->DeleteName(_ui.first);
 };
 
 bool ModeGameEnd::Initialize(){
@@ -26,7 +26,7 @@ bool ModeGameEnd::Initialize(){
 };
 
 bool ModeGameEnd::Terminate(){
-	SuperManager::GetInstance()->GetManager("uiManager")->Del(_ui.first);
+	SuperManager::GetInstance()->GetManager("uiManager")->DeleteName(_ui.first);
 	return true;
 };
 

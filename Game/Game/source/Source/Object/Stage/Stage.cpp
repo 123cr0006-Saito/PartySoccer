@@ -12,12 +12,11 @@ Stage::Stage(std::string name) : ObjectBase(name) {
 
 	_model = NEW ModelBase(name, 1,handle);
 	_model->SetPos(_pos);
-	RenderManager* renderManager = dynamic_cast<RenderManager*>(SuperManager::GetInstance()->GetManager("renderManager"));
-	renderManager->Add(_model);
+	SuperManager::GetInstance()->GetManager("renderManager")->Add(_model);
 };
 
 Stage::~Stage() {
-	
+	SuperManager::GetInstance()->GetManager("renderManager")->Delete(_model);
 };
 
 bool Stage::Init(){

@@ -29,6 +29,6 @@ void UIStartCount::Update(){
 	_handle = _startCountHandle[count];
 	SuperManager::GetInstance()->Skip();
 	if(countDown < 0){
-		dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"))->Del("countDown");
+		dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"))->DeleteName("countDown");
 	}
 };

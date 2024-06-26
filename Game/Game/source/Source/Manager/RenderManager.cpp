@@ -7,8 +7,15 @@ RenderManager::RenderManager() {
 };
 
 RenderManager::~RenderManager() {
-
+	_modelList.clear();
+	_addModelList.clear();
+	_delModelList.clear();
+	_delModelNameList.clear();
 };
+
+bool RenderManager::Terminate(){
+	return true;
+}
 
 bool RenderManager::Init() {
 	return true;
@@ -23,8 +30,13 @@ void RenderManager::AddInput(void* value){
 	_addModelList.emplace_back(model);
 };
 
-void RenderManager::Del(std::string name){
-	_delModelList.emplace_back(name);
+void RenderManager::DeleteName(std::string name){
+	_delModelNameList.emplace_back(name);
+};
+
+void RenderManager::DeleteInput(void* value){
+	ModelBase* model = static_cast<ModelBase*>(value);
+	_delModelList.emplace_back(model);
 };
 
 void RenderManager::DelAll() {
@@ -38,6 +50,7 @@ void RenderManager::DelAll() {
 	_modelList.clear();
 	_addModelList.clear();
 	_delModelList.clear();
+	_delModelNameList.clear();
 }
 
 void RenderManager::Sort(){
@@ -51,8 +64,20 @@ int RenderManager::GetListSize(){
 };
 
 bool RenderManager::UpdateInit(){
-	// deleteListの中に値があるとき削除
 	for (auto list : _delModelList) {
+		for (auto itr = _modelList.begin(); itr != _modelList.end();) {
+			if ((*itr) == list) {
+				delete (*itr);
+				itr = _modelList.erase(itr);
+			}
+			else {
+				++itr;
+			}
+		}
+	}
+
+	// deleteListの中に値があるとき削除
+	for (auto list : _delModelNameList) {
 		for (auto itr = _modelList.begin(); itr != _modelList.end();) {
 			if ((*itr)->GetName() == list) {
 				delete (*itr);
@@ -80,6 +105,7 @@ bool RenderManager::UpdateInit(){
 	// 念のためリストのクリア
 	_addModelList.clear();
 	_delModelList.clear();
+	_delModelNameList.clear();
 	return true;
 }
 

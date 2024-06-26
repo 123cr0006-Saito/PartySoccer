@@ -12,15 +12,14 @@ Goal::Goal(std::string name, Vector3D pos, Vector3D rotation) : ObjectBase(name)
 	_model->SetRotation(rotation);
 	_model->SetScale(Vector3D(5, 5, 5));
 
-	RenderManager* renderManager = dynamic_cast<RenderManager*>(SuperManager::GetInstance()->GetManager("renderManager"));
-	renderManager->Add(_model);
-
+	SuperManager::GetInstance()->GetManager("renderManager")->Add(_model);
 	_obb = NEW OBB("goal", pos + Vector3D(-300 * cos(rotation.y), 0, 0), Vector3D(600, 1800, 2500), this);
-	CollisionManager::GetInstance()->Add(_obb);
+	SuperManager::GetInstance()->GetManager("collisionManager")->Add(_obb);
 };
 
 Goal::~Goal(){
-	
+	SuperManager::GetInstance()->GetManager("collisionManager")->Delete(_obb);
+	SuperManager::GetInstance()->GetManager("renderManager")->Delete(_model);
 };
 
 

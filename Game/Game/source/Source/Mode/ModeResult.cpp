@@ -1,6 +1,7 @@
 #include "../../Header/Mode/ModeResult.h"
 #include "../../Header/Manager/SuperManager.h"
 #include "../../Header/Manager/PlayerManager.h"
+#include "../../Header/Object/Player/Player.h"
 #include "../../Header/Mode/ModeTitle.h"
 #include "../AppFrame/source/Mode/ModeServer.h"
 #include "../../Header/Mode/ModeFadeComeBack.h"
@@ -59,9 +60,7 @@ bool	ModeResult::Initialize(){
 
 
 bool	ModeResult::Terminate(){
-	_superManager->Del("playerManager");
-	_superManager->GetManager("collisionManager")->DelAll();
-	_superManager->GetManager("renderManager")->DelAll();
+	_superManager->DeleteName("playerManager");
 	_superManager->GetManager("objectManager")->DelAll();
 	_superManager->GetManager("uiManager")->DelAll();
 	delete _camera;

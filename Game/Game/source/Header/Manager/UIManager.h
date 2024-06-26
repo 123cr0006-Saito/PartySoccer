@@ -5,6 +5,7 @@ class UIManager : public ManagerBase
 	public:
 	UIManager();
 	virtual ~UIManager();
+	virtual bool Terminate()override;
 	bool Init()override;
 	bool UpdateInit()override;
 	bool Update()override;
@@ -12,7 +13,8 @@ class UIManager : public ManagerBase
 
 	void Add(class UIBase*);
 	void AddInput(void* value)override;
-	void Del(std::string ui)override;
+	void DeleteName(std::string ui)override;
+	void DeleteInput(void* value)override;
 	void DelAll()override;
 	void Sort();
 
@@ -20,5 +22,6 @@ class UIManager : public ManagerBase
 protected:
 	std::vector<class UIBase*> _addUiList;
 	std::vector<class UIBase*> _uiList;
-	std::vector<std::string> _delUiList;
+	std::vector<class UIBase*> _delUiList;
+	std::vector<std::string> _delUiNameList;
 };

@@ -53,7 +53,7 @@ bool ModeSelectPlayer::Initialize() {
 bool ModeSelectPlayer::Terminate(){
 	UIManager* uiManager = dynamic_cast<UIManager*>(_superManager->GetManager("uiManager"));
 	for(int deleteNum = XInput::GetConnectNum(); deleteNum > 0; deleteNum-- ){
-		uiManager->Del("CheckUI_" + std::to_string(deleteNum - 1));
+		uiManager->DeleteName("CheckUI_" + std::to_string(deleteNum - 1));
 	}
 	return true;
 };
@@ -82,7 +82,7 @@ bool ModeSelectPlayer::PlayerNumAdjust(){
 				_playerParam.pop_back();
 				_selectCharacter.pop_back();
 				XInput::SetConnectNum(controllerNum);
-				_superManager->GetManager("uiManager")->Del("CheckUI_" + std::to_string(i-1));
+				_superManager->GetManager("uiManager")->DeleteName("CheckUI_" + std::to_string(i-1));
 				_ui.pop_back();
 			}
 		}

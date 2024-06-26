@@ -5,7 +5,15 @@ UIManager::UIManager(){
 };
 
 UIManager::~UIManager(){
+	_uiList.clear();
+	_addUiList.clear();
+	_delUiNameList.clear();
+	_delUiList.clear();
+};
 
+bool UIManager::Terminate(){
+	DelAll();
+	return true;
 };
 
 bool UIManager::Init(){
@@ -19,10 +27,14 @@ void UIManager::Add(UIBase* ui){
 void UIManager::AddInput(void* value){
 	UIBase* ui = static_cast<UIBase*>(value);
 	_addUiList.emplace_back(ui);
-
 };
 
-void UIManager::Del(std::string ui){
+void UIManager::DeleteName(std::string ui){
+	_delUiNameList.emplace_back(ui);
+};
+
+void UIManager::DeleteInput(void* value){
+	UIBase* ui = static_cast<UIBase*>(value);
 	_delUiList.emplace_back(ui);
 };
 
@@ -35,7 +47,7 @@ void UIManager::DelAll(){
 	}
 	_uiList.clear();
 	_addUiList.clear();
-	_delUiList.clear();
+	_delUiNameList.clear();
 };
 
 void UIManager::Sort() {
@@ -50,7 +62,20 @@ int UIManager::GetListSize(){
 
 bool UIManager::UpdateInit(){
 	// deleteList‚Ì’†‚É’l‚ª‚ ‚é‚Æ‚«íœ
+
 	for (auto list : _delUiList) {
+		for (auto itr = _uiList.begin(); itr != _uiList.end();) {
+			if ((*itr) == list) {
+				delete (*itr);
+				itr = _uiList.erase(itr);
+			}
+			else {
+				++itr;
+			}
+		}
+	}
+
+	for (auto list : _delUiNameList) {
 		for (auto itr = _uiList.begin(); itr != _uiList.end();) {
 			if ((*itr)->GetName() == list) {
 				delete (*itr);
@@ -78,6 +103,7 @@ bool UIManager::UpdateInit(){
 	// addList‚ÆdeleteList‚ðƒNƒŠƒA
 	_addUiList.clear();
 	_delUiList.clear();
+	_delUiNameList.clear();
 	return true;
 }
 

@@ -9,7 +9,7 @@ class ManagerBase
 {
 	public:
 	virtual ~ManagerBase() = default;
-
+	virtual bool Terminate() = 0;
 	virtual bool Init();
 	virtual bool UpdateInit();
 	virtual bool Update();
@@ -22,9 +22,16 @@ class ManagerBase
 		AddInput(ptr);
 	};
 
+	template<typename U>
+	void Delete(U* value) {
+		void* ptr = static_cast<void*>(value);
+		DeleteInput(ptr);
+	};
+
 	virtual void AddInput(void* value){};
 
-	virtual void Del(std::string){};
+	virtual void DeleteName(std::string){};
+	virtual void DeleteInput(void* value){};
 	virtual void DelAll(){};
 
 	int GetID() { return _id; }

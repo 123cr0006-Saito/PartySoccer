@@ -4,7 +4,7 @@
 #include "../../../Header/Manager/PlayerManager.h"
 #include "../AppFrame/source/Application/UtilMacro.h"
 #include "../AppFrame/source/System/Header/Function/mymath.h"
-
+#include "../../../Header/Object/Player/Player.h"
 Camera* Camera::_instance = nullptr;
 
 Camera::Camera() :

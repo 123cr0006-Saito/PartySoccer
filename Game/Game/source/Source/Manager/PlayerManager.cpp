@@ -1,15 +1,23 @@
 #include "../../Header/Manager/PlayerManager.h"
+#include "../../Header/Object/Player/Player.h"
 #include "../AppFrame/source/System/Header/Input/XInput.h"
 #include "../AppFrame/source/Application/UtilMacro.h"
 #include "../AppFrame/source/CFile/CFile.h"
 #include "../../Header/UI/UIPlayerParam.h"
+#include "../AppFrame/source/System/Header/Input/XInput.h"
 #include "../MemoryLeak.h"
 PlayerManager::PlayerManager() {
 	LoadObjectPos();
 };
 
 PlayerManager::~PlayerManager(){
+	_player.clear();
+	_originPos.clear();
+};
+
+bool PlayerManager::Terminate(){
 	DelAll();
+	return true;
 };
 
 void PlayerManager::LoadObjectPos(){

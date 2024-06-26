@@ -101,7 +101,7 @@ void ModeGoal::LoadUI(){
 
 bool ModeGoal::Terminate(){
 	for (auto&& list : _ui) {
-		_superManager->GetManager("uiManager")->Del(list.first);
+		_superManager->GetManager("uiManager")->DeleteName(list.first);
 	}
 	return true;
 };

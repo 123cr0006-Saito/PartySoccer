@@ -21,13 +21,13 @@ Ball::Ball(std::string name) : ObjectBase(name){
 	_dirVec = Vector3D(0.0f, 0.0f, 0.0f);
 	_glavity = 0.0f;
 	_oldPos = _pos;
-	 RenderManager* renderManager = dynamic_cast<RenderManager*>(SuperManager::GetInstance()->GetManager("renderManager"));
-	 renderManager->Add(_model);
-	 CollisionManager::GetInstance()->Add(_sphere);
+	 SuperManager::GetInstance()->GetManager("renderManager")->Add(_model);
+	 SuperManager::GetInstance()->GetManager("collisionManager")->Add(_sphere);
 };
 
 Ball::~Ball(){
-
+	SuperManager::GetInstance()->GetManager("renderManager")->Delete(_model);
+	SuperManager::GetInstance()->GetManager("collisionManager")->Delete(_sphere);
 };
 
 bool Ball::Init(){

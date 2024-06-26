@@ -13,9 +13,8 @@ SuperManager::SuperManager() {
 };
 
 SuperManager::~SuperManager() {
-	_instance = nullptr;
-
 	DelAll();
+	_instance = nullptr;
 };
 
 bool SuperManager::Init() {
@@ -28,12 +27,15 @@ bool SuperManager::Add(std::string name,int id, ManagerBase* manager){
 	return true;
 };
 
-bool SuperManager::Del(std::string name){
+bool SuperManager::DeleteName(std::string name){
 	_delSuperManager.emplace_back(name);
 	return true;
 };
 
 bool SuperManager::DelAll(){
+	for (auto&& list : _superManager) {
+		std::get<2>(list)->Terminate();
+	}
 	for (auto&& list : _superManager) {
 		delete std::get<2>(list);
 	}

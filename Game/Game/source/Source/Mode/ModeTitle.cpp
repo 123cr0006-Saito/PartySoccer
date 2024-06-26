@@ -71,7 +71,7 @@ bool	ModeTitle::Terminate(){
 	delete _input;
 	UIManager* ui = dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"));
 	for(auto&& name : _uiName){
-		ui->Del(name);
+		ui->DeleteName(name);
 	}
 	return true;
 };

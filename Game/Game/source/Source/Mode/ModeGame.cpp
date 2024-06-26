@@ -41,12 +41,13 @@ bool ModeGame::Initialize() {
 	_camera->SetIsGame(true);
 	_score = NEW Score();
 	_timeLimit = NEW TimeLimit();
-	_timeLimit->SetTimeLimit(2, 0);
+	_timeLimit->SetTimeLimit(1, 0);
 	_timeLimit->Stop();
 	//UIの生成
 	LoadUI();
 
-
+	_isAddBall = false;
+	_currentTime = GetNowCount();
 	return true;
 }
 
@@ -54,23 +55,18 @@ bool ModeGame::Terminate() {
 	base::Terminate();
 	// オブジェクトの削除
 	for(auto&& list : _objectName){
-		_superManager->GetManager("objectManager")->Del(list);
+		_superManager->GetManager("objectManager")->DeleteName(list);
 	}
-	// モデルの削除
-	for (auto&& list : _objectName) {
-		_superManager->GetManager("renderManager")->Del(list);
-	}
+
 	// UIの削除
 	std::vector< Player*> player = dynamic_cast<PlayerManager*>(_superManager->GetManager("playerManager"))->GetList();
 	for(auto&& list : player){
-		_superManager->GetManager("uiManager")->Del(list->GetName() + "Frame");
-		_superManager->GetManager("uiManager")->Del(list->GetName() + "Icon");
+		_superManager->GetManager("uiManager")->DeleteName(list->GetName() + "Frame");
+		_superManager->GetManager("uiManager")->DeleteName(list->GetName() + "Icon");
 	}
-	_superManager->GetManager("uiManager")->Del("scoreBoard");
-	_superManager->GetManager("uiManager")->Del("scoreNum");
-	_superManager->GetManager("uiManager")->Del("Time");
-
-	_superManager->GetManager("collisionManager")->DelAll();
+	_superManager->GetManager("uiManager")->DeleteName("scoreBoard");
+	_superManager->GetManager("uiManager")->DeleteName("scoreNum");
+	_superManager->GetManager("uiManager")->DeleteName("Time");
 
 	_camera->SetIsGame(false);
 	_camera->SetPos(Vector3D(0, 800, -2000));
@@ -86,6 +82,7 @@ void ModeGame::ReSetGame(){
 	Ball* ball = dynamic_cast<Ball*>(objectManager->Get("Ball"));
 	ball->SetPos(Vector3D(0, 350, 0));
 	ball->SetSpeed(0);
+	objectManager->DeleteName("Ball_2");
 	PlayerManager* playerManager = dynamic_cast<PlayerManager*>(_superManager->GetManager("playerManager"));
 	playerManager->InitParam();
 	UIStartCount* uiStartCount = NEW UIStartCount();
@@ -95,6 +92,7 @@ bool ModeGame::LoadObject(){
 	//ボールの生成
 	_superManager->GetManager("objectManager")->Add(NEW Ball("Ball"));
 	_objectName.push_back("Ball");
+	_objectName.push_back("Ball_2");
 	//ゴールの生成
 	std::vector<std::tuple<std::string, Vector3D, Vector3D>> goalList = LoadObjectParam("Data/GoalParam.csv");
 	int count = 1;
@@ -180,6 +178,16 @@ bool ModeGame::Process() {
 	base::Process();
 	_camera->Update();
 	_timeLimit->Update();
+
+	int ballCount = GetNowCount() - _currentTime ;
+
+	if (ballCount > 20000 && !_isAddBall) {
+		// 2つめのボールの生成
+		Ball* ball = NEW Ball("Ball_2");
+		ball->SetPos(Vector3D(0,5000,0));
+		_superManager->GetManager("objectManager")->Add(ball);
+		_isAddBall = true;
+	}
 
 	ModeServer* modeServer = ModeServer::GetInstance();
 	if (_timeLimit->GetTimeLimit() <= 0 && !modeServer->Search("ModeGameEnd")) {
