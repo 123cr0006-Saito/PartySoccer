@@ -86,6 +86,8 @@ void ModeGame::ReSetGame(){
 	PlayerManager* playerManager = dynamic_cast<PlayerManager*>(_superManager->GetManager("playerManager"));
 	playerManager->InitParam();
 	UIStartCount* uiStartCount = NEW UIStartCount();
+	_isAddBall = false;
+	_currentTime = GetNowCount();
 };
 
 bool ModeGame::LoadObject(){
@@ -182,7 +184,7 @@ bool ModeGame::Process() {
 	int ballCount = GetNowCount() - _currentTime ;
 
 	if (ballCount > 20000 && !_isAddBall) {
-		// 2つめのボールの生成
+		// 20秒たったら2つめのボールの生成
 		Ball* ball = NEW Ball("Ball_2");
 		ball->SetPos(Vector3D(0,5000,0));
 		_superManager->GetManager("objectManager")->Add(ball);

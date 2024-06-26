@@ -14,6 +14,7 @@ class ObjectManager : public ManagerBase
 	void DeleteInput(void* value)override;
 	void DelAll()override;
 
+	bool UpdateInit()override;
 	bool Update()override;
 	bool UpdateEnd()override;
 	bool Draw() override;

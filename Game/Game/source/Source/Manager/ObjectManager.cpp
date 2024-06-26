@@ -46,15 +46,14 @@ void ObjectManager::DelAll(){
 	_addObjectList.clear();
 };
 
-bool ObjectManager::Update(){
-
-	for(auto list : _delObjectList) {
+bool ObjectManager::UpdateInit(){
+	for (auto list : _delObjectList) {
 		for (auto itr = _objectList.begin(); itr != _objectList.end();) {
 			if ((*itr) == list) {
 				delete (*itr);
 				itr = _objectList.erase(itr);
 			}
-			else{
+			else {
 				++itr;
 			}
 		}
@@ -65,9 +64,9 @@ bool ObjectManager::Update(){
 		for (auto itr = _objectList.begin(); itr != _objectList.end();) {
 			if ((*itr)->GetName() == list) {
 				delete (*itr);
-			  itr = _objectList.erase(itr);
+				itr = _objectList.erase(itr);
 			}
-			else{
+			else {
 				++itr;
 			}
 		}
@@ -78,13 +77,17 @@ bool ObjectManager::Update(){
 		_objectList.emplace_back(list);
 	}
 
+	_delObjectList.clear();
+	_delObjectNameList.clear();
+	_addObjectList.clear();
+	return true;
+}
+
+bool ObjectManager::Update(){
 	for (auto&& list : _objectList) {
 		list->Update();
 	}
 
-	_delObjectList.clear();
-	_delObjectNameList.clear();
-	_addObjectList.clear();
 	return true;
 };
 

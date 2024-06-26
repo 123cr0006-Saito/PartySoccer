@@ -26,6 +26,7 @@ bool	ModeResult::Initialize(){
 	_score = Score::GetInstance();
 	_camera = Camera::GetInstance();
 	_input = NEW XInput(PLAYER_1);
+	_currentTime = GetNowCount();
 	// 勝者を取得
 	_winnerTeam = _score->GetWinner();
 	// プレイヤーのリストを取得
@@ -70,11 +71,14 @@ bool	ModeResult::Terminate(){
 };
 
 bool	ModeResult::Process(){
+	int nowTime = GetNowCount() - _currentTime;
 	_input->Input();
 	_camera->Update();
 	SetCameraPositionAndTarget_UpVecY(VGet(0, 800, -2000), VGet(0, 0, 0));
 	ModeServer* modeServer = ModeServer::GetInstance();
-	if(_input->GetTrg(XINPUT_BUTTON_A) && !modeServer->Search("ModeTitle")){
+	// 5秒後にAボタンでタイトルに戻る
+	// タイトルに戻る
+	if(nowTime > 5000 &&_input->GetTrg(XINPUT_BUTTON_A) && !modeServer->Search("ModeTitle")){
 		// モードを変更
 		ModeServer::GetInstance()->Add(NEW ModeTitle(), 0, "ModeTitle");
 		std::vector<std::string> modeName = {"ModeResult"};
