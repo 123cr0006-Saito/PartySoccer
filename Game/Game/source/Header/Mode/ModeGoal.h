@@ -14,6 +14,7 @@ class ModeGoal : public ModeBase
 	void LoadUI();
 	void AnimationProcess();
 protected:
+	class SuperManager* _superManager;
 	std::string _name;
 	int _nowScore[2];
 	class Score* _score;

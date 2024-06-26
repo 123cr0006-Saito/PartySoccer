@@ -16,6 +16,7 @@ class ModeGame : public ModeBase
 
 public:
 
+	ModeGame();
 	virtual bool Initialize()override;
 	virtual bool Terminate()override;
 	virtual bool Process()override;

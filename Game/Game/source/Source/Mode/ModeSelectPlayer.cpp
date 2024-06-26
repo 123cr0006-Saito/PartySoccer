@@ -23,16 +23,15 @@ bool ModeSelectPlayer::Initialize() {
 	_camera = NEW Camera();
 	_camera->SetPos(Vector3D(0, 800, -2000));
 	_camera->SetTarget(Vector3D(0,0,0));
-	ObjectManager* objectManager = dynamic_cast<ObjectManager*>(_superManager->GetManager("objectManager"));
 	//ステージの生成
-	objectManager->Add( NEW Stage("Stage"));
+	_superManager->GetManager("objectManager")->Add(NEW Stage("Stage"));
 
 	//コントローラーと同じ数になるまで追加する
 	for (int i = 0; i < GetJoypadNum(); i++) {
 		_playerParam.push_back(std::make_tuple("",NEW XInput(), 0));
 		_selectCharacter.push_back(std::make_pair(false, 0));
 		UIBase* uiRota = NEW UIBase("CheckUI_" + std::to_string(i),Vector3D(0,0,0), 0.5f,255,0,i);
-		dynamic_cast<UIManager*>(_superManager->GetManager("uiManager"))->Add(uiRota);
+		_superManager->GetManager("uiManager")->Add(uiRota);
 		_ui.push_back(uiRota);
 	}
 	// モデルの読み込み
@@ -71,7 +70,7 @@ bool ModeSelectPlayer::PlayerNumAdjust(){
 				_playerParam.push_back(std::make_tuple("",NEW XInput(), 0));
 				_selectCharacter.push_back(std::make_pair(false,0));
 				UIBase* uiRota = NEW UIBase("CheckUI_" + std::to_string(i),Vector3D(0, 0, 0), 0.5f, 255, 0,i);
-				dynamic_cast<UIManager*>(_superManager->GetManager("uiManager"))->Add(uiRota);
+				_superManager->GetManager("uiManager")->Add(uiRota);
 				_ui.push_back(uiRota);
 			}
 		}
@@ -83,7 +82,7 @@ bool ModeSelectPlayer::PlayerNumAdjust(){
 				_playerParam.pop_back();
 				_selectCharacter.pop_back();
 				XInput::SetConnectNum(controllerNum);
-				dynamic_cast<UIManager*>(_superManager->GetManager("uiManager"))->Del("CheckUI_" + std::to_string(i-1));
+				_superManager->GetManager("uiManager")->Del("CheckUI_" + std::to_string(i-1));
 				_ui.pop_back();
 			}
 		}
@@ -175,7 +174,7 @@ bool ModeSelectPlayer::Render(){
 		int graphHandle = (_selectCharacter[i].first) ? _graphHandle["yes"] : _graphHandle["no"];
 		if(playerNum > 1){
 			// プレイヤーが複数の場合　等間隔
-			float dis = 500.0f;
+			float dis = 1500.0f;
 			float length = dis / (playerNum - 1);
 			modelPos = Vector3D(-dis / 2 + length * i, 0, 0);
 		}
@@ -183,14 +182,9 @@ bool ModeSelectPlayer::Render(){
 		MV1SetPosition(modelHandle, modelPos.toVECTOR());
 		MV1DrawModel(modelHandle);
 
-
 		Vector3D handlePos = ConvWorldPosToScreenPos(modelPos.toVECTOR());
 		_ui[i]->SetPos(handlePos + Vector3D(0,50,0));
 		_ui[i]->SetHandle(graphHandle);
-		//DrawRotaGraph(handlePos.x, handlePos.y,1.0f,0.0f,graphHandle,true);
-
-
-		printfDx("\n\nPlayer%d : %s",i+1,(_selectCharacter[i].first) ? "選択完了" : "選択中");
 	}
 	return true;
 };

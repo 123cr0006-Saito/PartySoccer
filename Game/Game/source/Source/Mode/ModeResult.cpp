@@ -36,11 +36,11 @@ bool	ModeResult::Initialize(){
 			// プレイヤーが一人の場合　中心
 			player[i]->SetPos(Vector3D(0, 0, 0));
 			player[i]->SetForwardVec(Vector3D(0, 0, -1));
-			player[i]->SetIsGame(false);
+			//player[i]->SetIsGame(false);
 		}
 		else {
 		// プレイヤーが複数の場合　等間隔
-			float dis = 100.0f;
+			float dis = 1500.0f;
 			float length = dis / (playerNum - 1);
 			player[i]->SetPos(Vector3D(-dis / 2 + length * i, 0, 0));
 		}

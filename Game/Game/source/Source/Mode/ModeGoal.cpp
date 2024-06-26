@@ -15,7 +15,7 @@ bool ModeGoal::_isLoadUI = false;
 ModeGoal::ModeGoal(std::string name){
 	TimeLimit::GetInstance()->Stop();
 	_score = Score::GetInstance();
-
+	_superManager = SuperManager::GetInstance();
 	for(int i = 0; i < 2; i++){
 		_nowScore[i] = _score->GetScore("Goal_" + std::to_string(i+1));
 	}
@@ -29,11 +29,8 @@ ModeGoal::ModeGoal(std::string name){
 		_numHandle[i] = LoadGraph(("Res/UI/Number/timer_0" + std::to_string(i) + ".png").c_str());
 	}
 
-	UIManager* ui = dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"));
-
-
 	for(auto&& list : _ui){
-		ui->Add(list.second);
+		_superManager->GetManager("uiManager")->Add(list.second);
 
 		if(list.first == "Goal_1"){
 			list.second->SetHandle(_numHandle[_nowScore[0]]);
@@ -102,15 +99,14 @@ void ModeGoal::LoadUI(){
 	}
 };
 
-bool	ModeGoal::Terminate(){
-	UIManager* ui = dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"));
+bool ModeGoal::Terminate(){
 	for (auto&& list : _ui) {
-		ui->Del(list.first);
+		_superManager->GetManager("uiManager")->Del(list.first);
 	}
 	return true;
 };
 
-bool	ModeGoal::Process(){
+bool ModeGoal::Process(){
 	AnimationProcess();
 	return true;
 };

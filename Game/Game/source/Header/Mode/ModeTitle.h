@@ -14,6 +14,6 @@ public:
 protected:
 	class XInput* _input;
 	class SuperManager* _superManager;
-	std::map<std::string, UIRotaBase*> _ui;
+	std::vector<std::string> _uiName;
 };
 

@@ -4,6 +4,7 @@
 #include "../AppFrame/source/Application/Global.h"
 UIGameEnd::UIGameEnd(){
 	_handle = LoadGraph("Res/GameEnd.png");
+	_name = "GameEnd";
 	_layer = 100;
 	int x, y, depth, handleX, handleY;
 	GetScreenState(&x, &y, &depth);

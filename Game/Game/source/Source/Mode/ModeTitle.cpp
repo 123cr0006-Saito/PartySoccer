@@ -17,7 +17,7 @@ ModeTitle::~ModeTitle(){
 
 };
 
-bool	ModeTitle::Initialize(){
+bool ModeTitle::Initialize(){
 	int loopCount = 0;
 	CFile file("Data/UITitleParam.csv");
 	// ファイルが開けた場合
@@ -50,7 +50,8 @@ bool	ModeTitle::Initialize(){
 				IterationAnim* anim = NEW IterationAnim(ui, animPath,true);
 				ui->SetAnimation(anim);
 			}
-			_ui[name] = ui;
+			_superManager->GetManager("uiManager")->Add(ui);
+			_uiName.push_back(name);
 			loopCount++;
 		}
 	}
@@ -59,11 +60,6 @@ bool	ModeTitle::Initialize(){
 	}
 
 	_superManager = SuperManager::GetInstance();
-	//UIManager* ui = dynamic_cast<UIManager*>(_superManager->GetManager("uiManager"));
-	for (auto&& list : _ui) {
-		//ui->Add(list.second);
-		_superManager->GetManager("uiManager")->Add(list.second);
-	}
 
 	_input = NEW XInput(PLAYER_1);
 	global._soundServer->DirectPlay("BGM_Title");
@@ -73,8 +69,8 @@ bool	ModeTitle::Initialize(){
 bool	ModeTitle::Terminate(){
 	delete _input;
 	UIManager* ui = dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"));
-	for(auto&& name : _ui){
-		ui->Del(name.first);
+	for(auto&& name : _uiName){
+		ui->Del(name);
 	}
 	return true;
 };

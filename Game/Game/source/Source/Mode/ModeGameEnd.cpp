@@ -26,6 +26,7 @@ bool ModeGameEnd::Initialize(){
 };
 
 bool ModeGameEnd::Terminate(){
+	SuperManager::GetInstance()->GetManager("uiManager")->Del(_ui.first);
 	return true;
 };
 

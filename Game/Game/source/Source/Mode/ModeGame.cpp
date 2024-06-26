@@ -25,6 +25,10 @@
 #include "../../Header/UI/UIStartCount.h"
 #include "../../Header/UI/UITimer.h"
 
+ModeGame::ModeGame() {
+	global._soundServer->DirectPlay("BGM_Game");
+};
+
 bool ModeGame::Initialize() {
 	if (!base::Initialize()) { return false; }
 	// マネージャーの取得
@@ -37,38 +41,34 @@ bool ModeGame::Initialize() {
 	_camera->SetIsGame(true);
 	_score = NEW Score();
 	_timeLimit = NEW TimeLimit();
-	_timeLimit->SetTimeLimit(3, 0);
+	_timeLimit->SetTimeLimit(0, 5);
 	_timeLimit->Stop();
-
+	//UIの生成
 	LoadUI();
 
-	global._soundServer->DirectPlay("BGM_Game");
+
 	return true;
 }
 
 bool ModeGame::Terminate() {
 	base::Terminate();
 	// オブジェクトの削除
-	ObjectManager* objectManager = dynamic_cast<ObjectManager*>(_superManager->GetManager("objectManager"));
 	for(auto&& list : _objectName){
-		objectManager->Del(list);
+		_superManager->GetManager("objectManager")->Del(list);
 	}
 	// モデルの削除
-	RenderManager* renderManager = dynamic_cast<RenderManager*>(_superManager->GetManager("renderManager"));
 	for (auto&& list : _objectName) {
-		renderManager->Del(list);
+		_superManager->GetManager("renderManager")->Del(list);
 	}
 	// UIの削除
-	UIManager* uiManager = dynamic_cast<UIManager*>(_superManager->GetManager("uiManager"));
-	PlayerManager* playerManager = dynamic_cast<PlayerManager*>(_superManager->GetManager("playerManager"));
-	std::vector< Player*> player = playerManager->GetList();
+	std::vector< Player*> player = dynamic_cast<PlayerManager*>(_superManager->GetManager("playerManager"))->GetList();
 	for(auto&& list : player){
-		uiManager->Del(list->GetName() + "Frame");
-		uiManager->Del(list->GetName() + "Icon");
+		_superManager->GetManager("uiManager")->Del(list->GetName() + "Frame");
+		_superManager->GetManager("uiManager")->Del(list->GetName() + "Icon");
 	}
-	uiManager->Del("scoreBoard"); 
-	uiManager->Del("scoreNum");
-	uiManager->Del("Time");
+	_superManager->GetManager("uiManager")->Del("scoreBoard");
+	_superManager->GetManager("uiManager")->Del("scoreNum");
+	_superManager->GetManager("uiManager")->Del("Time");
 
 	_superManager->GetManager("collisionManager")->DelAll();
 
@@ -92,9 +92,8 @@ void ModeGame::ReSetGame(){
 };
 
 bool ModeGame::LoadObject(){
-	ObjectManager* objectManager = dynamic_cast<ObjectManager*>(_superManager->GetManager("objectManager"));
 	//ボールの生成
-	objectManager->Add(NEW Ball("Ball"));
+	_superManager->GetManager("objectManager")->Add(NEW Ball("Ball"));
 	_objectName.push_back("Ball");
 	//ゴールの生成
 	std::vector<std::tuple<std::string, Vector3D, Vector3D>> goalList = LoadObjectParam("Data/GoalParam.csv");
@@ -102,7 +101,7 @@ bool ModeGame::LoadObject(){
 	for (auto&& list : goalList) {
 		std::string name = std::get<0>(list) + std::to_string(count);
 		Goal* goal = new Goal(name, std::get<1>(list), std::get<2>(list).Radian());
-		objectManager->Add(goal);
+		_superManager->GetManager("objectManager")->Add(goal);
 		_objectName.push_back(name);
 		count++;
 	}
@@ -110,14 +109,14 @@ bool ModeGame::LoadObject(){
 	std::vector<std::tuple<std::string, Vector3D, Vector3D>> goalNetList = LoadObjectParam("Data/GoalNetParam.csv");
 	for (auto&& list : goalNetList) {
 		Wall* wall = NEW Wall(std::get<0>(list), std::get<1>(list), std::get<2>(list));
-		objectManager->Add(wall);
+		_superManager->GetManager("objectManager")->Add(wall);
 		_objectName.push_back(std::get<0>(list));
 	}
 	//壁コリジョンの生成
 	std::vector<std::tuple<std::string, Vector3D, Vector3D>> wallList = LoadObjectParam("Data/WallParam.csv");
 	for (auto&& list : wallList) {
 		Wall* wall = NEW Wall(std::get<0>(list), std::get<1>(list), std::get<2>(list));
-		objectManager->Add(wall);
+		_superManager->GetManager("objectManager")->Add(wall);
 		_objectName.push_back(std::get<0>(list));
 	}
 
@@ -131,8 +130,7 @@ bool ModeGame::LoadUI(){
 		UIScoreBoard* uiScore = NEW UIScoreBoard(scoreBoardPos[i], "Goal_" + std::to_string(i + 1), _score);
 	}
 
-	std::vector< Player*> player = dynamic_cast<PlayerManager*>(_superManager->GetManager("playerManager"))->GetList();
-	UIManager* uiManager = dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"));
+	std::vector<Player*> player = dynamic_cast<PlayerManager*>(_superManager->GetManager("playerManager"))->GetList();
 	int size = player.size();
 	int shouldMoveIcon = size > 2 ? 1 : 0;
 	for(int i = 0; i < size; i++){
@@ -140,7 +138,7 @@ bool ModeGame::LoadUI(){
 		int handle = LoadGraph(("Res/UI/Icon/" + name  + ".png").c_str());
 		float iconOfset = i >= 2 ? 50 : -50;
 		UIBase* uiIcon = NEW UIBase(name + "Icon", scoreBoardPos[i % 2] + Vector3D(iconOfset * shouldMoveIcon, 150, 0), 0.2f, 255, handle,1000+i);
-		uiManager->Add(uiIcon);
+		SuperManager::GetInstance()->GetManager("uiManager")->Add(uiIcon);
 	}
 
 	UIStartCount* uiStartCount = NEW UIStartCount();

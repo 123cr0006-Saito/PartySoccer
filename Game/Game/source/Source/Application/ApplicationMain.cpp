@@ -60,6 +60,8 @@ bool ApplicationMain::Process() {
 bool ApplicationMain::Render() {
 	base::Render();
 	_superManager->Draw();
+#ifdef _DEBUG
 	_fpsController->DrawFps(0,0);
+#endif
 	return true;
 }
