@@ -262,6 +262,9 @@ bool CollisionManager::CollisionCheckForSphere(CollisionBase* first){
 	}
 	bool isHitGoalNet = false;
 	for (auto&& second : _collisionList) {
+		// 同じオブジェクト同士は判定を行わない
+		if (first == second)continue;
+
 		if (second->GetName() == "player") {
 			first->isHit = second->isHit = true;
 		}
@@ -324,7 +327,44 @@ bool CollisionManager::CollisionCheckForSphere(CollisionBase* first){
 				}
 			}		
 		}
-		else if(second->GetName() == "wall" && !isHitGoalNet){
+		else if(second->GetName() == "ball"){
+			Sphere* sphere2 = dynamic_cast<Sphere*>(second);
+			if (!sphere2) {
+				DebugErrar();
+				return false;
+			}
+			if (Collision3D::SphereCol((*sphere1), (*sphere2))) {
+				Ball* ball1 = dynamic_cast<Ball*>(first->GetObje());
+				if (!ball1) {
+					DebugErrar();
+					return false;
+				}
+				Ball* ball2 = dynamic_cast<Ball*>(second->GetObje());
+				if (!ball2) {
+					DebugErrar();
+					return false;
+				}
+				// 衝突時の処理
+				first->isHit = second->isHit = true;
+				Vector3D pos1 = ball1->GetPos();
+				Vector3D pos2 = ball2->GetPos();
+				Vector3D dirVec = pos2 - pos1;
+				float len = dirVec.Len();
+				Vector3D forwardVec1 = ball1->GetForwardVec();
+				Vector3D forwardVec2 = ball2->GetForwardVec();
+				float speed1 = ball1->GetSpeed();
+				float speed2 = ball2->GetSpeed();
+				ball1->SetForwardVec(forwardVec2);
+				ball1->SetSpeed(speed2 /2.0f);
+				ball1->SetForwardVec(dirVec*-1);
+				ball2->AddSpeed(speed1 / 2.0f);
+				ball2->SetPos(ball2->GetPos() + dirVec.Normalize() * ((sphere1->r + sphere2->r) - len));
+			}
+		}
+		else if(second->GetName() == "wall"){
+			//ゴールネットに触れていた場合は処理しない
+			if(isHitGoalNet)continue;
+
 			OBB* obb = dynamic_cast<OBB*>(second);
 			if (!obb) {
 				DebugErrar();

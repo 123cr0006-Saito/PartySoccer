@@ -183,7 +183,7 @@ bool ModeGame::Process() {
 
 	int ballCount = GetNowCount() - _currentTime ;
 
-	if (ballCount > 20000 && !_isAddBall) {
+	if (ballCount > 5000 && !_isAddBall) {
 		// 20•b‚½‚Á‚½‚ç2‚Â‚ß‚Ìƒ{[ƒ‹‚Ì¶¬
 		Ball* ball = NEW Ball("Ball_2");
 		ball->SetPos(Vector3D(0,5000,0));

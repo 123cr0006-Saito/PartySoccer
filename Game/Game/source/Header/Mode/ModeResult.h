@@ -17,5 +17,6 @@ protected:
 	class XInput* _input;
 	class Camera* _camera;
 	std::string _winnerTeam;
+	int _currentTime;
 };
 
