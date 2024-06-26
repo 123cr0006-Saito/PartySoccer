@@ -18,6 +18,7 @@ ModeTitle::~ModeTitle(){
 };
 
 bool ModeTitle::Initialize(){
+	_superManager = SuperManager::GetInstance();
 	int loopCount = 0;
 	CFile file("Data/UITitleParam.csv");
 	// ファイルが開けた場合
@@ -59,7 +60,7 @@ bool ModeTitle::Initialize(){
 		DebugErrar();
 	}
 
-	_superManager = SuperManager::GetInstance();
+	
 
 	_input = NEW XInput(PLAYER_1);
 	global._soundServer->DirectPlay("BGM_Title");
