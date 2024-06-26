@@ -41,7 +41,7 @@ bool ModeGame::Initialize() {
 	_camera->SetIsGame(true);
 	_score = NEW Score();
 	_timeLimit = NEW TimeLimit();
-	_timeLimit->SetTimeLimit(0, 5);
+	_timeLimit->SetTimeLimit(2, 0);
 	_timeLimit->Stop();
 	//UIÇÃê∂ê¨
 	LoadUI();
