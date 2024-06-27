@@ -45,16 +45,17 @@ bool ModeSelectPlayer::Initialize() {
 
 	_graphHandle["yes"] = LoadGraph("Res/YES.png");
 	_graphHandle["no"] = LoadGraph("Res/NO.png");
-	
+	int handle = LoadGraph("Res/UI/Instruction/Instruction.png");
+	_superManager->GetManager("uiManager")->Add(NEW UIBase("Instruction", Vector3D(1500, 1000, 0), 1.0f,255,handle , 1));
 	SetCameraPositionAndTarget_UpVecY(VGet(0, 800, -2000), VGet(0, 0, 0));
 	return true;
 };
 
 bool ModeSelectPlayer::Terminate(){
-	UIManager* uiManager = dynamic_cast<UIManager*>(_superManager->GetManager("uiManager"));
 	for(int deleteNum = XInput::GetConnectNum(); deleteNum > 0; deleteNum-- ){
-		uiManager->DeleteName("CheckUI_" + std::to_string(deleteNum - 1));
+		_superManager->GetManager("uiManager")->DeleteName("CheckUI_" + std::to_string(deleteNum - 1));
 	}
+	_superManager->GetManager("uiManager")->DeleteName("Instruction");
 	return true;
 };
 
@@ -98,6 +99,28 @@ bool ModeSelectPlayer::PlayerSelect(){
 		XInput* input = std::get<1>(_playerParam[i]);
 		input->Input();
 
+		// すべてのプレイヤーが選択を終了しているか？
+		bool allTrue = std::all_of(_selectCharacter.begin(), _selectCharacter.end(), [](std::pair<bool, int> value) { return value.first; });
+
+		// デバッグ時はプレイヤーが1人以上いる場合
+		if (allTrue) {
+
+			// 本番時はすべてのプレイヤーが選択を終了しているかつプレイヤーが2人以上いる場合
+			//if (allTrue && _playerParam.size() > 1) {
+
+			for (int i = 0; i < _playerParam.size(); i++) {
+				//誰かがBボタンを押したときに次に進む
+				if (std::get<1>(_playerParam[i])->GetTrg(XINPUT_BUTTON_A)) {
+					// プレイヤーの生成
+					_playerManager->Add(_playerParam);
+					// モードの変更
+					ModeServer::GetInstance()->Add(NEW ModeGame(), 1, "ModeGame");
+					ModeServer::GetInstance()->Del(this);
+					break;
+				}
+			}
+		}
+
 		// キャラクターの選択
 		if(!_selectCharacter[i].first){
 			if(input->GetTrg(XINPUT_BUTTON_STICK_RIGHT)){
@@ -110,12 +133,13 @@ bool ModeSelectPlayer::PlayerSelect(){
 
 		// 選択終了・解除
 		if (input->GetTrg(XINPUT_BUTTON_B)) {
-			if(_selectCharacter[i].first){
-			    // 選択したキャラクターを使用しているか？
-			    _selectCharacter[i].first = !_selectCharacter[i].first;
+			if (_selectCharacter[i].first) {
+				// 選択したキャラクターを使用しているか？
+				_selectCharacter[i].first = !_selectCharacter[i].first;
 				std::get<2>(_playerParam[i]) = 0;
 			}
-			else{
+		}
+		if (input->GetTrg(XINPUT_BUTTON_A)) {
 				// 選択したキャラクターを使用しているか？
 				bool allTrue = std::all_of(_selectCharacter.begin(), _selectCharacter.end(), [&](std::pair<bool, int> value) { 
 					if (!value.first)return true;
@@ -126,29 +150,6 @@ bool ModeSelectPlayer::PlayerSelect(){
 					std::get<0>(_playerParam[i]) = _modelParam[_selectCharacter[i].second].first;
 					std::get<2>(_playerParam[i]) = _modelParam[_selectCharacter[i].second].second;
 				}
-			}
-		}
-	}
-	// すべてのプレイヤーが選択を終了しているか？
-	bool allTrue = std::all_of(_selectCharacter.begin(), _selectCharacter.end(), [](std::pair<bool, int> value) { return value.first; });
-
-
-	// デバッグ時はプレイヤーが1人以上いる場合
-	if (allTrue) {
-
-	// 本番時はすべてのプレイヤーが選択を終了しているかつプレイヤーが2人以上いる場合
-	//if (allTrue && _playerParam.size() > 1) {
-
-		for (int i = 0; i < _playerParam.size(); i++) {
-			//誰かがBボタンを押したときに次に進む
-			if(std::get<1>(_playerParam[i])->GetTrg(XINPUT_BUTTON_A)){
-				// プレイヤーの生成
-				_playerManager->Add(_playerParam);
-				// モードの変更
-				ModeServer::GetInstance()->Add(NEW ModeGame(), 1, "ModeGame");
-				ModeServer::GetInstance()->Del(this);
-				break;
-			}
 		}
 	}
 	return true;

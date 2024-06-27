@@ -26,16 +26,19 @@ UIPlayerParam::UIPlayerParam(Player* player,std::string name,Vector3D pos) :
 		{0,1},
 		{1,1}
 	};
-	float height = 25.0f;
+
+	float staminaHeight = -35.0f;
+	float shootHeight = 25.0f;
+
 	for(int i = 0; i < 4; i++){
 		// スタミナゲージの初期化
-		_staminaGauge[i].pos = (pos + Vector3D(0,-height,0) + vertexPos[i]).toVECTOR();
+		_staminaGauge[i].pos = (pos + Vector3D(0,staminaHeight,0) + vertexPos[i]).toVECTOR();
 		_staminaGauge[i].dif = color;
 		_staminaGauge[i].u = uv[i][0];
 		_staminaGauge[i].v = uv[i][1];
 		_staminaGauge[i].rhw = 1.0f;
 		// シュートゲージの初期化
-		_shootGauge[i].pos = (pos + Vector3D(0, height, 0) + vertexPos[i]).toVECTOR();
+		_shootGauge[i].pos = (pos + Vector3D(0, shootHeight, 0) + vertexPos[i]).toVECTOR();
 		_shootGauge[i].dif = color;
 		_shootGauge[i].u = uv[i][0];
 		_shootGauge[i].v = uv[i][1];

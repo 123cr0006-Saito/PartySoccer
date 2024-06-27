@@ -209,6 +209,7 @@ void Player::GravityUpdate(){
 };
 
 void Player::AnimationUpdate(const Vector3D& moveDir){
+
 	_playTime += 1.0f;
 	if (_playTime >= _totalTime) {
 		_playTime = 0;

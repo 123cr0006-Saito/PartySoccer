@@ -288,6 +288,7 @@ bool CollisionManager::CollisionCheckForSphere(CollisionBase* first){
 					DebugErrar();
 					return false;
 				}
+				dirVec = player->GetForwardVec();
 				first->isHit = second->isHit = true;
 				global._soundServer->DirectPlay("SE_Shoot");
 				ball->SetForwardVec(dirVec);
@@ -354,10 +355,10 @@ bool CollisionManager::CollisionCheckForSphere(CollisionBase* first){
 				Vector3D forwardVec2 = ball2->GetForwardVec();
 				float speed1 = ball1->GetSpeed();
 				float speed2 = ball2->GetSpeed();
-				ball1->SetForwardVec(forwardVec2);
-				ball1->SetSpeed(speed2 /2.0f);
 				ball1->SetForwardVec(dirVec*-1);
-				ball2->AddSpeed(speed1 / 2.0f);
+				ball1->SetSpeed(0);
+				ball2->SetForwardVec(dirVec);
+				ball2->SetSpeed(speed1);
 				ball2->SetPos(ball2->GetPos() + dirVec.Normalize() * ((sphere1->r + sphere2->r) - len));
 			}
 		}

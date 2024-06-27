@@ -11,7 +11,7 @@ class Ball : public ObjectBase {
 
 	bool GetIsShoot() { return _isShoot; }
 	const Sphere* GetSphere() { return _sphere; }
-	const float GetSpeed() { return _speed; }
+	float GetSpeed() { return _speed; }
 
 	void SetSpeed(float speed) { _speed = speed; }
 	void AddSpeed(float speed) { _speed += speed; }
