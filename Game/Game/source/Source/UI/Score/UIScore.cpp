@@ -1,9 +1,21 @@
+//----------------------------------------------------------------------
+// @filename UIScore.cpp
+// @author: saito ko
+// @explanation
+// スコアを描画するUIクラス
+//----------------------------------------------------------------------
 #include "../../../Header/UI/Score/UIScore.h"
 #include "../../../Header/Other/Score.h"
 #include "../../../Header/Manager/SuperManager.h"
 #include "../../../Header/Manager/UIManager.h"
 #include "../../../Header/Other/Score.h"
-
+//----------------------------------------------------------------------
+// @brief コンストラクタ
+// @param 位置
+// @param チーム名
+// @param スコア
+// @return 無し
+//----------------------------------------------------------------------
 UIScore::UIScore(Vector3D pos, std::string name, Score* score) : 
 	UIRotaBase(),
 	_teamName(name),
@@ -20,15 +32,24 @@ UIScore::UIScore(Vector3D pos, std::string name, Score* score) :
 	_center = Vector3D(sizeX / 2, sizeY / 2, 0);
 	dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"))->Add(this);
 };
-
+//----------------------------------------------------------------------
+// @brief デストラクタ
+// @return 無し
+//----------------------------------------------------------------------
 UIScore::~UIScore(){
 
 };
-
+//----------------------------------------------------------------------
+// @brief 更新処理
+// @return 無し
+//----------------------------------------------------------------------
 void UIScore::Update(){
 
 };
-
+//----------------------------------------------------------------------
+// @brief 描画処理
+// @return 無し
+//----------------------------------------------------------------------
 void UIScore::Draw(){
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, _alpha);
 	float rate = _screenSize.x / 1920;

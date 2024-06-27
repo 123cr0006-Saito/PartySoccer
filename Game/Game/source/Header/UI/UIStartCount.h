@@ -8,7 +8,7 @@ public:
 	~UIStartCount();
 	void Update()override;
 protected:
-	std::array<int,3> _startCountHandle;
+	std::array<int,4> _startCountHandle;
 	int _currentTime;
 };
 

@@ -9,7 +9,7 @@ class Player : public ObjectBase
 public:
 	Player(std::string,class XInput*,int);
 	~Player();
-	virtual bool Init() override;
+
 	virtual bool Update()override;
 	bool UpdateGame();
 	bool UpdateResult();

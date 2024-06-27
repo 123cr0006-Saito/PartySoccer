@@ -1,9 +1,19 @@
+//----------------------------------------------------------------------
+// @filename UITimer.cpp
+// @author: saito ko
+// @explanation
+// 残り時間を描画するクラス
+//----------------------------------------------------------------------
 #include "../../Header/Manager/SuperManager.h"
 #include "../../Header/Manager/UIManager.h"
 #include "../../Header/Other/TimeLimit.h"
 #include "../../Header/UI/UITimer.h"
 #include "../AppFrame/source/System/Header/Resource/ResourceServer.h"
-
+//----------------------------------------------------------------------
+// @brief コンストラクタ
+// @param 時間制限クラス
+// @return 無し
+//----------------------------------------------------------------------
 UITimer::UITimer(TimeLimit* timer){
 	_timer = timer;
 	_name = "Time";
@@ -25,13 +35,19 @@ UITimer::UITimer(TimeLimit* timer){
 	_timeHandlePos = _pos;
 	_timeHandleCenter = Vector3D(handleX, handleY / 2, 0);
 
-	dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"))->Add(this);
+	SuperManager::GetInstance()->GetManager("uiManager")->Add(this);
 };
-
+//----------------------------------------------------------------------
+// @brief デストラクタ
+// @return 無し
+//----------------------------------------------------------------------
 UITimer::~UITimer(){
 
 };
-
+//----------------------------------------------------------------------
+// @brief 描画処理
+// @return 成功したかどうか
+//----------------------------------------------------------------------
 void UITimer::Draw(){
 	int time = _timer->GetRemainingTime();
 	int w = (_timeHandleCenter.x / 2) * _timer->GetDigits();

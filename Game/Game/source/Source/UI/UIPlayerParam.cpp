@@ -1,17 +1,32 @@
+//----------------------------------------------------------------------
+// @filename UIPlayerParam.cpp
+// @author: saito ko
+// @explanation
+// オブジェクトを管理するクラス
+//----------------------------------------------------------------------
 #include "../../Header/UI/UIPlayerParam.h"
 #include "../../Header/Manager/SuperManager.h"
 #include "../../Header/Manager/UIManager.h"
 #include "../../Header/Object/Player/Player.h"
 #include "../AppFrame/source/System/Header/Resource/ResourceServer.h"
+//----------------------------------------------------------------------
+// @brief コンストラクタ
+// @param プレイヤー
+// @param 名前
+// @param 位置
+// @return 無し
+//----------------------------------------------------------------------
 UIPlayerParam::UIPlayerParam(Player* player,std::string name,Vector3D pos) : 
 	UIBase()
 {
+	// 初期化
 	_player = player;
 	_name = name + "Frame";
 	_pos = pos;
 	_layer = 10;
 	_handle = ResourceServer::LoadGraph(name+"Frame",("Res/UI/Frame/" + name + "Frame.png").c_str());
 
+	// パラメータの設定
 	COLOR_U8 color = GetColorU8(0, 255, 0, 255);
 
 	Vector3D vertexPos[4] = {
@@ -45,13 +60,19 @@ UIPlayerParam::UIPlayerParam(Player* player,std::string name,Vector3D pos) :
 		_shootGauge[i].v = uv[i][1];
 		_shootGauge[i].rhw = 1.0f;
 	}
-	dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"))->Add(this);
+	SuperManager::GetInstance()->GetManager("uiManager")->Add(this);
 };
-
+//----------------------------------------------------------------------
+// @brief デストラクタ
+// @return 無し
+//----------------------------------------------------------------------
 UIPlayerParam::~UIPlayerParam(){
 	_player = nullptr;
 };
-
+//----------------------------------------------------------------------
+// @brief 更新処理
+// @return 無し
+//----------------------------------------------------------------------
 void UIPlayerParam::Update(){
 	int shootGauge = _player->GetPower();
 	int staminaGauge = _player->GetStamina();
@@ -60,7 +81,10 @@ void UIPlayerParam::Update(){
 		_shootGauge[i].pos.x = _shootGauge[i-1].pos.x + shootGauge*3;
 	}
 };
-
+//----------------------------------------------------------------------
+// @brief 描画処理
+// @return 無し
+//----------------------------------------------------------------------
 void UIPlayerParam::Draw(){
 	UIBase::Draw();
 	unsigned short index[6] = {0,1,2,2,1,3};

@@ -1,9 +1,20 @@
+//----------------------------------------------------------------------
+// @filename Stage.cpp
+// @author: saito ko
+// @explanation
+// オブジェクトを管理するクラス
+//----------------------------------------------------------------------
 #include "../../../Header/Object/Stage/Stage.h"
 #include "../../../Header/Manager/RenderManager.h"
 #include "../../../Header/Manager/SuperManager.h"
 #include "../../AppFrame/source/System/Header/Resource/ResourceServer.h"
 #include "../../../Header/Model/Base/ModelBase.h"
 #include "../AppFrame/MemoryLeak.h"
+//----------------------------------------------------------------------
+// @brief コンストラクタ
+// @param オブジェクトの名前
+// @return 無し
+//----------------------------------------------------------------------
 Stage::Stage(std::string name) : ObjectBase(name) {
 	int handle = ResourceServer::MV1LoadModel("Stage","Res/Model/Stage/Stadium.mv1");
 	for (int i = 0; i < 3; i++) {
@@ -14,15 +25,17 @@ Stage::Stage(std::string name) : ObjectBase(name) {
 	_model->SetPos(_pos);
 	SuperManager::GetInstance()->GetManager("renderManager")->Add(_model);
 };
-
+//----------------------------------------------------------------------
+// @brief デストラクタ
+// @return 無し
+//----------------------------------------------------------------------
 Stage::~Stage() {
 	SuperManager::GetInstance()->GetManager("renderManager")->Delete(_model);
 };
-
-bool Stage::Init(){
-	return true;
-};
-
+//----------------------------------------------------------------------
+// @brief 更新処理
+// @return 成功したかどうか
+//----------------------------------------------------------------------
 bool Stage::Update() {
 	return true;
 };

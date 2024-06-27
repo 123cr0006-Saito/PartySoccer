@@ -1,12 +1,22 @@
+//----------------------------------------------------------------------
+// @filename UIBase.cpp
+// @author: saito ko
+// @explanation
+// UIの基底クラス
+//----------------------------------------------------------------------
 #include "../../../Header/UI/Base/UIBase.h"
 #include "../AppFrame/source/Application/Global.h"
-
+//----------------------------------------------------------------------
+// 画面サイズを取得
 #if !defined(_DEBUG) || defined(FULLSCREEN)
 Vector3D UIBase::_screenSize = Vector3D(1920, 1080, 0);
 #else
 Vector3D UIBase::_screenSize = Vector3D(1280, 720, 0);
 #endif
-
+//----------------------------------------------------------------------
+// @brief コンストラクタ
+// @return 無し
+//----------------------------------------------------------------------
 UIBase::UIBase() :
 	_name(""),
 	_expansionRate(1.0f),
@@ -15,7 +25,15 @@ UIBase::UIBase() :
 	_handle(-1)
 {
 };
-
+//----------------------------------------------------------------------
+// @brief コンストラクタ
+// @param 名前
+// @param 座標
+// @param 透明度
+// @param 画像ハンドル
+// @param レイヤー
+// @return 無し
+//----------------------------------------------------------------------
 UIBase::UIBase(std::string name,Vector3D pos, float alpha, int handle, int layer) :
 	_name(name),
 	_pos(pos),
@@ -25,7 +43,16 @@ UIBase::UIBase(std::string name,Vector3D pos, float alpha, int handle, int layer
 {
 
 };
-
+//----------------------------------------------------------------------
+// @brief コンストラクタ
+// @param 名前
+// @param 座標
+// @param 拡大率
+// @param 透明度
+// @param 画像ハンドル
+// @param レイヤー
+// @return 無し
+//----------------------------------------------------------------------
 UIBase::UIBase(std::string name,Vector3D pos, float expansion, float alpha, int handle, int layer) :
 	_name(name),
 	_pos(pos),
@@ -36,15 +63,24 @@ UIBase::UIBase(std::string name,Vector3D pos, float expansion, float alpha, int 
 {
 
 };
-
+//----------------------------------------------------------------------
+// @brief デストラクタ
+// @return 無し
+//----------------------------------------------------------------------
 UIBase::~UIBase(){
 
 };
-
+//----------------------------------------------------------------------
+// @brief 更新処理
+// @return 無し
+//----------------------------------------------------------------------
 void UIBase::Update(){
 
 };
-
+//----------------------------------------------------------------------
+// @brief 描画処理
+// @return 無し
+//----------------------------------------------------------------------
 void UIBase::Draw(){
 	float rate = _screenSize.x / 1920;
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, _alpha);

@@ -1,9 +1,19 @@
+//----------------------------------------------------------------------
+// @filename UIStartCount.cpp
+// @author: saito ko
+// @explanation
+// ゲーム開始時にカウントダウンを行うクラス
+//----------------------------------------------------------------------
 #include "../../Header/UI/UIStartCount.h"
 #include "../../Header/Manager/SuperManager.h"
 #include "../../Header/Manager/UIManager.h"
 #include "../../Header/Other/TimeLimit.h"
 #include "../AppFrame/source/Application/Global.h"
 #include "../AppFrame/source/System/Header/Resource/ResourceServer.h"
+//----------------------------------------------------------------------
+// @brief コンストラクタ
+// @return 無し
+//----------------------------------------------------------------------
 UIStartCount::UIStartCount() : UIRotaBase(){
 	_name = "countDown";
 	_layer = 20;
@@ -20,11 +30,17 @@ UIStartCount::UIStartCount() : UIRotaBase(){
 	SuperManager::GetInstance()->GetManager("uiManager")->Add(this);
 	global._soundServer->DirectPlay("SE_CountDown");
 };
-
+//----------------------------------------------------------------------
+// @brief デストラクタ
+// @return 無し
+//----------------------------------------------------------------------
 UIStartCount::~UIStartCount(){
 	TimeLimit::GetInstance()->Restart();
 };
-
+//----------------------------------------------------------------------
+// @brief 更新処理
+// @return 無し
+//----------------------------------------------------------------------
 void UIStartCount::Update(){
 	int countDown = 2700 - (GetNowCount() - _currentTime);//2.7秒
 	int count = countDown > 0 ? countDown / 900 : 0;//3分割

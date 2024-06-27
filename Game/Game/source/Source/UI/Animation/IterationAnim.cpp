@@ -1,6 +1,19 @@
+//----------------------------------------------------------------------
+// @filename IterationAnim.cpp
+// @author: saito ko
+// @explanation
+// sin波を使ったxとyが移動するアニメーション
+//----------------------------------------------------------------------
 #include "../../../Header/UI/Animation/IterationAnim.h"
 #include "../AppFrame/source/CFile/CFile.h"
 #include "../AppFrame/source/Application/UtilMacro.h"
+//----------------------------------------------------------------------
+// @brief コンストラクタ
+// @param UIのインスタンス
+// @param ファイルパス
+// @param 開始値をランダムにするかどうか
+// @return 無し
+//----------------------------------------------------------------------
 IterationAnim::IterationAnim(UIRotaBase* ui,std::string filePath,bool isRandom):
  AnimationBase(ui)
 {
@@ -10,11 +23,18 @@ IterationAnim::IterationAnim(UIRotaBase* ui,std::string filePath,bool isRandom):
 		_delayTime = rand() % _cycleTime;
 	}
 };
-
+//----------------------------------------------------------------------
+// @brief デストラクタ
+// @return 無し
+//----------------------------------------------------------------------
 IterationAnim::~IterationAnim(){
 
 };
-
+//----------------------------------------------------------------------
+// @brief アニメーションの読み込み
+// @param ファイルパス
+// @return 無し
+//----------------------------------------------------------------------
 void IterationAnim::Load(std::string filePath){
 	CFile file(filePath);
 	// ファイルが開けた場合
@@ -34,9 +54,13 @@ void IterationAnim::Load(std::string filePath){
 		DebugErrar();
 	}
 }
-
+//----------------------------------------------------------------------
+// @brief 更新処理
+// @return 成功したかどうか
+//----------------------------------------------------------------------
 void IterationAnim::Update(){
 	Vector3D pos;
+	// sin波を使って座標を更新
 	pos.x = _originPos.x +  _movePos.x * sin(2 * DX_PI * ((GetNowCount() + _delayTime) - _currentTime) / _cycleTime);
 	pos.y = _originPos.y +  _movePos.y * sin(2 * DX_PI * ((GetNowCount() + _delayTime) - _currentTime) / _cycleTime);
 	_ui->SetPos(pos);

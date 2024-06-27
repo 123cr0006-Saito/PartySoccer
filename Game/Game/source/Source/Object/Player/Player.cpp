@@ -1,3 +1,9 @@
+//----------------------------------------------------------------------
+// @filename SuperManager.cpp
+// @author: saito ko
+// @explanation
+// プレイヤークラス
+//----------------------------------------------------------------------
 #include "../../../Header/Object/Player/Player.h"
 #include "../../../Header/Manager/RenderManager.h"
 #include "../../../Header/Manager/CollisionManager.h"
@@ -5,13 +11,21 @@
 #include "../../../Header/Manager/SuperManager.h"
 #include "../../../Header/Model/RimLightModel.h"
 #include "../AppFrame/source/System/Header/Input/XInput.h"
-
+//----------------------------------------------------------------------
+// @brief 定数宣言
+//----------------------------------------------------------------------
 namespace{
 	constexpr auto POWER_MAX = 50;
 	constexpr auto DASH_MAX = 25;
 	constexpr auto STAMINA_MAX = 100;
 }
-
+//----------------------------------------------------------------------
+// @brief コンストラクタ
+// @param 名前
+// @param パッドクラス
+// @param モデルハンドル
+// @return 無し
+//----------------------------------------------------------------------
 Player::Player(std::string name, XInput* input, int handle) : ObjectBase(name) {
 	_Input = input;
 	int modelHandle = handle;
@@ -43,28 +57,28 @@ Player::Player(std::string name, XInput* input, int handle) : ObjectBase(name) {
 	_playTime = 0;
 	_animBlendRate = 0;
 };
-
+//----------------------------------------------------------------------
+// @brief デストラクタ
+// @return 無し
+//----------------------------------------------------------------------
 Player::~Player(){
 	delete _Input;
 	SuperManager::GetInstance()->GetManager("collisionManager")->Delete(_capsule);
 	SuperManager::GetInstance()->GetManager("renderManager")->Delete(_model);
 };
-
-bool Player::Init(){
-	return true;
-};
-
+//----------------------------------------------------------------------
+// @brief 更新処理
+// @return 成功したかどうか
+//----------------------------------------------------------------------
 bool Player::Update(){
 	_Input->Input();
-	if(_isGame){
 	 UpdateGame();
-	}
-	else{
-	 UpdateResult();
-	}
 	return true;
 };
-
+//----------------------------------------------------------------------
+// @brief メインゲームでの更新処理
+// @return 成功したかどうか
+//----------------------------------------------------------------------
 bool Player::UpdateGame(){
 	// パラメータの減算
 	auto SubParam = [](int* param, int min, int value) {
@@ -114,17 +128,11 @@ bool Player::UpdateGame(){
 	AnimationUpdate(normalDir);
 	return true;
 };
-
-bool Player::UpdateResult(){
-	if(_Input->GetTrg(XINPUT_BUTTON_B) && _pos.y == 0){
-		_glavity = -30.0f;
-	}
-	// 重力処理
-	GravityUpdate();
-	return true;
-};
-
-
+//----------------------------------------------------------------------
+// @brief 移動処理
+// @param 移動方向
+// @return 無し
+//----------------------------------------------------------------------
 void Player::MoveUpdate(const Vector3D& normalDir){
 	float speed = 50.0f;
 	// 移動値として加算
@@ -145,7 +153,10 @@ void Player::MoveUpdate(const Vector3D& normalDir){
 		}
 	}
 };
-
+//----------------------------------------------------------------------
+// @brief シュート処理
+// @return 無し
+//----------------------------------------------------------------------
 void Player::ShootUpdate(){
 	// パラメータの加算
 	auto AddParam = [](int* param, int max, int value) {
@@ -169,7 +180,10 @@ void Player::ShootUpdate(){
 		_isShoot = true;
 	}
 };
-
+//----------------------------------------------------------------------
+// @brief ダッシュ処理
+// @return 無し
+//----------------------------------------------------------------------
 void Player::DashUpdate(){
 	// パラメータの加算
 	auto AddParam = [](int* param, int max, int value) {
@@ -197,7 +211,10 @@ void Player::DashUpdate(){
 		}
 	}
 };
-
+//----------------------------------------------------------------------
+// @brief 重力処理
+// @return 無し
+//----------------------------------------------------------------------
 void Player::GravityUpdate(){
 	_glavity += 3;
 	_pos.y -= _glavity;
@@ -207,7 +224,11 @@ void Player::GravityUpdate(){
 		_glavity = 0.0f;
 	}
 };
-
+//----------------------------------------------------------------------
+// @brief アニメーションの更新処理
+// @param 移動方向
+// @return 無し
+//----------------------------------------------------------------------
 void Player::AnimationUpdate(const Vector3D& moveDir){
 
 	_playTime += 1.0f;
@@ -238,7 +259,10 @@ void Player::AnimationUpdate(const Vector3D& moveDir){
 	_model->SetAttachAnimBlendRate(_animIndex, _animBlendRate);
 	_model->SetAttachAnimTime(_animIndex, _playTime);
 };
-
+//----------------------------------------------------------------------
+// @brief モデルとコリジョンの位置を更新
+// @return 成功したかどうか
+//----------------------------------------------------------------------
 bool Player::UpdateEnd() {
 	// カプセルの設定
 	_capsule->pos = _pos;
@@ -248,13 +272,21 @@ bool Player::UpdateEnd() {
 	_model->SetPos(_pos);
 	return true;
 };
-
+//----------------------------------------------------------------------
+// @brief ノックバックの強さと方向を設定
+// @param ノックバックの強さ
+// @param ノックバックの方向
+// @return 成功したかどうか
+//----------------------------------------------------------------------
 void Player::SetKnockBack(int knockBack, Vector3D knockBackVec){
 	_knockBack = knockBack;
 	_knockBackVec = knockBackVec.Normalize();
 	_isKnockBack = true;
 };
-
+//----------------------------------------------------------------------
+// @brief 描画処理
+// @return 成功したかどうか
+//----------------------------------------------------------------------
 bool Player::DebugDraw(){
 	printfDx("\n\n\nstamina : %d\ndash : %d\npower : %d",_stamina,_dash,_power);
 	DrawSphere3D((_pos + Vector3D(0, _capsule->up / 2, 0) + (_forwardVec * 350)).toVECTOR(), 50.0f, 12, GetColor(255, 0, 0), GetColor(0, 0, 0), false);

@@ -18,7 +18,6 @@ public:
 	Vector3D GetExtrate() { return _extrate; }
 	float GetAngle() { return _angle; }
 
-	void SetParam(std::tuple<Vector3D, Vector3D, float,float>);
 	void SetExtrateX(float x) { _extrate.x = x; }
 	void SetExtrateY(float y) { _extrate.y = y; }
 	void SetAngle(float angle) { _angle = angle; }

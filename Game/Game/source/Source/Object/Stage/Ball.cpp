@@ -1,3 +1,9 @@
+//----------------------------------------------------------------------
+// @filename Ball.cpp
+// @author: saito ko
+// @explanation
+// ボールクラス
+//----------------------------------------------------------------------
 #include "../../../Header/Object/Stage/Ball.h"
 #include "../../../Header/Manager/RenderManager.h"
 #include "../../../Header/Manager/CollisionManager.h"
@@ -6,6 +12,11 @@
 #include "../../../Header/Manager/SuperManager.h"
 #include "../../AppFrame/source/System/Header/Resource/ResourceServer.h"
 #include "../../../Header/Model/Base/ModelBase.h"
+//----------------------------------------------------------------------
+// @brief コンストラクタ
+// @param オブジェクトの名前
+// @return 無し
+//----------------------------------------------------------------------
 Ball::Ball(std::string name) : ObjectBase(name){
 
 	_pos = Vector3D(0.0f, 350.0f, 0.0f);
@@ -24,16 +35,18 @@ Ball::Ball(std::string name) : ObjectBase(name){
 	 SuperManager::GetInstance()->GetManager("renderManager")->Add(_model);
 	 SuperManager::GetInstance()->GetManager("collisionManager")->Add(_sphere);
 };
-
+//----------------------------------------------------------------------
+// @brief デストラクタ
+// @return 無し
+//----------------------------------------------------------------------
 Ball::~Ball(){
 	SuperManager::GetInstance()->GetManager("renderManager")->Delete(_model);
 	SuperManager::GetInstance()->GetManager("collisionManager")->Delete(_sphere);
 };
-
-bool Ball::Init(){
-	return true;
-};
-
+//----------------------------------------------------------------------
+// @brief 更新処理
+// @return 成功したかどうか
+//----------------------------------------------------------------------
 bool Ball::Update() {
 	_oldPos = _pos;
 	// 球の設定
@@ -64,17 +77,27 @@ bool Ball::Update() {
 
 	return true;
 };
-
+//----------------------------------------------------------------------
+// @brief 更新終了後に行う処理
+// @return 成功したかどうか
+//----------------------------------------------------------------------
 bool Ball::UpdateEnd() {
 	_model->SetRotation(_dirVec);
 	_model->SetPos(_pos);
 	return true;
 }
-
+//----------------------------------------------------------------------
+// @brief 描画処理
+// @return 成功したかどうか
+//----------------------------------------------------------------------
 bool Ball::DebugDraw(){
 	return true;
 };
-
+//----------------------------------------------------------------------
+// @brief 正面方向を設定する
+// @param 正面方向
+// @return 成功したかどうか
+//----------------------------------------------------------------------
 void Ball::SetForwardVec(Vector3D forwardVec) {
 	_forwardVec = forwardVec.Normalize(); 
 	float angle = atan2f(_forwardVec.x, _forwardVec.z);

@@ -18,7 +18,7 @@ UIManager::UIManager(){
 // @return –³‚µ
 //----------------------------------------------------------------------
 UIManager::~UIManager(){
-	_uiList.clear();
+	_uiList.clear();	
 	_addUiList.clear();
 	_delUiNameList.clear();
 	_delUiList.clear();

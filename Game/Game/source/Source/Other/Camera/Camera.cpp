@@ -1,3 +1,9 @@
+//----------------------------------------------------------------------
+// @filename Camera.cpp
+// @author: saito ko
+// @explanation
+// プレイヤーの中心にカメラを追従させるクラス
+//----------------------------------------------------------------------
 #include "../../../Header/Other/Camera/Camera.h"
 #include "../.../../AppFrame/source/System/Header/Function/Timer.h"
 #include "../../../Header/Manager/SuperManager.h"
@@ -6,7 +12,10 @@
 #include "../AppFrame/source/System/Header/Function/mymath.h"
 #include "../../../Header/Object/Player/Player.h"
 Camera* Camera::_instance = nullptr;
-
+//----------------------------------------------------------------------
+// @brief コンストラクタ
+// @return 無し
+//----------------------------------------------------------------------
 Camera::Camera() :
 	_isGame(false),
 	_currentTime(GetNowCount())
@@ -19,11 +28,17 @@ Camera::Camera() :
 	_player = dynamic_cast<PlayerManager*>(SuperManager::GetInstance()->GetManager("playerManager"));
 	
 };
-
+//----------------------------------------------------------------------
+// @brief デストラクタ
+// @return 無し
+//----------------------------------------------------------------------
 Camera::~Camera(){
 	_instance = nullptr;
 };
-
+//----------------------------------------------------------------------
+// @brief 更新処理
+// @return 成功したかどうか
+//----------------------------------------------------------------------
 bool Camera::Update(){
 	if(_isGame){
 		UpdateGame();
@@ -33,7 +48,10 @@ bool Camera::Update(){
 	}
 	return true;
 };
-
+//----------------------------------------------------------------------
+// @brief 選択画面とリザルト画面のカメラの更新処理
+// @return 無し
+//----------------------------------------------------------------------
 void Camera::UpdateSelectAndResult(){
 	int moveTime = 1000;
 	float nowTimeRate = Math::Clamp(0.0f,1.0f,(float)(GetNowCount() - _currentTime) / moveTime);
@@ -43,7 +61,10 @@ void Camera::UpdateSelectAndResult(){
 
 	SetCameraPositionAndTarget_UpVecY(pos.toVECTOR(), target.toVECTOR());
 };
-
+//----------------------------------------------------------------------
+// @brief メインゲームのカメラの更新処理
+// @return 無し
+//----------------------------------------------------------------------
 void Camera::UpdateGame(){
 
 	if(_player == nullptr){
@@ -64,14 +85,21 @@ void Camera::UpdateGame(){
 
 	SetCameraPositionAndTarget_UpVecY(_pos.first.toVECTOR(), (_pos.second + (targetPos - _pos.second) / 1.3f).toVECTOR());
 };
-
+//----------------------------------------------------------------------
+// @brief メインゲームかどうかを設定
+// @param メインゲームかどうか
+// @return 無し
+//----------------------------------------------------------------------
 void Camera::SetIsGame(bool isGame) {
 	_isGame = isGame; 
 	_holdPos.first = _pos.first;
 	_holdPos.second = _pos.second;
 	_currentTime = GetNowCount();
 };
-
+//----------------------------------------------------------------------
+// @brief カメラの追従システム
+// @return 成功したかどうか
+//----------------------------------------------------------------------
 bool Camera::SpringDamperSystem(Vector3D targetPos){
 	float springConstant = 100.0f;
 	float dampingConstant = 20.0f;
@@ -87,7 +115,10 @@ bool Camera::SpringDamperSystem(Vector3D targetPos){
 
 	return true;
 };
-
+//----------------------------------------------------------------------
+// @brief 描画処理
+// @return 成功したかどうか
+//----------------------------------------------------------------------
 bool Camera::Draw(){
 	printfDx("x:%f y:%f z:%f\n",_pos.first.x, _pos.first.y, _pos.first.z);
 	printfDx("x:%f y:%f z:%f\n", _pos.second.x, _pos.second.y, _pos.second.z);
