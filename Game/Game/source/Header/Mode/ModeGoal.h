@@ -1,6 +1,7 @@
 #pragma once
 #include "../AppFrame/source/Mode/ModeBase.h"
 #include "../../Header/UI/Base/UIRotaBase.h"
+#include <array>
 class ModeGoal : public ModeBase
 {
 	public:
@@ -15,12 +16,11 @@ class ModeGoal : public ModeBase
 	void AnimationProcess();
 protected:
 	class SuperManager* _superManager;
+	class Score* _score;
+	std::vector<std::pair<std::string, UIRotaBase*>> _ui;
+	std::array<int,10> _numHandle;
 	std::string _name;
 	int _nowScore[2];
-	class Score* _score;
-	static bool _isLoadUI;
-	std::vector<std::pair<std::string, UIRotaBase*>> _ui;
-	std::unordered_map<int,int> _numHandle;
 	int _currentTime;
 };
 

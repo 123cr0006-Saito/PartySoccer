@@ -1,11 +1,11 @@
 //----------------------------------------------------------------------
 // @filename TimeLimit.cpp
-// @date: 2024/02/27
 // @author: saito ko
 // @explanation
 // 制限時間の管理を行うクラス
 //----------------------------------------------------------------------
 #include "../../Header/Other/TimeLimit.h"
+#include "../AppFrame/source/Application/UtilMacro.h"
 TimeLimit* TimeLimit::_instance = nullptr;
 //----------------------------------------------------------------------
 // @brief コンストラクタ
@@ -13,6 +13,10 @@ TimeLimit* TimeLimit::_instance = nullptr;
 //----------------------------------------------------------------------
 TimeLimit::TimeLimit() {
 	// インスタンスを保存
+	if (_instance != nullptr) {
+		DebugErrar();
+		return;
+	}
 	_instance = this;
 	// 初期化
 	_timeLimit = 0.0f;

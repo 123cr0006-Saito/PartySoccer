@@ -22,7 +22,6 @@ class TimeLimit
 	void Stop();
 	void Restart();
 	
-	static TimeLimit* _instance;
 	static TimeLimit* GetInstance() { return _instance; }
 
 	float GetRemainingTime() { return _remainingTime; }
@@ -34,6 +33,7 @@ class TimeLimit
 	int GetStartTime() { return _setTime / 1000; }
 
 protected:
+	static TimeLimit* _instance;
 	float _startTime,_timeLimit;// ŠJnŠÔ‚Æ§ŒÀŠÔ
 	float _setTime;// İ’èŠÔ
 	float _remainingTime;// c‚èŠÔ

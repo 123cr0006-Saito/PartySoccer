@@ -13,11 +13,8 @@ class PlayerManager : public ManagerBase
 	void DelAll();
 
 	void InitParam();
-
-	void LoadObjectPos();
 	
 	std::vector<class Player*> GetList() { return _player; }
-	int GetListSize()override;
 
 	bool Update()override;
 	bool UpdateEnd()override;

@@ -6,7 +6,6 @@ class ObjectManager : public ManagerBase
 	ObjectManager();
 	~ObjectManager();
 	virtual bool Terminate()override;
-	bool Init() override;
 
 	void Add(class ObjectBase* object);
 	void AddInput(void* value)override;
@@ -20,7 +19,6 @@ class ObjectManager : public ManagerBase
 	bool Draw() override;
 
 	class ObjectBase* Get(std::string name);
-	int GetListSize()override;
 protected:
 	std::vector<class ObjectBase*> _addObjectList;
 	std::vector<class ObjectBase*> _objectList;

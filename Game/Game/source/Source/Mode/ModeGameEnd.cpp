@@ -1,3 +1,9 @@
+//----------------------------------------------------------------------
+// @filename ModeGameEnd.cpp
+// @author: saito ko
+// @explanation
+// ゲーム終了時の演出を行うクラス
+//----------------------------------------------------------------------
 #include "../../Header/Mode/ModeGameEnd.h"
 #include "../../Header/UI/UIGameEnd.h"
 #include "../AppFrame/source/Mode/ModeServer.h"
@@ -8,28 +14,46 @@
 #include "../../Header/Manager/SuperManager.h"
 #include "../../Header/Manager/UIManager.h"
 #include "../../Header/UI/Animation/LocationAnim.h"
+//----------------------------------------------------------------------
+// @brief コンストラクタ
+// @return 無し
+//----------------------------------------------------------------------
 ModeGameEnd::ModeGameEnd(){
 
 };
-
+//----------------------------------------------------------------------
+// @brief デストラクタ
+// @return 無し
+//----------------------------------------------------------------------
 ModeGameEnd::~ModeGameEnd(){
 	SuperManager::GetInstance()->GetManager("uiManager")->DeleteName(_ui.first);
 };
-
+//----------------------------------------------------------------------
+// @brief 初期化処理
+// @return 成功しているか
+//----------------------------------------------------------------------
 bool ModeGameEnd::Initialize(){
-	_currentTime =GetNowCount();
+	_currentTime = GetNowCount();
+	// 終了UIを作成
 	UIGameEnd* ui = new UIGameEnd();
 	LocationAnim* anim = new LocationAnim(ui, "Data/UIAnimation/GameEndAnimation.csv");
 	ui->SetAnimation(anim);
 	_ui = std::make_pair("GameEnd",ui);
 	return true;
 };
-
+//----------------------------------------------------------------------
+// @brief 終了処理
+// @return 成功しているか
+//----------------------------------------------------------------------
 bool ModeGameEnd::Terminate(){
+	// UIを削除
 	SuperManager::GetInstance()->GetManager("uiManager")->DeleteName(_ui.first);
 	return true;
 };
-
+//----------------------------------------------------------------------
+// @brief 更新処理
+// @return 成功したかどうか
+//----------------------------------------------------------------------
 bool ModeGameEnd::Process(){
 	ModeServer::GetInstance()->SkipProcessUnderLayer();
 	int nowTime = GetNowCount() - _currentTime;

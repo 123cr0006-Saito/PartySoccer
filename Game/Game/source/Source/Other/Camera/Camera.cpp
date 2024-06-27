@@ -11,12 +11,17 @@ Camera::Camera() :
 	_isGame(false),
 	_currentTime(GetNowCount())
 {
-	_player = dynamic_cast<PlayerManager*>(SuperManager::GetInstance()->GetManager("playerManager"));
+	if (_instance != nullptr) {
+		DebugErrar();
+		return;
+	}
 	_instance = this;
+	_player = dynamic_cast<PlayerManager*>(SuperManager::GetInstance()->GetManager("playerManager"));
+	
 };
 
 Camera::~Camera(){
-
+	_instance = nullptr;
 };
 
 bool Camera::Update(){

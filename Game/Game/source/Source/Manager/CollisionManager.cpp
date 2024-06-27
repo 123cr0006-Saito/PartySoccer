@@ -1,3 +1,9 @@
+//----------------------------------------------------------------------
+// @filename CollisionManager.cpp
+// @author: saito ko
+// @explanation
+// 当たり判定とそのリアクションを行うクラス
+//----------------------------------------------------------------------
 #include "../../Header/Manager/CollisionManager.h"
 #include "../../AppFrame/source/Application/UtilMacro.h"
 #include "../../AppFrame/source/System/Header/Collision/3DCollision.h"
@@ -10,40 +16,60 @@
 #include "../../Header/Mode/ModeGoal.h"
 #include "../AppFrame/MemoryLeak.h"
 #include "../AppFrame/source/Application/Global.h"
-
+//----------------------------------------------------------------------
+// @brief コンストラクタ
+// @return 無し
+//----------------------------------------------------------------------
 CollisionManager::CollisionManager(){
 
 };
-
+//----------------------------------------------------------------------
+// @brief デストラクタ
+// @return 無し
+//----------------------------------------------------------------------
 CollisionManager::~CollisionManager(){
 	_addCollisionList.clear();
 	_delCollisionNameList.clear();
 	_delCollisionList.clear();
 	_collisionList.clear();
 };
-
+//----------------------------------------------------------------------
+// @brief 終了処理
+// @return 成功しているか
+//----------------------------------------------------------------------
 bool CollisionManager::Terminate() {
 	return true;
 }
-
-void CollisionManager::Add(CollisionBase* collision){
-	_addCollisionList.emplace_back(collision);
-};
-
+//----------------------------------------------------------------------
+// @brief インスタンスの追加
+// @param 追加するインスタンス
+// @return 無し
+//----------------------------------------------------------------------
 void CollisionManager::AddInput(void* value){
 	CollisionBase* collision = static_cast<CollisionBase*>(value);
 	_addCollisionList.emplace_back(collision);
 };
-
+//----------------------------------------------------------------------
+// @brief 削除するインスタンスの名前を挿入
+// @param 削除したいインスタンスの名前
+// @return 無し
+//----------------------------------------------------------------------
 void  CollisionManager::DeleteName(std::string name){
 	_delCollisionNameList.emplace_back(name);
 };
-
+//----------------------------------------------------------------------
+// @brief インスタンスの削除
+// @param 削除するインスタンス
+// @return 無し
+//----------------------------------------------------------------------
 void CollisionManager::DeleteInput(void* value){
 	CollisionBase* collision = static_cast<CollisionBase*>(value);
 	_delCollisionList.emplace_back(collision);
 };
-
+//----------------------------------------------------------------------
+// @brief 格納しているインスタンスをすべて削除
+// @return 無し
+//----------------------------------------------------------------------
 void CollisionManager::DelAll(){
 	for(auto&& list : _addCollisionList){
 		delete list;
@@ -54,11 +80,10 @@ void CollisionManager::DelAll(){
 	_collisionList.clear();
 	_addCollisionList.clear();
 };
-
-int CollisionManager::GetListSize() {
-	return _collisionList.size();
-};
-
+//----------------------------------------------------------------------
+// @brief 追加していたインスタンスの削除と追加
+// @return 成功したか
+//----------------------------------------------------------------------
 bool CollisionManager::UpdateInit(){
 	// deleteListの中に値があるとき削除
 	for (auto list : _delCollisionList) {
@@ -96,7 +121,10 @@ bool CollisionManager::UpdateInit(){
 	_delCollisionList.clear();
 	return true;
 };
-
+//----------------------------------------------------------------------
+// @brief 更新処理
+// @return 成功したかどうか
+//----------------------------------------------------------------------
 bool CollisionManager::Update(){
 	
 	UpdateInit();
@@ -120,17 +148,22 @@ bool CollisionManager::Update(){
 			// nameに書いてあるものはballのみと判定を行うためballのほうで処理をする
 			continue;
 		}
-
+		
 		if(first->GetName() == "player"){
-			CollisionCheckForCapsule(first);
+			//プレイヤーの処理
+			CollisionCheckForPlayer(first);
 		}
 		else if(first->GetName() == "ball"){
-			CollisionCheckForSphere(first);
+			//ボールの処理
+			CollisionCheckForBall(first);
 		}
 	}
 	return true;
 };
-
+//----------------------------------------------------------------------
+// @brief 描画処理
+// @return 成功したかどうか
+//----------------------------------------------------------------------
 bool CollisionManager::Draw(){
 #ifdef _DEBUG
 	for (auto&& list : _collisionList) {
@@ -139,8 +172,12 @@ bool CollisionManager::Draw(){
 #endif
 	return true;
 };
-
-bool CollisionManager::CollisionCheckForCapsule(CollisionBase* first){
+//----------------------------------------------------------------------
+// @brief プレイヤーとの当たり判定
+// @param 当たり判定をとるプレイヤーのインスタンス
+// @return 成功したかどうか
+//----------------------------------------------------------------------
+bool CollisionManager::CollisionCheckForPlayer(CollisionBase* first){
 
 	Capsule* capsule1 = dynamic_cast<Capsule*>(first);
 
@@ -250,8 +287,12 @@ bool CollisionManager::CollisionCheckForCapsule(CollisionBase* first){
 
 	return true;
 };
-
-bool CollisionManager::CollisionCheckForSphere(CollisionBase* first){
+//----------------------------------------------------------------------
+// @brief ボールの当たり判定
+// @param 当たり判定をとるボールのインスタンス
+// @return 成功したかどうか
+//----------------------------------------------------------------------
+bool CollisionManager::CollisionCheckForBall(CollisionBase* first){
 
 	Sphere* sphere1 = dynamic_cast<Sphere*>(first);
 
@@ -291,12 +332,15 @@ bool CollisionManager::CollisionCheckForSphere(CollisionBase* first){
 				dirVec = player->GetForwardVec();
 				first->isHit = second->isHit = true;
 				global._soundServer->DirectPlay("SE_Shoot");
+				//球の進む方向をプレイヤーが向いているほうに設定
 				ball->SetForwardVec(dirVec);
 				int power = player->GetPower();
 				if (!ball->GetIsShoot()) {
+					//シュート処理
 					ball->SetSpeed(10 * power);
 				}
 				else {
+					//シュートを打ち返した場合、速度の半分を追加
 					ball->AddSpeed(10 * (power/2));
 				}
 			}
@@ -320,6 +364,7 @@ bool CollisionManager::CollisionCheckForSphere(CollisionBase* first){
 					DebugErrar();
 					return false;
 				}
+				//ゴールに入った場合ModeGoal追加　あった場合は作成しない
 				ModeServer* modeServer = ModeServer::GetInstance();
 				if (!modeServer->Search("ModeGoal")){
 					global._soundServer->DirectPlay("SE_Whistle");
@@ -345,20 +390,20 @@ bool CollisionManager::CollisionCheckForSphere(CollisionBase* first){
 					DebugErrar();
 					return false;
 				}
-				// 衝突時の処理
+				// ボール同士の衝突時の処理
 				first->isHit = second->isHit = true;
 				Vector3D pos1 = ball1->GetPos();
 				Vector3D pos2 = ball2->GetPos();
 				Vector3D dirVec = pos2 - pos1;
-				float len = dirVec.Len();
 				Vector3D forwardVec1 = ball1->GetForwardVec();
-				Vector3D forwardVec2 = ball2->GetForwardVec();
+				float len = dirVec.Len();
 				float speed1 = ball1->GetSpeed();
-				float speed2 = ball2->GetSpeed();
-				ball1->SetForwardVec(dirVec*-1);
-				ball1->SetSpeed(0);
+				// 当たりに行った方を反射させ速度を半分にする
+				ball1->SetForwardVec(Reflect(forwardVec1, dirVec.Normalize()));
+				ball1->SetSpeed(speed1 / 2.0f);
+				//　ぶつけられたほうは直進し速度を半分もらう
 				ball2->SetForwardVec(dirVec);
-				ball2->SetSpeed(speed1);
+				ball2->AddSpeed(speed1 / 2.0f);
 				ball2->SetPos(ball2->GetPos() + dirVec.Normalize() * ((sphere1->r + sphere2->r) - len));
 			}
 		}
@@ -409,6 +454,7 @@ bool CollisionManager::CollisionCheckForSphere(CollisionBase* first){
 					DebugErrar();
 					return false;
 				}
+				//前フレームの位置に設定
 				ball->SetPosToOldPos();
 				ball->AddSpeed(2); // ゴールネットに当たったとき回転しながら止まってほしいのでスピード少し加算する
 				isHitGoalNet = true;
@@ -421,19 +467,15 @@ bool CollisionManager::CollisionCheckForSphere(CollisionBase* first){
 
 	if (pos1.z < -3180) {
 		normal = Vector3D(0, 0, 1);
-		pos1.z = -3180;
 	}
 	else if (pos1.z > 4876) {
 		normal = Vector3D(0, 0, -1);
-		pos1.z = 4876;
 	}
 	else if (pos1.x < -7500) {
 		normal = Vector3D(1, 0, 0);
-		pos1.x = -7500;
 	}
 	else if (pos1.x > 7500) {
 		normal = Vector3D(-1, 0, 0);
-		pos1.x = 7500;
 	}
 
 	// 壁に当たったときの処理
@@ -443,6 +485,15 @@ bool CollisionManager::CollisionCheckForSphere(CollisionBase* first){
 		ball->SetPos(pos1);
 		ball->AddSpeed(10);
 	}
+
+	// 超えてはいけない座標を超えたときは押し戻す
+	auto PositionLimit = [](float& pos, int max, int min) {
+		if (pos < min) pos = min;
+		else if (pos > max) pos = max;
+	};
+	PositionLimit(pos1.x, 7500, -7500);
+	PositionLimit(pos1.z, 4876, -3180);
+
 
 	return true;
 };

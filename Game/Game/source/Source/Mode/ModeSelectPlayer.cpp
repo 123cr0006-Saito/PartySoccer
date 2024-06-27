@@ -1,3 +1,9 @@
+//----------------------------------------------------------------------
+// @filename ModeSelectPlayer.cpp
+// @author: saito ko
+// @explanation
+// オブジェクトを管理するクラス
+//----------------------------------------------------------------------
 #include "../../Header/Mode/ModeSelectPlayer.h"
 #include "../../Header/Manager/SuperManager.h"
 #include "../../Header/Manager/PlayerManager.h"
@@ -8,18 +14,29 @@
 #include "../../Header/Manager/UIManager.h"
 #include "../../Header/UI/UIStartCount.h"
 #include "../../Header/Other/Camera/Camera.h"
+//----------------------------------------------------------------------
+// @brief コンストラクタ
+// @return 無し
+//----------------------------------------------------------------------
 ModeSelectPlayer::ModeSelectPlayer() {
 	_superManager = SuperManager::GetInstance();
 	_playerManager = nullptr;
 };
-
+//----------------------------------------------------------------------
+// @brief デストラクタ
+// @return 無し
+//----------------------------------------------------------------------
 ModeSelectPlayer::~ModeSelectPlayer() {
 
 };
-
+//----------------------------------------------------------------------
+// @brief 初期化処理
+// @return 成功しているか
+//----------------------------------------------------------------------
 bool ModeSelectPlayer::Initialize() {
 	_playerManager = NEW PlayerManager();
 	_superManager->Add("playerManager", 5, _playerManager);
+	//カメラクラスの作成
 	_camera = NEW Camera();
 	_camera->SetPos(Vector3D(0, 800, -2000));
 	_camera->SetTarget(Vector3D(0,0,0));
@@ -42,23 +59,30 @@ bool ModeSelectPlayer::Initialize() {
 		MV1SetScale(model, VScale(VGet(1.0f, 1.0f, 1.0f), 30.0f));
 		_modelParam.push_back(std::make_pair(name[i],model));
 	}
-
-	_graphHandle["yes"] = LoadGraph("Res/YES.png");
-	_graphHandle["no"] = LoadGraph("Res/NO.png");
-	int handle = LoadGraph("Res/UI/Instruction/Instruction.png");
+	//決定しているかの画像の読み込み
+	_graphHandle["yes"] = ResourceServer::LoadGraph("YES","Res/YES.png");
+	_graphHandle["no"] = ResourceServer::LoadGraph("NO","Res/NO.png");
+	int handle = ResourceServer::LoadGraph("Instruction","Res/UI/Instruction/Instruction.png");
 	_superManager->GetManager("uiManager")->Add(NEW UIBase("Instruction", Vector3D(1500, 1000, 0), 1.0f,255,handle , 1));
-	SetCameraPositionAndTarget_UpVecY(VGet(0, 800, -2000), VGet(0, 0, 0));
 	return true;
 };
-
+//----------------------------------------------------------------------
+// @brief 終了処理
+// @return 成功しているか
+//----------------------------------------------------------------------
 bool ModeSelectPlayer::Terminate(){
+	//決定UIの削除
 	for(int deleteNum = XInput::GetConnectNum(); deleteNum > 0; deleteNum-- ){
 		_superManager->GetManager("uiManager")->DeleteName("CheckUI_" + std::to_string(deleteNum - 1));
 	}
+	//ボタン説明画像を削除
 	_superManager->GetManager("uiManager")->DeleteName("Instruction");
 	return true;
 };
-
+//----------------------------------------------------------------------
+// @brief プレイヤーのコントローラーの数とプレイヤーの数を設定
+// @return 成功しているか
+//----------------------------------------------------------------------
 bool ModeSelectPlayer::PlayerNumAdjust(){
 	int connectNum = XInput::GetConnectNum();
 	int controllerNum = GetJoypadNum();
@@ -91,7 +115,10 @@ bool ModeSelectPlayer::PlayerNumAdjust(){
 	}
 	return true;
 };
-
+//----------------------------------------------------------------------
+// @brief プレイヤーの使用するキャラクターを選択する
+// @return 成功しているか
+//----------------------------------------------------------------------
 bool ModeSelectPlayer::PlayerSelect(){
 	for (int i = 0; i < _playerParam.size(); i++) {
 
@@ -104,10 +131,6 @@ bool ModeSelectPlayer::PlayerSelect(){
 
 		// デバッグ時はプレイヤーが1人以上いる場合
 		if (allTrue) {
-
-			// 本番時はすべてのプレイヤーが選択を終了しているかつプレイヤーが2人以上いる場合
-			//if (allTrue && _playerParam.size() > 1) {
-
 			for (int i = 0; i < _playerParam.size(); i++) {
 				//誰かがBボタンを押したときに次に進む
 				if (std::get<1>(_playerParam[i])->GetTrg(XINPUT_BUTTON_A)) {
@@ -154,7 +177,10 @@ bool ModeSelectPlayer::PlayerSelect(){
 	}
 	return true;
 };
-
+//----------------------------------------------------------------------
+// @brief 更新処理
+// @return 成功したかどうか
+//----------------------------------------------------------------------
 bool ModeSelectPlayer::Process(){
 	ModeBase::Process();
 	_camera->Update();
@@ -164,7 +190,10 @@ bool ModeSelectPlayer::Process(){
 	PlayerSelect();
 	return true;
 };
-
+//----------------------------------------------------------------------
+// @brief 描画処理
+// @return 成功したかどうか
+//----------------------------------------------------------------------
 bool ModeSelectPlayer::Render(){
 
 	int playerNum = _playerParam.size();

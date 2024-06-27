@@ -1,43 +1,66 @@
+//----------------------------------------------------------------------
+// @filename UIManager.cpp
+// @author: saito ko
+// @explanation
+// オブジェクトを管理するクラス
+//----------------------------------------------------------------------
 #include "../../Header/Manager/UIManager.h"
 #include "../../Header/UI/Base/UIBase.h"
+//----------------------------------------------------------------------
+// @brief コンストラクタ
+// @return 無し
+//----------------------------------------------------------------------
 UIManager::UIManager(){
 
 };
-
+//----------------------------------------------------------------------
+// @brief デストラクタ
+// @return 無し
+//----------------------------------------------------------------------
 UIManager::~UIManager(){
 	_uiList.clear();
 	_addUiList.clear();
 	_delUiNameList.clear();
 	_delUiList.clear();
 };
-
+//----------------------------------------------------------------------
+// @brief 終了処理
+// @return 成功しているか
+//----------------------------------------------------------------------
 bool UIManager::Terminate(){
 	DelAll();
 	return true;
 };
-
-bool UIManager::Init(){
-	return true;
-};
-
-void UIManager::Add(UIBase* ui){
-	_addUiList.emplace_back(ui);
-};
-
+//----------------------------------------------------------------------
+// @brief インスタンスの追加
+// @param 追加するインスタンス
+// @return 無し
+//----------------------------------------------------------------------
 void UIManager::AddInput(void* value){
 	UIBase* ui = static_cast<UIBase*>(value);
 	_addUiList.emplace_back(ui);
 };
-
+//----------------------------------------------------------------------
+// @brief 削除するインスタンスの名前を挿入
+// @param 削除したいインスタンスの名前
+// @return 無し
+//----------------------------------------------------------------------
 void UIManager::DeleteName(std::string ui){
 	_delUiNameList.emplace_back(ui);
 };
-
+//----------------------------------------------------------------------
+// @brief インスタンスの削除
+// @param 削除するインスタンス
+// @return 無し
+//----------------------------------------------------------------------
 void UIManager::DeleteInput(void* value){
 	UIBase* ui = static_cast<UIBase*>(value);
 	_delUiList.emplace_back(ui);
 };
-
+//----------------------------------------------------------------------
+// @brief 格納しているインスタンスをすべて削除
+// @return 無し
+//----------------------------------------------------------------------
 void UIManager::DelAll(){
 	for (auto&& list : _uiList) {
 		delete list;
@@ -49,17 +72,19 @@ void UIManager::DelAll(){
 	_addUiList.clear();
 	_delUiNameList.clear();
 };
-
+//----------------------------------------------------------------------
+// @brief レイヤー番号を参照し順番を入れ替える
+// @return 無し
+//----------------------------------------------------------------------
 void UIManager::Sort() {
 	std::sort(_uiList.begin(), _uiList.end(), []( UIBase* &a, UIBase* &b) {
 		return a->GetLayer() < b->GetLayer();
 	});
 };
-
-int UIManager::GetListSize(){
-	return _uiList.size();
-};
-
+//----------------------------------------------------------------------
+// @brief 追加していたインスタンスの削除と追加
+// @return 成功したか
+//----------------------------------------------------------------------
 bool UIManager::UpdateInit(){
 	// deleteListの中に値があるとき削除
 
@@ -106,7 +131,10 @@ bool UIManager::UpdateInit(){
 	_delUiNameList.clear();
 	return true;
 }
-
+//----------------------------------------------------------------------
+// @brief 更新処理
+// @return 成功したかどうか
+//----------------------------------------------------------------------
 bool UIManager::Update(){
 	// UIの更新
 	for (auto&& ui : _uiList) {
@@ -115,7 +143,10 @@ bool UIManager::Update(){
 
 	return true;
 };
-
+//----------------------------------------------------------------------
+// @brief 描画処理
+// @return 成功したかどうか
+//----------------------------------------------------------------------
 bool UIManager::Draw(){
 	for (auto&& ui : _uiList) {
 		ui->Draw();

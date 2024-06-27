@@ -1,3 +1,9 @@
+//----------------------------------------------------------------------
+// @filename ModeTitle.cpp
+// @author: saito ko
+// @explanation
+// オブジェクトを管理するクラス
+//----------------------------------------------------------------------
 #include "../../Header/Mode/ModeTitle.h"
 #include "../AppFrame/source/CFile/CFile.h"
 #include "../AppFrame/source/Mode/ModeServer.h"
@@ -9,14 +15,24 @@
 #include "../../Header/UI/Animation/IterationAnim.h"
 #include "../../Header/UI/Animation/LocationAnim.h"
 #include "../AppFrame/source/Application/Global.h"
+//----------------------------------------------------------------------
+// @brief コンストラクタ
+// @return 無し
+//----------------------------------------------------------------------
 ModeTitle::ModeTitle(){
 
 };
-
+//----------------------------------------------------------------------
+// @brief デストラクタ
+// @return 無し
+//----------------------------------------------------------------------
 ModeTitle::~ModeTitle(){
 
 };
-
+//----------------------------------------------------------------------
+// @brief 初期化処理
+// @return 成功しているか
+//----------------------------------------------------------------------
 bool ModeTitle::Initialize(){
 	_superManager = SuperManager::GetInstance();
 	int loopCount = 0;
@@ -43,7 +59,7 @@ bool ModeTitle::Initialize(){
 			c += FindString(&p[c], ',', &p[size]); c++; c += GetFloatNum(&p[c], &angle); //回転率を取得
 			c += SkipSpace(&p[c], &p[size]); // 空白やコントロールコードをスキップする
 
-			handle = LoadGraph(handlePath.c_str());
+			handle = ResourceServer::LoadGraph(name,handlePath.c_str());
 			alpha = 255;
 
 			UIRotaBase* ui = NEW UIRotaBase(name,pos, center, extrate, angle, alpha, handle,100+loopCount);
@@ -61,24 +77,31 @@ bool ModeTitle::Initialize(){
 	}
 
 	
-
+	//パッドの作成
 	_input = NEW XInput(PLAYER_1);
+	//BGMを設定
 	global._soundServer->DirectPlay("BGM_Title");
 	return true;
 };
-
-bool	ModeTitle::Terminate(){
+//----------------------------------------------------------------------
+// @brief 終了処理
+// @return 成功しているか
+//----------------------------------------------------------------------
+bool ModeTitle::Terminate(){
 	delete _input;
-	UIManager* ui = dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"));
+	// UIを削除
 	for(auto&& name : _uiName){
-		ui->DeleteName(name);
+		SuperManager::GetInstance()->GetManager("uiManager")->DeleteName(name);
 	}
 	return true;
 };
-
-bool	ModeTitle::Process(){
+//----------------------------------------------------------------------
+// @brief 更新処理
+// @return 成功したかどうか
+//----------------------------------------------------------------------
+bool ModeTitle::Process(){
 	_input->Input();
-
+	//Aボタンでセレクト画面に移動
 	if(_input->GetTrg(XINPUT_BUTTON_A)){
 		ModeServer::GetInstance()->Add(NEW ModeSelectPlayer(), 0, "ModeSelectPlayer");
 		std::vector<std::string> modeName = {"ModeTitle"};
@@ -87,7 +110,10 @@ bool	ModeTitle::Process(){
 
 	return true;
 };
-
-bool	ModeTitle::Render(){
+//----------------------------------------------------------------------
+// @brief 描画処理
+// @return 成功したかどうか
+//----------------------------------------------------------------------
+bool ModeTitle::Render(){
 	return true;
 };

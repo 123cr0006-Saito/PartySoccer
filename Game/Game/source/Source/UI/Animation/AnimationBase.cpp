@@ -10,5 +10,5 @@ AnimationBase::AnimationBase(UIRotaBase* ui):
 };
 
 AnimationBase::~AnimationBase(){
-
+	_ui = nullptr;
 };

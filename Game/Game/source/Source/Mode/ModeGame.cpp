@@ -1,3 +1,9 @@
+//----------------------------------------------------------------------
+// @filename ModeGame.cpp
+// @author: saito ko
+// @explanation
+// ゲーム本編を管理するクラス
+//----------------------------------------------------------------------
 #include "../AppFrame/source/CFile/CFile.h"
 
 #include "../../Header/Mode/ModeGame.h"
@@ -24,11 +30,18 @@
 #include "../../Header/UI/Score/UIScoreBoard.h"
 #include "../../Header/UI/UIStartCount.h"
 #include "../../Header/UI/UITimer.h"
-
+//----------------------------------------------------------------------
+// @brief コンストラクタ
+// @return 無し
+//----------------------------------------------------------------------
 ModeGame::ModeGame() {
+	// bgmの再生
 	global._soundServer->DirectPlay("BGM_Game");
 };
-
+//----------------------------------------------------------------------
+// @brief 初期化処理
+// @return 無し
+//----------------------------------------------------------------------
 bool ModeGame::Initialize() {
 	if (!base::Initialize()) { return false; }
 	// マネージャーの取得
@@ -39,9 +52,12 @@ bool ModeGame::Initialize() {
 	// カメラの生成
 	_camera = Camera::GetInstance();
 	_camera->SetIsGame(true);
+	// スコアクラスをsカウ性
 	_score = NEW Score();
+	// 時間制限を管理するクラスを作成
 	_timeLimit = NEW TimeLimit();
-	_timeLimit->SetTimeLimit(1, 0);
+	// 時間制限を設定
+	_timeLimit->SetTimeLimit(2, 0);
 	_timeLimit->Stop();
 	//UIの生成
 	LoadUI();
@@ -50,7 +66,10 @@ bool ModeGame::Initialize() {
 	_currentTime = GetNowCount();
 	return true;
 }
-
+//----------------------------------------------------------------------
+// @brief 終了処理
+// @return 成功しているか
+//----------------------------------------------------------------------
 bool ModeGame::Terminate() {
 	base::Terminate();
 	// オブジェクトの削除
@@ -68,6 +87,7 @@ bool ModeGame::Terminate() {
 	_superManager->GetManager("uiManager")->DeleteName("scoreNum");
 	_superManager->GetManager("uiManager")->DeleteName("Time");
 
+	// カメラをゲーム以外状態に設定　カメラの位置を設定
 	_camera->SetIsGame(false);
 	_camera->SetPos(Vector3D(0, 800, -2000));
 	_camera->SetTarget(Vector3D(0, 0, 0));
@@ -75,7 +95,10 @@ bool ModeGame::Terminate() {
 	delete _timeLimit;
 	return true;
 }
-
+//----------------------------------------------------------------------
+// @brief ボールとプレイヤーの位置を初期化　ボールが二つある場合は削除
+// @return 無し
+//----------------------------------------------------------------------
 void ModeGame::ReSetGame(){
 	// ボールの位置を設定
 	ObjectManager* objectManager = dynamic_cast<ObjectManager*>(_superManager->GetManager("objectManager"));
@@ -89,7 +112,10 @@ void ModeGame::ReSetGame(){
 	_isAddBall = false;
 	_currentTime = GetNowCount();
 };
-
+//----------------------------------------------------------------------
+// @brief オブジェクトの読み込み
+// @return 成功しているか
+//----------------------------------------------------------------------
 bool ModeGame::LoadObject(){
 	//ボールの生成
 	_superManager->GetManager("objectManager")->Add(NEW Ball("Ball"));
@@ -122,7 +148,10 @@ bool ModeGame::LoadObject(){
 
 	return true;
 };
-
+//----------------------------------------------------------------------
+// @brief UIの読み込み
+// @return 成功しているか
+//----------------------------------------------------------------------
 bool ModeGame::LoadUI(){
 	Vector3D scoreBoardPos[2] = { Vector3D(600,100,0),Vector3D(1300,100,0) };
 
@@ -135,7 +164,7 @@ bool ModeGame::LoadUI(){
 	int shouldMoveIcon = size > 2 ? 1 : 0;
 	for(int i = 0; i < size; i++){
 		std::string name = player[i]->GetName();
-		int handle = LoadGraph(("Res/UI/Icon/" + name  + ".png").c_str());
+		int handle = ResourceServer::LoadGraph(name + "Icon", ("Res/UI/Icon/" + name + ".png").c_str());
 		float iconOfset = i >= 2 ? 50 : -50;
 		UIBase* uiIcon = NEW UIBase(name + "Icon", scoreBoardPos[i % 2] + Vector3D(iconOfset * shouldMoveIcon, 150, 0), 0.2f, 255, handle,1000+i);
 		SuperManager::GetInstance()->GetManager("uiManager")->Add(uiIcon);
@@ -145,7 +174,11 @@ bool ModeGame::LoadUI(){
 	UITimer* uiTimer = NEW UITimer(_timeLimit);
 	return true;
 };
-
+//----------------------------------------------------------------------
+// @brief ファイルからオブジェクトのパラメータを読み込む
+// @param 読み込むオブジェクトのファイルの名前
+// @return オブジェクト名 座標 サイズ を配列にして返す
+//----------------------------------------------------------------------
 std::vector<std::tuple<std::string, Vector3D, Vector3D>> ModeGame::LoadObjectParam(std::string fileName) {
 	std::vector<std::tuple<std::string, Vector3D, Vector3D>> nameList;
 	// csvファイルを読み込む
@@ -174,23 +207,27 @@ std::vector<std::tuple<std::string, Vector3D, Vector3D>> ModeGame::LoadObjectPar
 	}
 	return nameList;
 };
-
-
+//----------------------------------------------------------------------
+// @brief 更新処理
+// @return 成功したかどうか
+//----------------------------------------------------------------------
 bool ModeGame::Process() {
 	base::Process();
+	// カメラの処理
 	_camera->Update();
+	// 時間制限の処理
 	_timeLimit->Update();
 
 	int ballCount = GetNowCount() - _currentTime ;
 
-	if (ballCount > 5000 && !_isAddBall) {
+	if (ballCount > 20000 && !_isAddBall) {
 		// 20秒たったら2つめのボールの生成
 		Ball* ball = NEW Ball("Ball_2");
 		ball->SetPos(Vector3D(0,5000,0));
 		_superManager->GetManager("objectManager")->Add(ball);
 		_isAddBall = true;
 	}
-
+	// 時間が0になったらゲームエンドクラスを作成
 	ModeServer* modeServer = ModeServer::GetInstance();
 	if (_timeLimit->GetTimeLimit() <= 0 && !modeServer->Search("ModeGameEnd")) {
 		ModeServer::GetInstance()->Add(NEW ModeGameEnd(),10,"ModeGameEnd");
@@ -198,9 +235,11 @@ bool ModeGame::Process() {
 
 	return true;
 }
-
+//----------------------------------------------------------------------
+// @brief 描画処理
+// @return 成功したかどうか
+//----------------------------------------------------------------------
 bool ModeGame::Render() {
 	base::Render();
-	_camera->Draw();
 	return true;
 }

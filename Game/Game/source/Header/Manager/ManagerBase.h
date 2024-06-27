@@ -10,7 +10,6 @@ class ManagerBase
 	public:
 	virtual ~ManagerBase() = default;
 	virtual bool Terminate() = 0;
-	virtual bool Init();
 	virtual bool UpdateInit();
 	virtual bool Update();
 	virtual bool UpdateEnd();
@@ -34,12 +33,9 @@ class ManagerBase
 	virtual void DeleteInput(void* value){};
 	virtual void DelAll(){};
 
-	int GetID() { return _id; }
 	std::string GetName() { return _name; }
-	virtual int GetListSize() = 0;
 
 protected:
-	int _id;
 	std::string _name;
 };
 

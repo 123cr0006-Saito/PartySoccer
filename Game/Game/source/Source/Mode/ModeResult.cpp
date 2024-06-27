@@ -1,3 +1,9 @@
+//----------------------------------------------------------------------
+// @filename ModeResult.cpp
+// @author: saito ko
+// @explanation
+// クリア画面のクラス
+//----------------------------------------------------------------------
 #include "../../Header/Mode/ModeResult.h"
 #include "../../Header/Manager/SuperManager.h"
 #include "../../Header/Manager/PlayerManager.h"
@@ -11,16 +17,25 @@
 #include "../AppFrame/source/CFile/CFile.h"
 #include "../../Header/UI/Animation/LocationAnim.h"
 #include "../../Header/Manager/UIManager.h"
-
+//----------------------------------------------------------------------
+// @brief コンストラクタ
+// @return 無し
+//----------------------------------------------------------------------
 ModeResult::ModeResult(){
 
 };
-
+//----------------------------------------------------------------------
+// @brief デストラクタ
+// @return 無し
+//----------------------------------------------------------------------
 ModeResult::~ModeResult(){
 
 };
-
-bool	ModeResult::Initialize(){
+//----------------------------------------------------------------------
+// @brief 初期化処理
+// @return 成功しているか
+//----------------------------------------------------------------------
+bool ModeResult::Initialize(){
 	_superManager = SuperManager::GetInstance();
 	_playerManager = dynamic_cast<PlayerManager*>(_superManager->GetManager("playerManager"));
 	_score = Score::GetInstance();
@@ -38,29 +53,34 @@ bool	ModeResult::Initialize(){
 			// プレイヤーが一人の場合　中心
 			player[i]->SetPos(Vector3D(0, 0, 0));
 			player[i]->SetForwardVec(Vector3D(0, 0, -1));
-			//player[i]->SetIsGame(false);
 		}
 		else {
 		// プレイヤーが複数の場合　等間隔
 			float dis = 1500.0f;
 			float length = dis / (playerNum - 1);
 			player[i]->SetPos(Vector3D(-dis / 2 + length * i, 0, 0));
+			player[i]->SetForwardVec(Vector3D(0, 0, -1));
 		}
 	}
-
+	// 勝ったチームの名前が出て来るUIを作成
 	int handle,x,y;
-	handle = LoadGraph(("Res/UI/WinFrame" + _winnerTeam + ".png").c_str());
+	handle = ResourceServer::LoadGraph("WinFrame" + _winnerTeam, ("Res/UI/WinFrame" + _winnerTeam + ".png").c_str());
 	GetGraphSize(handle, &x, &y);
 	UIRotaBase* ui = NEW UIRotaBase("WinTeam",Vector3D(1920 / 2, -500, 0), Vector3D(x / 2, y / 2, 0), Vector3D(1.0f, 1.0f, 0.0f), 0, 255, handle, 100);
+	//アニメーションの設定
 	LocationAnim* anim = NEW LocationAnim(ui, "Data/UIAnimation/WinTeamAnimation.csv");
 	ui->SetAnimation(anim);
-	dynamic_cast<UIManager*>(_superManager->GetManager("uiManager"))->Add(ui);
+	//追加
+	_superManager->GetManager("uiManager")->Add(ui);
+	//BGMを変更
 	global._soundServer->DirectPlay("BGM_Cheers");
 	return true;
 };
-
-
-bool	ModeResult::Terminate(){
+//----------------------------------------------------------------------
+// @brief 終了処理
+// @return 成功しているか
+//----------------------------------------------------------------------
+bool ModeResult::Terminate(){
 	_superManager->DeleteName("playerManager");
 	_superManager->GetManager("objectManager")->DelAll();
 	_superManager->GetManager("uiManager")->DelAll();
@@ -69,12 +89,14 @@ bool	ModeResult::Terminate(){
 	delete _input;
 	return true;
 };
-
-bool	ModeResult::Process(){
+//----------------------------------------------------------------------
+// @brief 更新処理
+// @return 成功したかどうか
+//----------------------------------------------------------------------
+bool ModeResult::Process(){
 	int nowTime = GetNowCount() - _currentTime;
 	_input->Input();
 	_camera->Update();
-	SetCameraPositionAndTarget_UpVecY(VGet(0, 800, -2000), VGet(0, 0, 0));
 	ModeServer* modeServer = ModeServer::GetInstance();
 	// 5秒後にAボタンでタイトルに戻る
 	// タイトルに戻る
@@ -87,7 +109,10 @@ bool	ModeResult::Process(){
 	}
 	return true;
 };
-
-bool	ModeResult::Render(){
+//----------------------------------------------------------------------
+// @brief 描画処理
+// @return 成功したかどうか
+//----------------------------------------------------------------------
+bool ModeResult::Render(){
 	return true;
 };

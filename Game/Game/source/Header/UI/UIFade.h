@@ -3,7 +3,7 @@
 class UIFade : public UIBase
 {
 public:
-	UIFade(int);
+	UIFade(int color);
 	~UIFade();
 	void Draw()override;
 

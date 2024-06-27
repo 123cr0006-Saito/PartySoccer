@@ -2,6 +2,7 @@
 #include "../../Header/Manager/SuperManager.h"
 #include "../../Header/Manager/UIManager.h"
 #include "../../Header/Object/Player/Player.h"
+#include "../AppFrame/source/System/Header/Resource/ResourceServer.h"
 UIPlayerParam::UIPlayerParam(Player* player,std::string name,Vector3D pos) : 
 	UIBase()
 {
@@ -9,7 +10,7 @@ UIPlayerParam::UIPlayerParam(Player* player,std::string name,Vector3D pos) :
 	_name = name + "Frame";
 	_pos = pos;
 	_layer = 10;
-	_handle = LoadGraph(("Res/UI/Frame/" + name + "Frame.png").c_str());
+	_handle = ResourceServer::LoadGraph(name+"Frame",("Res/UI/Frame/" + name + "Frame.png").c_str());
 
 	COLOR_U8 color = GetColorU8(0, 255, 0, 255);
 
@@ -48,7 +49,7 @@ UIPlayerParam::UIPlayerParam(Player* player,std::string name,Vector3D pos) :
 };
 
 UIPlayerParam::~UIPlayerParam(){
-
+	_player = nullptr;
 };
 
 void UIPlayerParam::Update(){

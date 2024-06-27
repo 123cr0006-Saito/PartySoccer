@@ -9,7 +9,7 @@ LocationAnim::LocationAnim(UIRotaBase* ui,std::string filePath) :
 };
 
 LocationAnim::~LocationAnim(){
-	
+	_changeValueList.clear();
 };
 
 void LocationAnim::Load(std::string filePath){

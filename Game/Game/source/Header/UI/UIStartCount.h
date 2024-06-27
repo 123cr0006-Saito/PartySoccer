@@ -1,6 +1,6 @@
 #pragma once
 #include "Base/UIRotaBase.h"
-#include <unordered_map>
+#include <array>
 class UIStartCount : public UIRotaBase
 {
 public:
@@ -8,7 +8,7 @@ public:
 	~UIStartCount();
 	void Update()override;
 protected:
-	std::unordered_map<int,int> _startCountHandle;
+	std::array<int,3> _startCountHandle;
 	int _currentTime;
 };
 

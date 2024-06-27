@@ -1,6 +1,5 @@
 //----------------------------------------------------------------------
 // @filename ModeFade.cpp
-// @date: 2024/02/29
 // @author: saito ko
 // @explanation
 // ステージ遷移時にフェードイン、フェードアウトを行うためのクラス
@@ -21,7 +20,6 @@ ModeFade::ModeFade(int time,bool isFadeIn) {
 	_fadeTime = time;
 	_isFadeIn = isFadeIn;
 	_ui = NEW UIFade(GetColor(0,0,0));
-	//_alphaFade = ui->LinkAlpha();
 	// サーバーに追加
 	UIManager* uiManager = dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"));
 	uiManager->Add(_ui);
@@ -34,8 +32,7 @@ ModeFade::ModeFade(int time,bool isFadeIn) {
 };
 
 ModeFade::~ModeFade() {
-	UIManager* uiManager = dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"));
-	uiManager->DeleteName("Fade");
+	SuperManager::GetInstance()->GetManager("uiManager")->DeleteName("Fade");;
 }
 //----------------------------------------------------------------------
 // @brief 初期化

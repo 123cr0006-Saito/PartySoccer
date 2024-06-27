@@ -16,9 +16,9 @@ public:
 	std::string GetName() { return _name; }
 	Vector3D GetForwardVec() { return _forwardVec; }
 	Vector3D GetPos() { return _pos; }
-	void SetPos(Vector3D pos) { _pos = pos; }
-	void SetOldPos(Vector3D pos) { _oldPos = pos; }
-	void SetForwardVec(Vector3D forward) { _forwardVec = forward; }
+	virtual void SetPos(Vector3D pos) { _pos = pos; }
+	virtual void SetOldPos(Vector3D pos) { _oldPos = pos; }
+	virtual void SetForwardVec(Vector3D forward) { _forwardVec = forward; }
 	
 protected:
 	Vector3D _pos;

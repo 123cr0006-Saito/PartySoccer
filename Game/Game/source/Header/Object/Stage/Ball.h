@@ -13,6 +13,7 @@ class Ball : public ObjectBase {
 	const Sphere* GetSphere() { return _sphere; }
 	float GetSpeed() { return _speed; }
 
+	void SetPos(Vector3D pos)override { _pos = pos; _sphere->pos = pos; };
 	void SetSpeed(float speed) { _speed = speed; }
 	void AddSpeed(float speed) { _speed += speed; }
 	void SetPosToOldPos() { _pos = _oldPos; }

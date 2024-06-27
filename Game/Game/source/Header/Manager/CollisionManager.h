@@ -8,7 +8,6 @@ public:
 	CollisionManager();
 	~CollisionManager();
 	virtual bool Terminate()override;
-	void Add(CollisionBase* collision);
 	void AddInput(void* value)override;
 	void DeleteName(std::string name)override;
 	void DeleteInput(void* value)override;
@@ -18,10 +17,8 @@ public:
 	bool Update()override;
 	bool Draw()override;
 
-	virtual int GetListSize() override;
-
-	bool CollisionCheckForCapsule(CollisionBase*);
-	bool CollisionCheckForSphere(CollisionBase*);
+	bool CollisionCheckForPlayer(CollisionBase*);
+	bool CollisionCheckForBall(CollisionBase*);
 
 protected:
 	std::vector<CollisionBase*> _addCollisionList;

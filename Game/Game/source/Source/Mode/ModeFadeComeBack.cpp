@@ -1,6 +1,5 @@
 //----------------------------------------------------------------------
 // @filename ModeFadeComeBack.cpp
-// @date: 2024/03/02
 // @author: saito ko
 // @explanation
 // ステージ遷移時にフェードイン、フェードアウトを行うためのクラス
@@ -43,7 +42,7 @@ ModeFadeComeBack::ModeFadeComeBack(int Time, std::vector<std::string> mode, bool
 // @brief コンストラクタ
 // @param Time フェード時間
 // @param mode 削除するモード名
-// // @param modeName レイヤーを変更するモード名
+// @param modeName レイヤーを変更するモード名
 // @param layer 指定したモードのレイヤーをこの値に変更
 // @param IsProcessSkip フェード時プロセスをスキップするかどうか
 //----------------------------------------------------------------------

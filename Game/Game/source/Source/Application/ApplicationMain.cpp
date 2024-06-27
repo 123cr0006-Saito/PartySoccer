@@ -21,26 +21,27 @@ bool ApplicationMain::Initialize(HINSTANCE hInstance) {
 	// FPSを安定させるためのクラスを初期化
 	_fpsController = NEW Fps();
 
-	// モードの登録
+	// 使用するマネージャークラスを登録
 	_superManager = NEW SuperManager();
 	RenderManager* renderManager = NEW RenderManager();
 	CollisionManager* collisionManager = NEW CollisionManager();
 	ObjectManager* objectManager = NEW ObjectManager();
 	UIManager* uiManager = NEW UIManager();
 	_superManager->Add("renderManager", 100, renderManager);
-	_superManager->Add("collisionManager", 0, collisionManager);
-	_superManager->Add("objectManager", 1, objectManager);
+	_superManager->Add("collisionManager", 1, collisionManager);
+	_superManager->Add("objectManager", 10, objectManager);
 	_superManager->Add("uiManager", 1000, uiManager);
 
+	// モードの登録
 	ModeServer::GetInstance()->Add(NEW ModeTitle(), 1, "ModeTitle");
 	return true;
 }
 
 bool ApplicationMain::Terminate() {
 	base::Terminate();
-	delete _timer;
-	delete _fpsController;
-	delete _superManager;
+	delete _timer; _timer = nullptr;
+	delete _fpsController; _fpsController = nullptr;
+	delete _superManager; _superManager = nullptr;
 	ResourceServer::DeleteResourceAll();
 	return true;
 }

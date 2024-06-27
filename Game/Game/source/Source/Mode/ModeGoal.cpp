@@ -1,3 +1,9 @@
+//----------------------------------------------------------------------
+// @filename ModeGoal.cpp
+// @author: saito ko
+// @explanation
+// ゴール時の演出を行うクラス
+//----------------------------------------------------------------------
 #include "../../Header/Mode/ModeGoal.h"
 #include "../AppFrame/source/Mode/ModeServer.h"
 #include "../../Header/Other/Score.h"
@@ -10,28 +16,35 @@
 #include "../../Header/Other/TimeLimit.h"
 #include "../../Header/UI/Score/UIScore.h"
 #include "../../Header/UI/Animation/LocationAnim.h"
-bool ModeGoal::_isLoadUI = false;
-
+//----------------------------------------------------------------------
+// @brief コンストラクタ
+// @param 得点を入れたチームの名前
+// @return 無し
+//----------------------------------------------------------------------
 ModeGoal::ModeGoal(std::string name){
 	TimeLimit::GetInstance()->Stop();
 	_score = Score::GetInstance();
 	_superManager = SuperManager::GetInstance();
+	//点数の取得
 	for(int i = 0; i < 2; i++){
 		_nowScore[i] = _score->GetScore("Goal_" + std::to_string(i+1));
 	}
+	//得点を追加
 	_score->AddScore(name,1);
 	_name = name;
 	_currentTime = 0;
-
+	//UIの読み込み
 	LoadUI();
-
+	//点数の画像を読み込む
 	for(int i = 0; i < 10; i++){
-		_numHandle[i] = LoadGraph(("Res/UI/Number/timer_0" + std::to_string(i) + ".png").c_str());
+		std::string num = std::to_string(i);
+		_numHandle[i] = ResourceServer::LoadGraph("Score_" + num, ("Res/UI/Number/timer_0" + num + ".png").c_str());
 	}
-
+	//UIを追加
 	for(auto&& list : _ui){
 		_superManager->GetManager("uiManager")->Add(list.second);
 
+		// チームの得点を設定
 		if(list.first == "Goal_1"){
 			list.second->SetHandle(_numHandle[_nowScore[0]]);
 		}
@@ -41,16 +54,25 @@ ModeGoal::ModeGoal(std::string name){
 	}
 
 };
-
+//----------------------------------------------------------------------
+// @brief デストラクタ
+// @return 無し
+//----------------------------------------------------------------------
 ModeGoal::~ModeGoal(){
 	_score = nullptr;
 };
-
-bool	ModeGoal::Initialize(){
+//----------------------------------------------------------------------
+// @brief 初期化処理
+// @return 無し
+//----------------------------------------------------------------------
+bool ModeGoal::Initialize(){
 	_currentTime = GetNowCount();
 	return true;
 };
-
+//----------------------------------------------------------------------
+// @brief UIの読み込み
+// @return 無し
+//----------------------------------------------------------------------
 void ModeGoal::LoadUI(){
 	int count = 0;
 	CFile file("Data/GoalUIParam.csv");
@@ -76,16 +98,18 @@ void ModeGoal::LoadUI(){
 			c += FindString(&p[c], ',', &p[size]); c++; c += GetFloatNum(&p[c], &angle); //回転率を取得
 			c += SkipSpace(&p[c], &p[size]); // 空白やコントロールコードをスキップする
 
-			handle = LoadGraph(handlePath.c_str());
+			handle = ResourceServer::LoadGraph(name,handlePath.c_str());
 			alpha = 255;
-
+			//UIクラスの作成
 			UIRotaBase* ui = NEW UIRotaBase(name, pos, center, extrate, angle, alpha, handle,10000+count);
 			if (animPath != "") {
+				//アニメーションの読み込み
 				LocationAnim* anim = NEW LocationAnim(ui, animPath);
 				ui->SetAnimation(anim);
 			}
 
 			if(_name == name){
+				//ゴールしたチームは別のアニメーションを追加読み込み
 				LocationAnim* anim = NEW LocationAnim(ui, "Data/Goal/AddScoreAnimation.csv");
 				ui->SetAnimation(anim);
 			}
@@ -98,47 +122,57 @@ void ModeGoal::LoadUI(){
 		DebugErrar();
 	}
 };
-
+//----------------------------------------------------------------------
+// @brief 終了処理
+// @return 成功しているか
+//----------------------------------------------------------------------
 bool ModeGoal::Terminate(){
 	for (auto&& list : _ui) {
 		_superManager->GetManager("uiManager")->DeleteName(list.first);
 	}
 	return true;
 };
-
+//----------------------------------------------------------------------
+// @brief 更新処理
+// @return 成功したかどうか
+//----------------------------------------------------------------------
 bool ModeGoal::Process(){
 	AnimationProcess();
 	return true;
 };
-
+//----------------------------------------------------------------------
+// @brief アニメーションの更新処理
+// @return 成功したかどうか
+//----------------------------------------------------------------------
 void ModeGoal::AnimationProcess(){
 	int nowTime = GetNowCount() - _currentTime;
 
 	// ここにアニメーション処理を書く
-	
-	nowTime -= 800;
-	if(nowTime < 0)return ;
-
-	nowTime -= 1000;
+	// 1.8秒
+	nowTime -= 1800;
 	if (nowTime < 0)return;
 
-	// 点数を右に移動
+	// 1.8秒後、点数の画像を更新
 	for(auto&& list : _ui){
 		if(list.first == _name){
 			list.second->SetHandle(_numHandle[_score->GetScore(_name)]);
 		}
 	}
-
+	//3.3秒
 	nowTime -= 1500;
 	if (nowTime < 0)return;
-
+	//アニメーションが終了したので削除
 	if(nowTime > 0){
 		ModeServer::GetInstance()->Del(this);
 		ModeGame* mode = dynamic_cast<ModeGame*>(ModeServer::GetInstance()->Get("ModeGame"));
+		//座標や状態を初期化
 		mode->ReSetGame();
 	}
 };
-
-bool	ModeGoal::Render(){
+//----------------------------------------------------------------------
+// @brief 描画処理
+// @return 成功したかどうか
+//----------------------------------------------------------------------
+bool ModeGoal::Render(){
 	return true;
 };

@@ -2,16 +2,18 @@
 #include "../../Header/Manager/UIManager.h"
 #include "../../Header/Other/TimeLimit.h"
 #include "../../Header/UI/UITimer.h"
+#include "../AppFrame/source/System/Header/Resource/ResourceServer.h"
 
 UITimer::UITimer(TimeLimit* timer){
 	_timer = timer;
 	_name = "Time";
 	_layer = 1;
 	for (int i = 0; i < 10; i++) {
-		_timeHandle[i] = LoadGraph(("Res/UI/Time/" + std::to_string(i) + ".png").c_str());
+		std::string num = std::to_string(i);
+		_timeHandle[i] = ResourceServer::LoadGraph("Time_" + num,("Res/UI/Time/" + num + ".png").c_str());
 	}
 	// ˜g‚Ì‰Šú‰»
-	_handle = LoadGraph("Res/UI/Time/flame.png");
+	_handle = ResourceServer::LoadGraph("TimeFlame","Res/UI/Time/flame.png");
 	int screenX,screenY,handleX,handleY,depth;
 	GetScreenState(&screenX, &screenY, &depth);
 	GetGraphSize(_handle, &handleX, &handleY);

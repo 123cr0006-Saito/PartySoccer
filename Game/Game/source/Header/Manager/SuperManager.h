@@ -9,7 +9,6 @@ class SuperManager
 public:
 	SuperManager();
 	~SuperManager();
-	bool Init();
 	bool Add(std::string name, int id,class ManagerBase* manager);
 	bool DeleteName(std::string);
 	bool DelAll();
