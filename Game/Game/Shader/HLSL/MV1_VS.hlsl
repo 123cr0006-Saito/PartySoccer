@@ -162,9 +162,6 @@ VS_OUTPUT main( VS_INPUT VSInput )
 	float4		viewPosition ;
     float3		worldNorm;
     float3		viewNorm;
-    float3		lightHalfVec;
-    float4		lightLitParam;
-    float4		lightLitDest;
 
 	// スキンメッシュ
 	// ブレンド行列の作成
@@ -210,48 +207,23 @@ VS_OUTPUT main( VS_INPUT VSInput )
 	//--------------------------------------------------------------------------------------------
 	
 	// ローカル空間からワールド空間へ変換
-    worldNorm.x = dot(VSInput.Normal,localWorldMatrix[0]);
-    worldNorm.y = dot( VSInput.Normal,localWorldMatrix[1]);
-    worldNorm.z = dot( VSInput.Normal,localWorldMatrix[2]);
+    worldNorm.x = dot( VSInput.Normal,localWorldMatrix[0].xyz);
+    worldNorm.y = dot( VSInput.Normal,localWorldMatrix[1].xyz);
+    worldNorm.z = dot( VSInput.Normal,localWorldMatrix[2].xyz);
 	// ワールド空間からビュー空間へ変換
     viewNorm.x = mul(worldNorm,g_Base.ViewMatrix[0]);
     viewNorm.y = mul(worldNorm,g_Base.ViewMatrix[1]);
     viewNorm.z = mul(worldNorm,g_Base.ViewMatrix[2]);
 	
-    //ライトディフューズカラーとライトスペキュラカラーの角度減衰計算
-	// 法線とライトの逆方向ベクトルとの内積を lLightLitParam.x にセット
-    lightLitParam.x = dot(viewNorm, -g_Common.Light[0].Direction);
-
-	// ハーフベクトルの計算 norm( ( norm( 頂点位置から視点へのベクトル ) + ライトの方向 ) )
-    lightHalfVec = normalize(normalize(-viewPosition.xyz) - g_Common.Light[0].Direction);
-
-	// 法線とハーフベクトルの内積を lLightLitParam.y にセット
-    lightLitParam.y = dot(lightHalfVec, viewNorm);
-
-	// スペキュラ反射率を lLightLitParam.w にセット
-    lightLitParam.w = g_Common.Material.Power;
-
-	// ライトパラメータ計算
-    lightLitDest = lit(lightLitParam.x, lightLitParam.y, lightLitParam.w);
-	
-	// ディヒューズカラーを設定
-    VSOutput.Diffuse.xyz = lightLitDest.y * g_Common.Light[0].Diffuse * g_Common.Material.Diffuse.xyz + g_Common.Light[0].Ambient.xyz + g_Common.Material.Ambient_Emissive.xyz;
-
-	// ディフューズアルファはマテリアルのディフューズカラーのアルファをそのまま使う
-    VSOutput.Diffuse.w = g_Common.Material.Diffuse.w;
-
-	// スペキュラカラーを設定
-    VSOutput.Specular.xyz = lightLitDest.z * g_Common.Light[0].Specular * g_Common.Material.Specular.xyz;
-
-	// スペキュラアルファはマテリアルのスペキュラカラーのアルファをそのまま使う
-    VSOutput.Specular.w = g_Common.Material.Specular.w;
-	
 	// テクスチャ座標のセット
     VSOutput.TexCoords0.x = dot(VSInput.TexCoords0, g_OtherMatrix.TextureMatrix[0][0]);
     VSOutput.TexCoords0.y = dot(VSInput.TexCoords0, g_OtherMatrix.TextureMatrix[0][1]);
 	
+	// その他パラメータをセット
     VSOutput.Normal = worldNorm;
     VSOutput.NormalView = viewNorm;
+    VSOutput.Diffuse = VSInput.Diffuse;
+    VSOutput.Specular = VSInput.Specular;
 
 	return VSOutput ;
 }
