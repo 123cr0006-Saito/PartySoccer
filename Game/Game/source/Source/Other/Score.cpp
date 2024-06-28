@@ -13,7 +13,7 @@ Score* Score::_instance = nullptr;
 //----------------------------------------------------------------------
 Score::Score(){
 	if(_instance != nullptr){
-		DebugErrar();
+		DebugError();
 		return ;
 	}
 	_instance = this;

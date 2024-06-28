@@ -46,11 +46,13 @@ bool Global::SoundLoad() {
 	_soundServer->Add("SE_GameEnd", new SoundItemSE("Sound/SE/GameEnd.mp3"));
 	_soundServer->Add("SE_Cheers", new SoundItemSE("Sound/SE/Cheers.mp3"));
 	_soundServer->Add("SE_Dribble", new SoundItemSE("Sound/SE/Dribble.mp3"));
+	_soundServer->Add("SE_GaugeHalf", new SoundItemSE("Sound/SE/GaugeHalf.mp3"));
+	_soundServer->Add("SE_GaugeMax", new SoundItemSE("Sound/SE/GaugeMax.mp3"));
 	SetUseASyncLoadFlag(FALSE);
 	return true;
 }
 
-void DebugErrar(const std::source_location location) {
-	std::string errar = "ファイル名:" + std::string(location.file_name()) + "\n" + "行:" + std::to_string(location.line()) + "でエラー発生";
-	MessageBox(NULL, errar.c_str(), "", MB_OK);
+void DebugError(const std::source_location location) {
+	std::string error = "ファイル名:" + std::string(location.file_name()) + "\n" + "行:" + std::to_string(location.line()) + "でエラー発生";
+	MessageBox(NULL, error.c_str(), "", MB_OK);
 }

@@ -15,7 +15,7 @@ SuperManager* SuperManager::_instance = nullptr;
 //----------------------------------------------------------------------
 SuperManager::SuperManager() {
 	if (_instance != nullptr) {
-		DebugErrar();
+		DebugError();
 		return;
 	}
 	_instance = this;

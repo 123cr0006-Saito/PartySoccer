@@ -51,7 +51,7 @@ void IterationAnim::Load(std::string filePath){
 		}
 	}
 	else {
-		DebugErrar();
+		DebugError();
 	}
 }
 //----------------------------------------------------------------------

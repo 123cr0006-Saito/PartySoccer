@@ -105,6 +105,7 @@ void ModeGame::ReSetGame(){
 	Ball* ball = dynamic_cast<Ball*>(objectManager->Get("Ball"));
 	ball->SetPos(Vector3D(0, 350, 0));
 	ball->SetSpeed(0);
+	// ボールが二つある場合は削除
 	objectManager->DeleteName("Ball_2");
 	// プレイヤーの位置を設定
 	PlayerManager* playerManager = dynamic_cast<PlayerManager*>(_superManager->GetManager("playerManager"));
@@ -204,7 +205,7 @@ std::vector<std::tuple<std::string, Vector3D, Vector3D>> ModeGame::LoadObjectPar
 		}
 	}
 	else {
-		DebugErrar();
+		DebugError();
 	}
 	return nameList;
 };
@@ -221,10 +222,10 @@ bool ModeGame::Process() {
 
 	int ballCount = GetNowCount() - _currentTime ;
 
-	if (ballCount > 5000 && !_isAddBall) {
+	if (ballCount > 20000 && !_isAddBall) {
 		// 20秒たったら2つめのボールの生成
 		Ball* ball = NEW Ball("Ball_2");
-		ball->SetPos(Vector3D(0,5000,0));
+		ball->SetPos(Vector3D(rand()%6000 - 3000, 5000, rand() % 6000 - 3000));
 		_superManager->GetManager("objectManager")->Add(ball);
 		_isAddBall = true;
 	}
@@ -233,7 +234,6 @@ bool ModeGame::Process() {
 	if (_timeLimit->GetTimeLimit() <= 0 && !modeServer->Search("ModeGameEnd")) {
 		ModeServer::GetInstance()->Add(NEW ModeGameEnd(),10,"ModeGameEnd");
 	}
-
 	return true;
 }
 //----------------------------------------------------------------------

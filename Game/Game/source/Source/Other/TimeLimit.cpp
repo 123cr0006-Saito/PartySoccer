@@ -14,7 +14,7 @@ TimeLimit* TimeLimit::_instance = nullptr;
 TimeLimit::TimeLimit() {
 	// インスタンスを保存
 	if (_instance != nullptr) {
-		DebugErrar();
+		DebugError();
 		return;
 	}
 	_instance = this;

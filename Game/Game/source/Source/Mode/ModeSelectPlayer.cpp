@@ -60,8 +60,8 @@ bool ModeSelectPlayer::Initialize() {
 		_modelParam.push_back(std::make_pair(name[i],model));
 	}
 	//Œˆ’è‚µ‚Ä‚¢‚é‚©‚Ì‰æ‘œ‚Ì“Ç‚Ýž‚Ý
-	_graphHandle["yes"] = ResourceServer::LoadGraph("YES","Res/PlayerSelect/YES.png");
-	_graphHandle["no"] = ResourceServer::LoadGraph("NO","Res/PlayerSelect/NO.png");
+	_graphHandle["yes"] = ResourceServer::LoadGraph("YES","Res/UI/PlayerSelect/YES.png");
+	_graphHandle["no"] = ResourceServer::LoadGraph("NO","Res/UI/PlayerSelect/NO.png");
 	int handle = ResourceServer::LoadGraph("Instruction","Res/UI/Instruction/Instruction.png");
 	_superManager->GetManager("uiManager")->Add(NEW UIBase("Instruction", Vector3D(1500, 1000, 0), 1.0f,255,handle , 1));
 	SetCameraPositionAndTarget_UpVecY(Vector3D(0, 800, -2000).toVECTOR(), Vector3D(0, 0, 0).toVECTOR());

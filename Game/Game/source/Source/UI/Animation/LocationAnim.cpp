@@ -70,7 +70,7 @@ void LocationAnim::Load(std::string filePath){
 				func = &LocationAnim::ChangeExtrateY;
 			}
 			else {
-				DebugErrar();
+				DebugError();
 			}
 
 			_changeValueList.push_back(std::make_pair(func, std::make_tuple(start, end, endTime, delayTime)));
@@ -78,7 +78,7 @@ void LocationAnim::Load(std::string filePath){
 		}
 	}
 	else {
-		DebugErrar();
+		DebugError();
 	}
 };
 //----------------------------------------------------------------------

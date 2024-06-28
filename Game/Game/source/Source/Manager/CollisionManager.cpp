@@ -183,7 +183,7 @@ bool CollisionManager::CollisionCheckForPlayer(CollisionBase* first){
 
 	// キャスト失敗
 	if(!capsule1){
-		DebugErrar();
+		DebugError();
 		return false;
 	}
 
@@ -198,7 +198,7 @@ bool CollisionManager::CollisionCheckForPlayer(CollisionBase* first){
 			Capsule* capsule2 = dynamic_cast<Capsule*>(second);
 			// キャスト失敗
 			if (!capsule2) {
-				DebugErrar();
+				DebugError();
 				return false;
 			}
 
@@ -206,11 +206,11 @@ bool CollisionManager::CollisionCheckForPlayer(CollisionBase* first){
 				//衝突処理
 				Player* player1 = dynamic_cast<Player*>(first->GetObje());
 				if (!player1) {
-					DebugErrar();
+					DebugError();
 				}
 				Player* player2 = dynamic_cast<Player*>(second->GetObje());
 				if (!player2) {
-					DebugErrar();
+					DebugError();
 				}
 				first->isHit = second->isHit = true;
 				if (player1->GetDash() > player2->GetDash()) {
@@ -227,7 +227,7 @@ bool CollisionManager::CollisionCheckForPlayer(CollisionBase* first){
 			Sphere* sphere = dynamic_cast<Sphere*>(second);
 			// キャスト失敗
 			if (!sphere) {
-				DebugErrar();
+				DebugError();
 				return false;
 			}
 
@@ -235,14 +235,14 @@ bool CollisionManager::CollisionCheckForPlayer(CollisionBase* first){
 				//衝突処理		
 				Ball* ball = dynamic_cast<Ball*>(second->GetObje());
 				if (!ball) {
-					DebugErrar();
+					DebugError();
 				}
 				bool IsShoot = ball->GetIsShoot();
 				Vector3D pos1 = capsule1->pos;
 				Vector3D pos2 = sphere->pos;
 				Player* player = dynamic_cast<Player*>(first->GetObje());
 				if (!player) {
-					DebugErrar();
+					DebugError();
 				}
 				first->isHit = second->isHit = true;
 				if (IsShoot) {
@@ -274,7 +274,7 @@ bool CollisionManager::CollisionCheckForPlayer(CollisionBase* first){
 	// 壁の判定 壁は平面の当たり判定で考える
 	Player* player = dynamic_cast<Player*>(first->GetObje());
 	if (!player) {
-		DebugErrar();
+		DebugError();
 	}
 	auto PositionLimit = [](float& pos, int max, int min) {
 		if (pos < min) pos = min;
@@ -298,7 +298,7 @@ bool CollisionManager::CollisionCheckForBall(CollisionBase* first){
 
 	// キャスト失敗
 	if (!sphere1) {
-		DebugErrar();
+		DebugError();
 		return false;
 	}
 	bool isHitGoalNet = false;
@@ -312,7 +312,7 @@ bool CollisionManager::CollisionCheckForBall(CollisionBase* first){
 		else if (second->GetName() == "shoot") {
 			Sphere* sphere2 = dynamic_cast<Sphere*>(second);
 			if (!sphere2) {
-				DebugErrar();
+				DebugError();
 				return false;
 			}
 			if (Collision3D::SphereCol((*sphere1), (*sphere2))) {
@@ -321,12 +321,12 @@ bool CollisionManager::CollisionCheckForBall(CollisionBase* first){
 				Vector3D dirVec =  pos1 - pos2;
 				Ball* ball = dynamic_cast<Ball*>(first->GetObje());
 				if (!ball) {
-					DebugErrar();
+					DebugError();
 					return false;
 				}
 				Player* player = dynamic_cast<Player*>(second->GetObje());
 				if (!player) {
-					DebugErrar();
+					DebugError();
 					return false;
 				}
 				dirVec = player->GetForwardVec();
@@ -348,7 +348,7 @@ bool CollisionManager::CollisionCheckForBall(CollisionBase* first){
 		else if (second->GetName() == "goal") {
 			OBB* obb = dynamic_cast<OBB*>(second);
 			if (!obb) {
-				DebugErrar();
+				DebugError();
 				return false;
 			}
 			if (Collision3D::OBBSphereCol((*obb), (*sphere1) )) {
@@ -356,12 +356,12 @@ bool CollisionManager::CollisionCheckForBall(CollisionBase* first){
 				if(second->isHitOld)continue;
 				Ball* ball = dynamic_cast<Ball*>(first->GetObje());
 				if (!ball) {
-					DebugErrar();
+					DebugError();
 					return false;
 				}
 				Goal* goal = dynamic_cast<Goal*>(second->GetObje());
 				if (!goal) {
-					DebugErrar();
+					DebugError();
 					return false;
 				}
 				//ゴールに入った場合ModeGoal追加　あった場合は作成しない
@@ -376,18 +376,18 @@ bool CollisionManager::CollisionCheckForBall(CollisionBase* first){
 		else if(second->GetName() == "ball"){
 			Sphere* sphere2 = dynamic_cast<Sphere*>(second);
 			if (!sphere2) {
-				DebugErrar();
+				DebugError();
 				return false;
 			}
 			if (Collision3D::SphereCol((*sphere1), (*sphere2))) {
 				Ball* ball1 = dynamic_cast<Ball*>(first->GetObje());
 				if (!ball1) {
-					DebugErrar();
+					DebugError();
 					return false;
 				}
 				Ball* ball2 = dynamic_cast<Ball*>(second->GetObje());
 				if (!ball2) {
-					DebugErrar();
+					DebugError();
 					return false;
 				}
 				// ボール同士の衝突時の処理
@@ -413,20 +413,20 @@ bool CollisionManager::CollisionCheckForBall(CollisionBase* first){
 
 			OBB* obb = dynamic_cast<OBB*>(second);
 			if (!obb) {
-				DebugErrar();
+				DebugError();
 				return false;
 			}
 			Vector3D hitPos;
 			if (Collision3D::OBBSphereCol((*obb), (*sphere1),&hitPos)) {
 				Ball* ball = dynamic_cast<Ball*>(first->GetObje());
 				if (!ball) {
-					DebugErrar();
+					DebugError();
 					return false;
 				}
 				Wall* wall = dynamic_cast<Wall*>(second->GetObje());
 				first->isHit = second->isHit = true;
 				if (!wall) {
-					DebugErrar();
+					DebugError();
 					return false;
 				}
 				global._soundServer->DirectPlay("SE_Bound");
@@ -445,13 +445,13 @@ bool CollisionManager::CollisionCheckForBall(CollisionBase* first){
 			if (Collision3D::OBBSphereCol((*obb), (*sphere1), &hitPos)) {
 				Ball* ball = dynamic_cast<Ball*>(first->GetObje());
 				if (!ball) {
-					DebugErrar();
+					DebugError();
 					return false;
 				}
 				Wall* wall = dynamic_cast<Wall*>(second->GetObje());
 				first->isHit = second->isHit = true;
 				if (!wall) {
-					DebugErrar();
+					DebugError();
 					return false;
 				}
 				//前フレームの位置に設定

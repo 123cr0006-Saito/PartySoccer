@@ -39,4 +39,4 @@ public:
 	int _oldExp; //ステージが始まった時の経験値を格納します。
 };
 extern Global global;
-extern void DebugErrar(const std::source_location location = std::source_location::current());
+extern void DebugError(const std::source_location location = std::source_location::current());

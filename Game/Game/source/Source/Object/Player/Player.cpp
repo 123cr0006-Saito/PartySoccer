@@ -7,9 +7,10 @@
 #include "../../../Header/Object/Player/Player.h"
 #include "../../../Header/Manager/RenderManager.h"
 #include "../../../Header/Manager/CollisionManager.h"
-#include "../../../AppFrame/MemoryLeak.h"
 #include "../../../Header/Manager/SuperManager.h"
 #include "../../../Header/Model/RimLightModel.h"
+#include "../AppFrame/source/Application/Global.h"
+#include "../AppFrame/MemoryLeak.h"
 #include "../AppFrame/source/System/Header/Input/XInput.h"
 //----------------------------------------------------------------------
 // @brief ’è”éŒ¾
@@ -247,11 +248,13 @@ void Player::AnimationUpdate(const Vector3D& moveDir){
 	if(_power == POWER_MAX / 2){
 		_model->SetIsShader(true);
 		_model->SetRimColor(0.0f,0.0f,1.0f);
+		global._soundServer->DirectPlay("SE_GaugeHalf");
 	}
 	else if(!_isPowerMax && _power == POWER_MAX){
 		_isPowerMax = true;
 		_model->SetIsShader(true);
 		_model->SetRimColor(1.0f,0.0f,0.0f);
+		global._soundServer->DirectPlay("SE_GaugeMax");
 	}
 	
 

@@ -21,7 +21,7 @@ Camera::Camera() :
 	_currentTime(GetNowCount())
 {
 	if (_instance != nullptr) {
-		DebugErrar();
+		DebugError();
 		return;
 	}
 	_instance = this;
@@ -53,13 +53,7 @@ bool Camera::Update(){
 // @return 無し
 //----------------------------------------------------------------------
 void Camera::UpdateSelectAndResult(){
-	int moveTime = 1000;
-	float nowTimeRate = Math::Clamp(0.0f,1.0f,(float)(GetNowCount() - _currentTime) / moveTime);
-
-	Vector3D pos = Lerp(_holdPos.first, _pos.first, nowTimeRate);
-	Vector3D target = Lerp(_holdPos.second, _pos.second, nowTimeRate);
-
-	SetCameraPositionAndTarget_UpVecY(pos.toVECTOR(), target.toVECTOR());
+	SetCameraPositionAndTarget_UpVecY(_pos.first.toVECTOR(), _pos.second.toVECTOR());
 };
 //----------------------------------------------------------------------
 // @brief メインゲームのカメラの更新処理
@@ -68,7 +62,7 @@ void Camera::UpdateSelectAndResult(){
 void Camera::UpdateGame(){
 
 	if(_player == nullptr){
-		DebugErrar();
+		DebugError();
 	}
 
 	std::vector<Player*> player = _player->GetList();

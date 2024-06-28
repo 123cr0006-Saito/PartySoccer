@@ -73,7 +73,7 @@ bool ModeTitle::Initialize(){
 		}
 	}
 	else {
-		DebugErrar();
+		DebugError();
 	}
 
 	

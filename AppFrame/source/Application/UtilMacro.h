@@ -3,7 +3,7 @@
 #include "Global.h"
 
 // デバッグ用エラー表示
-#define DebugErrar() DebugErrar();
+#define DebugError() DebugError();
 
 #define	SAFE_DELETE(x)	if(x){delete x;x=nullptr;}
 #define S_Draw(y,value) DrawFormatString(0,y*15,GetColor(255,255,255),"%u",value);
