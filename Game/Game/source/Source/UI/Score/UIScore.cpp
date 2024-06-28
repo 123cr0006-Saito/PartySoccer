@@ -30,7 +30,7 @@ UIScore::UIScore(Vector3D pos, std::string name, Score* score) :
 	int sizeX, sizeY;
 	GetGraphSize(_scoreHandle[0], &sizeX, &sizeY);
 	_center = Vector3D(sizeX / 2, sizeY / 2, 0);
-	dynamic_cast<UIManager*>(SuperManager::GetInstance()->GetManager("uiManager"))->Add(this);
+	SuperManager::GetInstance()->GetManager("uiManager")->Add(this);
 };
 //----------------------------------------------------------------------
 // @brief デストラクタ

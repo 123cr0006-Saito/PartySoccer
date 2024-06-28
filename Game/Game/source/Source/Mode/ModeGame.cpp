@@ -106,6 +106,7 @@ void ModeGame::ReSetGame(){
 	ball->SetPos(Vector3D(0, 350, 0));
 	ball->SetSpeed(0);
 	objectManager->DeleteName("Ball_2");
+	// プレイヤーの位置を設定
 	PlayerManager* playerManager = dynamic_cast<PlayerManager*>(_superManager->GetManager("playerManager"));
 	playerManager->InitParam();
 	UIStartCount* uiStartCount = NEW UIStartCount();

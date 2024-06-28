@@ -64,7 +64,7 @@ bool ModeResult::Initialize(){
 	}
 	// 勝ったチームの名前が出て来るUIを作成
 	int handle,x,y;
-	handle = ResourceServer::LoadGraph("WinFrame" + _winnerTeam, ("Res/UI/WinFrame" + _winnerTeam + ".png").c_str());
+	handle = ResourceServer::LoadGraph("WinFrame" + _winnerTeam, ("Res/UI/WinFrame/WinFrame" + _winnerTeam + ".png").c_str());
 	GetGraphSize(handle, &x, &y);
 	UIRotaBase* ui = NEW UIRotaBase("WinTeam",Vector3D(1920 / 2, -500, 0), Vector3D(x / 2, y / 2, 0), Vector3D(1.0f, 1.0f, 0.0f), 0, 255, handle, 100);
 	//アニメーションの設定

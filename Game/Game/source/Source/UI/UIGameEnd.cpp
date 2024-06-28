@@ -14,7 +14,7 @@
 // @return –³‚µ
 //----------------------------------------------------------------------
 UIGameEnd::UIGameEnd(){
-	_handle = ResourceServer::LoadGraph("GameEnd","Res/GameEnd.png");
+	_handle = ResourceServer::LoadGraph("GameEnd","Res/GameEnd/GameEnd.png");
 	_name = "GameEnd";
 	_layer = 100;
 	int x, y, depth, handleX, handleY;

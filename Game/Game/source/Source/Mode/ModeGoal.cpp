@@ -164,9 +164,8 @@ void ModeGoal::AnimationProcess(){
 	//アニメーションが終了したので削除
 	if(nowTime > 0){
 		ModeServer::GetInstance()->Del(this);
-		ModeGame* mode = dynamic_cast<ModeGame*>(ModeServer::GetInstance()->Get("ModeGame"));
 		//座標や状態を初期化
-		mode->ReSetGame();
+		dynamic_cast<ModeGame*>(ModeServer::GetInstance()->Get("ModeGame"))->ReSetGame();
 	}
 };
 //----------------------------------------------------------------------

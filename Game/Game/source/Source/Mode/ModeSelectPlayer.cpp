@@ -60,8 +60,8 @@ bool ModeSelectPlayer::Initialize() {
 		_modelParam.push_back(std::make_pair(name[i],model));
 	}
 	//決定しているかの画像の読み込み
-	_graphHandle["yes"] = ResourceServer::LoadGraph("YES","Res/YES.png");
-	_graphHandle["no"] = ResourceServer::LoadGraph("NO","Res/NO.png");
+	_graphHandle["yes"] = ResourceServer::LoadGraph("YES","Res/PlayerSelect/YES.png");
+	_graphHandle["no"] = ResourceServer::LoadGraph("NO","Res/PlayerSelect/NO.png");
 	int handle = ResourceServer::LoadGraph("Instruction","Res/UI/Instruction/Instruction.png");
 	_superManager->GetManager("uiManager")->Add(NEW UIBase("Instruction", Vector3D(1500, 1000, 0), 1.0f,255,handle , 1));
 	SetCameraPositionAndTarget_UpVecY(Vector3D(0, 800, -2000).toVECTOR(), Vector3D(0, 0, 0).toVECTOR());
@@ -209,10 +209,14 @@ bool ModeSelectPlayer::Render(){
 			float length = dis / (playerNum - 1);
 			modelPos = Vector3D(-dis / 2 + length * i, 0, 0);
 		}
+		else {
+			// プレイヤーが一人の場合　中心
+			modelPos = Vector3D(0, 0, 0);
+		}
 		// モデルの描画
 		MV1SetPosition(modelHandle, modelPos.toVECTOR());
 		MV1DrawModel(modelHandle);
-
+		// 決定ボタンのUIの座標と画像を更新
 		Vector3D handlePos = ConvWorldPosToScreenPos(modelPos.toVECTOR());
 		_ui[i]->SetPos(handlePos + Vector3D(0,50,0));
 		_ui[i]->SetHandle(graphHandle);
