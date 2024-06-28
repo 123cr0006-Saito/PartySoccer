@@ -3,12 +3,12 @@
 class UIFade : public UIBase
 {
 public:
-	UIFade(int color);
+	UIFade(const int color);
 	~UIFade();
 	void Draw()override;
 
-	void SetAlpha(int alpha) {_alpha = alpha; }
-	int  SetColor(int color) { _color = color; }
+	void SetAlpha(const int alpha) {_alpha = alpha; }
+	int  SetColor(const int color) { _color = color; }
 protected:
 	int _color;
 };

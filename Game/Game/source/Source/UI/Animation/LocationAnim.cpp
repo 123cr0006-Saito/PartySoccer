@@ -14,7 +14,7 @@
 // @param ファイルパス
 // @return 無し
 //----------------------------------------------------------------------
-LocationAnim::LocationAnim(UIRotaBase* ui,std::string filePath) :
+LocationAnim::LocationAnim(UIRotaBase* ui,const std::string& filePath) :
 	AnimationBase(ui)
 {
 	Load(filePath);
@@ -31,7 +31,7 @@ LocationAnim::~LocationAnim(){
 // @param ファイルパス
 // @return 無し
 //----------------------------------------------------------------------
-void LocationAnim::Load(std::string filePath){
+void LocationAnim::Load(const std::string& filePath){
 	CFile file(filePath);
 	// ファイルが開けた場合
 	if (file.Success()) {

@@ -42,7 +42,7 @@ void ObjectManager::AddInput(void* value){
 // @param 削除したいインスタンスの名前
 // @return 無し
 //----------------------------------------------------------------------
-void ObjectManager::DeleteName(std::string name){
+void ObjectManager::DeleteName(const std::string& name){
 	_delObjectNameList.emplace_back(name);
 };
 //----------------------------------------------------------------------
@@ -147,7 +147,7 @@ bool ObjectManager::Draw() {
 // @param 取得したいインスタンスの名前
 // @return 取得できた場合インスタンスを返す　できなかった場合はnullptr
 //----------------------------------------------------------------------
-ObjectBase* ObjectManager::Get(std::string name){
+ObjectBase* ObjectManager::Get(const std::string& name){
 	for (auto&& list : _objectList) {
 		if (list->GetName() == name) {
 			return list;

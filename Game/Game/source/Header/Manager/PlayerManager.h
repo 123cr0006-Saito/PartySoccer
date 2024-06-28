@@ -9,7 +9,7 @@ class PlayerManager : public ManagerBase
 	~PlayerManager();
 	virtual bool Terminate()override;
 
-	void Add(std::vector<std::tuple<std::string,class XInput*, int>> param);
+	void Add(const std::vector<std::tuple<std::string,class XInput*, int>>& param);
 	void DelAll();
 
 	void InitParam();

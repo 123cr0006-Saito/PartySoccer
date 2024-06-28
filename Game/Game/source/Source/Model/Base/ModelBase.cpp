@@ -27,7 +27,7 @@ ModelBase::ModelBase() :
 // @param モデルハンドル
 // @return 無し
 //----------------------------------------------------------------------
-ModelBase::ModelBase(std::string name,int layer, int handle) :
+ModelBase::ModelBase(const std::string& name, const int layer, const int handle) :
 	_name(name),
 	_layer(layer),
 	_modelHandle(handle),
@@ -48,7 +48,7 @@ ModelBase::~ModelBase(){
 // @param 座標
 // @return 無し
 //----------------------------------------------------------------------
-void ModelBase::SetPos(Vector3D pos){
+void ModelBase::SetPos(const Vector3D& pos){
 	MV1SetPosition(_modelHandle, pos.toVECTOR());
 };
 //----------------------------------------------------------------------
@@ -56,7 +56,7 @@ void ModelBase::SetPos(Vector3D pos){
 // @param 正面方向
 // @return 無し
 //----------------------------------------------------------------------
-void ModelBase::SetModelForwardRotationY(Vector3D forwardVec){
+void ModelBase::SetModelForwardRotationY(const Vector3D& forwardVec){
 	Math::SetModelForward_RotationY(_modelHandle, forwardVec.toVECTOR());
 };
 //----------------------------------------------------------------------
@@ -64,7 +64,7 @@ void ModelBase::SetModelForwardRotationY(Vector3D forwardVec){
 // @param 拡大率
 // @return 無し
 //----------------------------------------------------------------------
-void ModelBase::SetScale(class Vector3D scale){
+void ModelBase::SetScale(const Vector3D& scale){
 	MV1SetScale(_modelHandle, scale.toVECTOR());
 };
 //----------------------------------------------------------------------
@@ -72,7 +72,7 @@ void ModelBase::SetScale(class Vector3D scale){
 // @param 回転値
 // @return 無し
 //----------------------------------------------------------------------
-void ModelBase::SetRotation(class Vector3D rot){
+void ModelBase::SetRotation(const Vector3D& rot){
 	MV1SetRotationXYZ(_modelHandle, rot.toVECTOR());
 };
 //----------------------------------------------------------------------

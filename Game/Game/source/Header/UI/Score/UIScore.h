@@ -4,7 +4,7 @@
 class UIScore : public UIRotaBase
 {
 public:
-	UIScore(Vector3D,std::string,class Score*);
+	UIScore(const Vector3D& pos,const std::string& name,class Score* score);
 	virtual ~UIScore();
 	virtual void Update()override;
 	virtual void Draw()override;

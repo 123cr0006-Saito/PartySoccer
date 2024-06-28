@@ -27,7 +27,7 @@ namespace{
 // @param モデルハンドル
 // @return 無し
 //----------------------------------------------------------------------
-Player::Player(std::string name, XInput* input, int handle) : ObjectBase(name) {
+Player::Player(const std::string& name,XInput* input,const int handle) : ObjectBase(name) {
 	_Input = input;
 	int modelHandle = handle;
 	_model = NEW RimLightModel(name,10, modelHandle);
@@ -281,7 +281,7 @@ bool Player::UpdateEnd() {
 // @param ノックバックの方向
 // @return 成功したかどうか
 //----------------------------------------------------------------------
-void Player::SetKnockBack(int knockBack, Vector3D knockBackVec){
+void Player::SetKnockBack(const int knockBack,const Vector3D& knockBackVec){
 	_knockBack = knockBack;
 	_knockBackVec = knockBackVec.Normalize();
 	_isKnockBack = true;

@@ -39,7 +39,7 @@ TimeLimit::~TimeLimit() {
 // @brief §ŒÀŠÔ‚ğİ’è
 // @return –³‚µ
 //----------------------------------------------------------------------
-void TimeLimit::SetTimeLimit(int minutes, int second) {
+void TimeLimit::SetTimeLimit(const int minutes, const int second) {
 	// ŠÔ‚ğƒ~ƒŠ•b‚É•ÏŠ·
 	_timeLimit = (minutes * 60 + second) * 1000;
 	// İ’èŠÔ‚ğ•Û‘¶

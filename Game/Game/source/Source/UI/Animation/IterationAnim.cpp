@@ -14,7 +14,7 @@
 // @param 開始値をランダムにするかどうか
 // @return 無し
 //----------------------------------------------------------------------
-IterationAnim::IterationAnim(UIRotaBase* ui,std::string filePath,bool isRandom):
+IterationAnim::IterationAnim(UIRotaBase* ui,const std::string& filePath,const bool isRandom):
  AnimationBase(ui)
 {
 	Load(filePath);
@@ -35,7 +35,7 @@ IterationAnim::~IterationAnim(){
 // @param ファイルパス
 // @return 無し
 //----------------------------------------------------------------------
-void IterationAnim::Load(std::string filePath){
+void IterationAnim::Load(const std::string& filePath){
 	CFile file(filePath);
 	// ファイルが開けた場合
 	if (file.Success()) {

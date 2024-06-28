@@ -18,7 +18,7 @@
 // @param オブジェクトの回転値
 // @return 無し
 //----------------------------------------------------------------------
-Goal::Goal(std::string name, Vector3D pos, Vector3D rotation) : ObjectBase(name) {
+Goal::Goal(const std::string& name, const Vector3D& pos, const Vector3D& rotation) : ObjectBase(name) {
 	int handle = ResourceServer::MV1LoadModel("Goal","Res/Model/Goal/goal.mv1");
 	_model = NEW ModelBase(name, 1, handle);
 	_model->SetPos(pos);

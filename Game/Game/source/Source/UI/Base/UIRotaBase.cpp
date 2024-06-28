@@ -28,7 +28,7 @@ UIRotaBase::UIRotaBase() :
 // @param ÉåÉCÉÑÅ[
 // @return ñ≥Çµ
 //----------------------------------------------------------------------
-UIRotaBase::UIRotaBase(std::string name,Vector3D pos,Vector3D center, Vector3D extrate,float angle, int alpha, int handle,int layer):
+UIRotaBase::UIRotaBase(const std::string& name, const Vector3D& pos, const Vector3D& center, const Vector3D& extrate, const float angle, const int alpha, const int handle, const int layer):
 UIBase(name,pos,alpha,handle,layer),
 _center(center),
 _extrate(extrate),

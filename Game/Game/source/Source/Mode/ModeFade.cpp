@@ -15,7 +15,7 @@
 // @param time フェード時間
 // @param isFadeIn フェードインかフェードアウトか
 //----------------------------------------------------------------------
-ModeFade::ModeFade(int time,bool isFadeIn) {
+ModeFade::ModeFade(const int time,const bool isFadeIn) {
 	_currentTime = GetNowCount();
 	_fadeTime = time;
 	_isFadeIn = isFadeIn;

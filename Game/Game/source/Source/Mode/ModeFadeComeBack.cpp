@@ -16,7 +16,7 @@
 // @param layer 指定したモードのレイヤーをこの値に変更
 // @param IsProcessSkip フェード時プロセスをスキップするかどうか
 //----------------------------------------------------------------------
-ModeFadeComeBack::ModeFadeComeBack(int Time, std::string modeName, int layer, bool IsProcessSkip) :ModeFade(Time, false) {
+ModeFadeComeBack::ModeFadeComeBack(const int Time,const std::string& modeName,const int layer,const bool IsProcessSkip) :ModeFade(Time, false) {
 	_fadeEnd = 255;
 	_fadeStart = 0;
 	_deleteModeName.clear();
@@ -30,7 +30,7 @@ ModeFadeComeBack::ModeFadeComeBack(int Time, std::string modeName, int layer, bo
 // @param mode 削除するモード名
 // @param IsProcessSkip フェード時プロセスをスキップするかどうか
 //----------------------------------------------------------------------
-ModeFadeComeBack::ModeFadeComeBack(int Time, std::vector<std::string> mode, bool IsProcessSkip) :ModeFade(Time,false){
+ModeFadeComeBack::ModeFadeComeBack(const int Time, const std::vector<std::string>& mode, const bool IsProcessSkip) :ModeFade(Time,false){
 	_fadeEnd = 255;
     _fadeStart = 0;
 	_deleteModeName = mode;
@@ -46,7 +46,7 @@ ModeFadeComeBack::ModeFadeComeBack(int Time, std::vector<std::string> mode, bool
 // @param layer 指定したモードのレイヤーをこの値に変更
 // @param IsProcessSkip フェード時プロセスをスキップするかどうか
 //----------------------------------------------------------------------
-ModeFadeComeBack::ModeFadeComeBack(int Time, std::vector<std::string> mode, std::string modeName, int layer, bool IsProcessSkip) :ModeFade(Time, false) {
+ModeFadeComeBack::ModeFadeComeBack(const int Time, const std::vector<std::string>& mode, const std::string& modeName, const int layer, const bool IsProcessSkip) :ModeFade(Time, false) {
 	_fadeEnd = 255;
 	_fadeStart = 0;
 	_deleteModeName = mode;

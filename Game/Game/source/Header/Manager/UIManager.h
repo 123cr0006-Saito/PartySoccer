@@ -11,7 +11,7 @@ class UIManager : public ManagerBase
 	bool Draw()override;
 
 	void AddInput(void* value)override;
-	void DeleteName(std::string ui)override;
+	void DeleteName(const std::string& ui)override;
 	void DeleteInput(void* value)override;
 	void DelAll()override;
 	void Sort();

@@ -7,7 +7,7 @@ public :
 	~RenderManager();
 	virtual bool Terminate()override;
 	void AddInput(void* value)override;
-	void DeleteName(std::string name)override;
+	void DeleteName(const std::string& name)override;
 	void DeleteInput(void* value)override;
 	void DelAll()override;
 	void Sort();

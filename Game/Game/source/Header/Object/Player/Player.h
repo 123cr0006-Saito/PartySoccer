@@ -7,12 +7,11 @@
 class Player : public ObjectBase
 {
 public:
-	Player(std::string,class XInput*,int);
+	Player(const std::string& name ,class XInput* input,const int handle);
 	~Player();
 
 	virtual bool Update()override;
 	bool UpdateGame();
-	bool UpdateResult();
 	virtual bool UpdateEnd()override;
 
 	void MoveUpdate(const Vector3D& normalDir);
@@ -23,18 +22,17 @@ public:
 
 	virtual bool DebugDraw()override;
 
-	void SetKnockBack(int knockBack, Vector3D knockBackVec);
-	void SetPower(int power) { _power = power; }
-	void SetStamina(int stamina) { _stamina = stamina; }
-	void SetIsGame(bool isGame) { _isGame = isGame; }
+	void SetKnockBack(const int knockBack, const Vector3D& knockBackVec);
+	void SetPower(const int power) { _power = power; }
+	void SetStamina(const int stamina) { _stamina = stamina; }
+	void SetIsGame(const bool isGame) { _isGame = isGame; }
 
-	const bool GetIsKnockBack() { return _isKnockBack; }
-	const int GetPower() { return _power; }
-	const int GetStamina() { return _stamina; }
-	const int GetDash() { return _dash; }
-	const Capsule* GetCapsule() { return _capsule; }
+	bool GetIsKnockBack() const { return _isKnockBack; }
+	int GetPower() const { return _power; }
+	int GetStamina() const { return _stamina; }
+	int GetDash() const { return _dash; }
+	Capsule* GetCapsule() const { return _capsule; }
 protected:
-
 	class XInput* _Input; // “ü—Í
 	class RimLightModel* _model; // ƒ‚ƒfƒ‹
 

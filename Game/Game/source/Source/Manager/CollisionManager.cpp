@@ -54,7 +54,7 @@ void CollisionManager::AddInput(void* value){
 // @param 削除したいインスタンスの名前
 // @return 無し
 //----------------------------------------------------------------------
-void  CollisionManager::DeleteName(std::string name){
+void  CollisionManager::DeleteName(const std::string& name){
 	_delCollisionNameList.emplace_back(name);
 };
 //----------------------------------------------------------------------

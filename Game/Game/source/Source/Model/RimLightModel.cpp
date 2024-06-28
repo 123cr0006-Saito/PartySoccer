@@ -13,7 +13,7 @@
 // @param モデルハンドル
 // @return 無し
 //----------------------------------------------------------------------
-RimLightModel::RimLightModel(std::string name, int layer, int handle) :
+RimLightModel::RimLightModel(const std::string& name, const int layer, const int handle) :
 	ModelBase(name,layer,handle)
 {
 	_pixelShader = ResourceServer::LoadPixelShader("RimLightPS","Shader/PS/MV1_Rim_PS.pso");
@@ -34,7 +34,7 @@ RimLightModel::~RimLightModel(){
 // @param b 青値
 // @return 無し
 //----------------------------------------------------------------------
-void RimLightModel::SetRimColor(float r, float g, float b){
+void RimLightModel::SetRimColor(const float r,const float g,const float b){
 	FLOAT4* color = (FLOAT4*)GetBufferShaderConstantBuffer(_rimLightColor);
 	color->x = r;
 	color->y = g;

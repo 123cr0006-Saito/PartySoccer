@@ -5,30 +5,30 @@ class ModelBase
 {
 public:
 	ModelBase();
-	ModelBase(std::string name, int layer, int handle);
+	ModelBase(const std::string& name,const int layer,const int handle);
 	virtual ~ModelBase();
 	void Render();
 
 	// Layer関連--------------------------------------
-	int GetLayer(){return _layer;};
+	int GetLayer() const {return _layer;} ;
 
 	// Model関連--------------------------------------
-	std::string GetName(){return _name;};
-	void SetPos(class Vector3D pos);
-	void SetModelForwardRotationY(class Vector3D forwardVec);
-	void SetScale(class Vector3D scale);
-	void SetRotation(class Vector3D rot);
+	std::string GetName() const {return _name;};
+	void SetPos(const class Vector3D& pos);
+	void SetModelForwardRotationY(const class Vector3D& forwardVec);
+	void SetScale(const class Vector3D& scale);
+	void SetRotation(const class Vector3D& rot);
 	//-----------------------------------------------------
 	
 	// Animation関連---------------------------------
-	void SetAttachAnimBlendRate(int attachIndex, float rate);
-	void SetAttachAnimTime(int attachIndex, float time);
+	void SetAttachAnimBlendRate(const int attachIndex,const float rate);
+	void SetAttachAnimTime(const int attachIndex,const float time);
 	//-----------------------------------------------------
 	
 	// Shader関連-------------------------------------
-	void SetIsShader(bool isShader){_isShader = isShader;};
-	void SetVertexShader(int vertexHandle){_vertexShader = vertexHandle; };
-	void SetPixelShader(int pixelHandle){_pixelShader = pixelHandle;};	
+	void SetIsShader(const bool isShader){_isShader = isShader;};
+	void SetVertexShader(const int vertexHandle){_vertexShader = vertexHandle; };
+	void SetPixelShader(const int pixelHandle){_pixelShader = pixelHandle;};	
 	//-----------------------------------------------------
 
 protected:

@@ -2,13 +2,13 @@
 #include "../AppFrame/source/System/Header/Collision/MyStructure.h"
 class Goal : public ObjectBase {
 public:
-	Goal(std::string name, Vector3D pos, Vector3D rotation);
+	Goal(const std::string& name, const Vector3D& pos, const Vector3D& rotation);
 	~Goal();
 	
 	bool Update()override;
 	bool DebugDraw()override;
 
-	OBB* GetOBB() { return _obb; }
+	OBB* GetOBB() const { return _obb; }
 protected:
 	OBB* _obb;
 	class ModelBase* _model;

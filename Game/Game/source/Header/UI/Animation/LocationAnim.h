@@ -5,9 +5,9 @@
 class LocationAnim : public AnimationBase
 {
 public:
-	LocationAnim(class UIRotaBase* ,std::string);
+	LocationAnim(class UIRotaBase* ui,const std::string& name);
 	virtual ~LocationAnim();
-	void Load(std::string)override;
+	void Load(const std::string& path)override;
 	void Update()override;
 
 	void ChangeX(float, float, int, int);

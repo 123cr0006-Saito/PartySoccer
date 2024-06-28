@@ -45,7 +45,7 @@ void UIManager::AddInput(void* value){
 // @param 削除したいインスタンスの名前
 // @return 無し
 //----------------------------------------------------------------------
-void UIManager::DeleteName(std::string ui){
+void UIManager::DeleteName(const std::string& ui){
 	_delUiNameList.emplace_back(ui);
 };
 //----------------------------------------------------------------------

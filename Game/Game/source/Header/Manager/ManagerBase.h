@@ -29,7 +29,7 @@ class ManagerBase
 
 	virtual void AddInput(void* value){};
 
-	virtual void DeleteName(std::string){};
+	virtual void DeleteName(const std::string& deleteName){};
 	virtual void DeleteInput(void* value){};
 	virtual void DelAll(){};
 

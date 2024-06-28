@@ -3,7 +3,7 @@
 class UIScoreBoard : public UIRotaBase
 {
 public:
-	UIScoreBoard(Vector3D,std::string,class Score*);
+	UIScoreBoard(const Vector3D& pos,const std::string& name ,class Score*);
 	virtual ~UIScoreBoard();
 protected:
 	class UIScore* _score;

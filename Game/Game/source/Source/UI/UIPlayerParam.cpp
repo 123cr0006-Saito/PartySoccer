@@ -16,7 +16,7 @@
 // @param ˆÊ’u
 // @return –³‚µ
 //----------------------------------------------------------------------
-UIPlayerParam::UIPlayerParam(Player* player,std::string name,Vector3D pos) : 
+UIPlayerParam::UIPlayerParam(class Player* player, const std::string& name, const Vector3D& pos) :
 	UIBase()
 {
 	// ‰Šú‰»

@@ -10,7 +10,7 @@
 // @param フェードの色
 // @return 無し
 //----------------------------------------------------------------------
-UIFade::UIFade(int color){
+UIFade::UIFade(const int color){
 	_alpha = 0;
 	_color = color;
 	_layer = 999999;

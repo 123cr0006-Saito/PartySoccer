@@ -16,7 +16,7 @@
 // @param ÉXÉRÉA
 // @return ñ≥Çµ
 //----------------------------------------------------------------------
-UIScore::UIScore(Vector3D pos, std::string name, Score* score) : 
+UIScore::UIScore(const Vector3D& pos, const std::string& name, Score* score) :
 	UIRotaBase(),
 	_teamName(name),
 	_score(score)

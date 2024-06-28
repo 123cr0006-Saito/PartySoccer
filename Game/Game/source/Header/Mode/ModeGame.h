@@ -25,7 +25,7 @@ public:
 	bool LoadObject();
 	bool LoadUI();
 	void ReSetGame();
-	std::vector<std::tuple<std::string, Vector3D, Vector3D>> LoadObjectParam(std::string fileName);
+	std::vector<std::tuple<std::string, Vector3D, Vector3D>> LoadObjectParam(const std::string& fileName);
 protected:
 	class SuperManager* _superManager;
 	class Player* _player;

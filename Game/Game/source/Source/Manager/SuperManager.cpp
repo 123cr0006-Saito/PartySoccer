@@ -37,7 +37,7 @@ SuperManager::~SuperManager() {
 // @param 追加するインスタンス
 // @return 無し
 //----------------------------------------------------------------------
-bool SuperManager::Add(std::string name,int layer, ManagerBase* manager){
+bool SuperManager::Add(const std::string& name, const int layer, class ManagerBase* manager){
 	_superManager.emplace_back(std::make_tuple(name,layer,manager));
 	_isSort = true;
 	return true;
@@ -47,7 +47,7 @@ bool SuperManager::Add(std::string name,int layer, ManagerBase* manager){
 // @param 削除したいインスタンスの名前
 // @return 無し
 //----------------------------------------------------------------------
-bool SuperManager::DeleteName(std::string name){
+bool SuperManager::DeleteName(const std::string& name){
 	_delSuperManager.emplace_back(name);
 	return true;
 };
@@ -70,7 +70,7 @@ bool SuperManager::DelAll(){
 // @param インスタンスの名前
 // @return 取得したインスタンス　取得できなかった場合、nullptr
 //----------------------------------------------------------------------
-ManagerBase* SuperManager::GetManager(std::string name){
+ManagerBase* SuperManager::GetManager(const std::string& name){
 	for (auto&& list : _superManager) {
 		if (std::get<0>(list) == name) {
 			return std::get<2>(list);

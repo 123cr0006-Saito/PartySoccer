@@ -11,7 +11,7 @@
 // @param オブジェクトの名前
 // @return 無し
 //----------------------------------------------------------------------
-ObjectBase::ObjectBase(std::string name){
+ObjectBase::ObjectBase(const std::string& name){
 	_name = name;
 };
 //----------------------------------------------------------------------

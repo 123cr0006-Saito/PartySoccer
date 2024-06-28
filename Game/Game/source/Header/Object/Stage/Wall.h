@@ -4,7 +4,7 @@
 class Wall :public ObjectBase
 {
 public:
-	Wall(std::string name,Vector3D pos, Vector3D length);
+	Wall(const std::string& name,const Vector3D& pos,const Vector3D& length);
 	~Wall();
 protected:
 	OBB* _obb;

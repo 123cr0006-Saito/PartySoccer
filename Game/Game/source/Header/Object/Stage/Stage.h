@@ -3,7 +3,7 @@
 class Stage : public ObjectBase
 {
 public:
-	Stage(std::string name);
+	Stage(const std::string& name);
 	~Stage();
 	virtual bool Update()override;
 protected:

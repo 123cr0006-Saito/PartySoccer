@@ -13,9 +13,9 @@ public:
 
 	static Camera* GetInstance() { return _instance; }
 
-	void SetIsGame(bool isGame);
-	void SetPos(Vector3D pos) { _pos.first = pos; }
-	void SetTarget(Vector3D target) { _pos.second = target; }
+	void SetIsGame(const bool isGame) {_isGame = isGame;};
+	void SetPos(const Vector3D& pos) { _pos.first = pos; }
+	void SetTarget(const Vector3D& target) { _pos.second = target; }
 	bool SpringDamperSystem(Vector3D& nowPos,const Vector3D& targetPos, Vector3D& speed,const double time);
 
 private:

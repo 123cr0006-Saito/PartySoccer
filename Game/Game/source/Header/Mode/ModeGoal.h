@@ -5,7 +5,7 @@
 class ModeGoal : public ModeBase
 {
 	public:
-	ModeGoal(std::string name);
+	ModeGoal(const std::string& name);
 	~ModeGoal();
 	virtual bool	Initialize()override;
 	virtual bool	Terminate()override;

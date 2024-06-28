@@ -21,7 +21,7 @@
 // @param 得点を入れたチームの名前
 // @return 無し
 //----------------------------------------------------------------------
-ModeGoal::ModeGoal(std::string name){
+ModeGoal::ModeGoal(const std::string& name){
 	TimeLimit::GetInstance()->Stop();
 	_score = Score::GetInstance();
 	_superManager = SuperManager::GetInstance();

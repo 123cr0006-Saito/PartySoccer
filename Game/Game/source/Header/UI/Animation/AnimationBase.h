@@ -6,7 +6,7 @@ public:
 	AnimationBase(UIRotaBase*);
 	~AnimationBase();
 	virtual void Update()= 0;
-	virtual void Load(std::string) = 0;
+	virtual void Load(const std::string&) = 0;
 protected:
 	UIRotaBase* _ui;
 	int _currentTime;

@@ -6,7 +6,7 @@ class UIRotaBase : public UIBase
 {
 public:
 	UIRotaBase();
-	UIRotaBase(std::string name, Vector3D pos, Vector3D center, Vector3D extrate, float angle, int alpha, int handle,int layer);
+	UIRotaBase(const std::string& name,const Vector3D& pos,const Vector3D& center,const Vector3D& extrate,const float angle,const int alpha,const int handle,const int layer);
 	virtual ~UIRotaBase();
 	void Update()override;
 	void Draw()override;
@@ -14,13 +14,13 @@ public:
 	void SetAnimation(class AnimationBase* anim) { _animation.emplace_back(anim); }
 
 	
-	Vector3D GetCenter() { return _center; }
-	Vector3D GetExtrate() { return _extrate; }
-	float GetAngle() { return _angle; }
+	Vector3D GetCenter() const { return _center; }
+	Vector3D GetExtrate() const { return _extrate; }
+	float GetAngle() const { return _angle; }
 
-	void SetExtrateX(float x) { _extrate.x = x; }
-	void SetExtrateY(float y) { _extrate.y = y; }
-	void SetAngle(float angle) { _angle = angle; }
+	void SetExtrateX(const float x) { _extrate.x = x; }
+	void SetExtrateY(const float y) { _extrate.y = y; }
+	void SetAngle(const float angle) { _angle = angle; }
 	//--------------------------------------
 	//ïœêî
 protected:

@@ -62,7 +62,7 @@ bool PlayerManager::UpdateEnd(){
 // @param プレイヤーのモデルハンドル
 // @return 無し
 //----------------------------------------------------------------------
-void PlayerManager::Add(std::vector<std::tuple<std::string, XInput*, int>> param) {
+void PlayerManager::Add(const std::vector<std::tuple<std::string, class XInput*, int>>& param) {
 
 	float uiX = 1920.0f / (param.size() + 1);
 	for (int i = 0; i < param.size(); i++) {

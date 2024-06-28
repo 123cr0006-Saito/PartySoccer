@@ -9,7 +9,7 @@ class ObjectManager : public ManagerBase
 
 	void Add(class ObjectBase* object);
 	void AddInput(void* value)override;
-	void DeleteName(std::string name)override;
+	void DeleteName(const std::string& name)override;
 	void DeleteInput(void* value)override;
 	void DelAll()override;
 
@@ -18,7 +18,7 @@ class ObjectManager : public ManagerBase
 	bool UpdateEnd()override;
 	bool Draw() override;
 
-	class ObjectBase* Get(std::string name);
+	class ObjectBase* Get(const std::string& name);
 protected:
 	std::vector<class ObjectBase*> _addObjectList;
 	std::vector<class ObjectBase*> _objectList;

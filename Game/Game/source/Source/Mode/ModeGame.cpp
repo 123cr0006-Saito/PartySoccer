@@ -181,7 +181,7 @@ bool ModeGame::LoadUI(){
 // @param 読み込むオブジェクトのファイルの名前
 // @return オブジェクト名 座標 サイズ を配列にして返す
 //----------------------------------------------------------------------
-std::vector<std::tuple<std::string, Vector3D, Vector3D>> ModeGame::LoadObjectParam(std::string fileName) {
+std::vector<std::tuple<std::string, Vector3D, Vector3D>> ModeGame::LoadObjectParam(const std::string& fileName) {
 	std::vector<std::tuple<std::string, Vector3D, Vector3D>> nameList;
 	// csvファイルを読み込む
 	CFile file(fileName);

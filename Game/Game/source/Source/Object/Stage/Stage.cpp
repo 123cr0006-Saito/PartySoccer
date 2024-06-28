@@ -15,7 +15,7 @@
 // @param オブジェクトの名前
 // @return 無し
 //----------------------------------------------------------------------
-Stage::Stage(std::string name) : ObjectBase(name) {
+Stage::Stage(const std::string& name) : ObjectBase(name) {
 	int handle = ResourceServer::MV1LoadModel("Stage","Res/Model/Stage/Stadium.mv1");
 	for (int i = 0; i < 3; i++) {
 		MV1SetFrameVisible(handle, 351 + i, false);// 使用しないフレームの番号を指定　非表示に設定

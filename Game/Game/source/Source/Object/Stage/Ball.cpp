@@ -17,7 +17,7 @@
 // @param オブジェクトの名前
 // @return 無し
 //----------------------------------------------------------------------
-Ball::Ball(std::string name) : ObjectBase(name){
+Ball::Ball(const std::string& name) : ObjectBase(name){
 
 	_pos = Vector3D(0.0f, 350.0f, 0.0f);
 
@@ -30,7 +30,7 @@ Ball::Ball(std::string name) : ObjectBase(name){
 	_isShoot= false;
 	_speed = 0.0f;
 	_dirVec = Vector3D(0.0f, 0.0f, 0.0f);
-	_glavity = 0.0f;
+	_gravity = 0.0f;
 	_oldPos = _pos;
 	 SuperManager::GetInstance()->GetManager("renderManager")->Add(_model);
 	 SuperManager::GetInstance()->GetManager("collisionManager")->Add(_sphere);
@@ -64,12 +64,12 @@ bool Ball::Update() {
 	_dirVec.x += 0.002f * _speed;
 	_pos += _forwardVec * _speed;
 
-	_glavity += 5;
-	_pos.y -= _glavity;
+	_gravity += 5;
+	_pos.y -= _gravity;
 
 	if(_pos.y < 350.0f){
 		_pos.y = 350.0f;
-		_glavity = 0.0f;
+		_gravity = 0.0f;
 	}
 
 	_sphere->pos = _pos;
@@ -98,7 +98,7 @@ bool Ball::DebugDraw(){
 // @param 正面方向
 // @return 成功したかどうか
 //----------------------------------------------------------------------
-void Ball::SetForwardVec(Vector3D forwardVec) {
+void Ball::SetForwardVec(const Vector3D& forwardVec) {
 	_forwardVec = forwardVec.Normalize(); 
 	float angle = atan2f(_forwardVec.x, _forwardVec.z);
 	_dirVec = Vector3D(_dirVec.x, angle, 0.0f);

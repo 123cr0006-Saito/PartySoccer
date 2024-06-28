@@ -45,7 +45,7 @@ void RenderManager::AddInput(void* value){
 // @param 削除したいインスタンスの名前
 // @return 無し
 //----------------------------------------------------------------------
-void RenderManager::DeleteName(std::string name){
+void RenderManager::DeleteName(const std::string& name){
 	_delModelNameList.emplace_back(name);
 };
 //----------------------------------------------------------------------

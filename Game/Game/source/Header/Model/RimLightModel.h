@@ -3,9 +3,9 @@
 class RimLightModel : public ModelBase
 {
 public:
-	RimLightModel(std::string name,int layer, int handle);
+	RimLightModel(const std::string& name,const int layer,const int handle);
 	virtual ~RimLightModel();
-	void SetRimColor(float r,float g,float b);
+	void SetRimColor(const float r,const float g,const float b);
 protected:
 	int _rimLightColor;
 };

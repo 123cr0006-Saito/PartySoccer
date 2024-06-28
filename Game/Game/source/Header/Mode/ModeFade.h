@@ -13,7 +13,7 @@ class ModeFade : public ModeBase
 protected: 
 	typedef ModeBase base;
 public:
-	ModeFade(int Time,bool FadeIn = false);
+	ModeFade(const int Time,const bool FadeIn = false);
 	virtual ~ModeFade();
 	virtual bool Initialize();
 	virtual bool Terminate();

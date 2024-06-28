@@ -14,7 +14,7 @@ class TimeLimit
 	public:
 	TimeLimit();
 	~TimeLimit();
-	void SetTimeLimit(int minutes, int second);
+	void SetTimeLimit(const int minutes,const int second);
 	
 	float Update();
 	int SecondsToTime();
@@ -24,13 +24,13 @@ class TimeLimit
 	
 	static TimeLimit* GetInstance() { return _instance; }
 
-	float GetRemainingTime() { return _remainingTime; }
-	int GetTimeLimit() { return _timeLimitSecond > 0 ? _timeLimitSecond : 0; }
-	int GetElapsedTime() { return _elapsedTime; }
+	float GetRemainingTime() const { return _remainingTime; }
+	int GetTimeLimit() const { return _timeLimitSecond > 0 ? _timeLimitSecond : 0; }
+	int GetElapsedTime() const { return _elapsedTime; }
 
 	int GetDigits();
 
-	int GetStartTime() { return _setTime / 1000; }
+	int GetStartTime() const { return _setTime / 1000; }
 
 protected:
 	static TimeLimit* _instance;

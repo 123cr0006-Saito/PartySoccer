@@ -9,10 +9,10 @@ class SuperManager
 public:
 	SuperManager();
 	~SuperManager();
-	bool Add(std::string name, int id,class ManagerBase* manager);
-	bool DeleteName(std::string);
+	bool Add(const std::string& name, const int id,class ManagerBase* manager);
+	bool DeleteName(const std::string& name);
 	bool DelAll();
-	class ManagerBase* GetManager(std::string name);
+	class ManagerBase* GetManager(const std::string& name);
 	bool Update();
 	bool Draw();
 

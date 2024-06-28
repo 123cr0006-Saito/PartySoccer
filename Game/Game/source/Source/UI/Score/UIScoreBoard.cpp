@@ -17,7 +17,7 @@
 // @param スコアクラス
 // @return 無し
 //----------------------------------------------------------------------
-UIScoreBoard::UIScoreBoard(Vector3D pos,std::string name, Score* score) : 
+UIScoreBoard::UIScoreBoard(const Vector3D& pos, const std::string& name, Score* score) :
 	UIRotaBase()
 {
 	_handle = LoadGraph("Res/GoalAnimation/scoreBoard.png");

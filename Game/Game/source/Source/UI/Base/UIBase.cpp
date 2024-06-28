@@ -34,7 +34,7 @@ UIBase::UIBase() :
 // @param レイヤー
 // @return 無し
 //----------------------------------------------------------------------
-UIBase::UIBase(std::string name,Vector3D pos, float alpha, int handle, int layer) :
+UIBase::UIBase(const std::string& name, const Vector3D& pos, const float alpha, const int handle, const int layer) :
 	_name(name),
 	_pos(pos),
 	_alpha(alpha),
@@ -53,7 +53,7 @@ UIBase::UIBase(std::string name,Vector3D pos, float alpha, int handle, int layer
 // @param レイヤー
 // @return 無し
 //----------------------------------------------------------------------
-UIBase::UIBase(std::string name,Vector3D pos, float expansion, float alpha, int handle, int layer) :
+UIBase::UIBase(const std::string& name, const Vector3D& pos, const float expansion, const float alpha, const int handle, const int layer) :
 	_name(name),
 	_pos(pos),
 	_expansionRate(expansion),
