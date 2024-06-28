@@ -1,3 +1,9 @@
+//----------------------------------------------------------------------
+// @filename ModeSelectPlayer.h
+// @author: saito ko
+// @explanation
+// プレイヤーのモデルと数を選択するクラス
+//----------------------------------------------------------------------
 #pragma once
 #include "../../../AppFrame/source/Mode/ModeBase.h"
 #include "../../../AppFrame/source/System/Header/Input/XInput.h"
@@ -25,8 +31,8 @@ protected:
 
 	std::vector<std::tuple<std::string,XInput*,int>> _playerParam; // <コントローラー,選択キャラクター>
 	std::vector<std::pair<bool,int>> _selectCharacter; // <選択終了チェック,選択済みキャラクター>
-	std::vector<class UIBase*> _ui;
-	std::vector<std::pair<std::string,int>>_modelParam;
-	std::unordered_map<std::string,int> _graphHandle;
+	std::vector<class UIBase*> _ui;// UIクラス
+	std::vector<std::pair<std::string,int>>_modelParam;// <モデル名,モデルハンドル>
+	std::unordered_map<std::string,int> _graphHandle;// <画像名,グラフィックハンドル>
 };
 

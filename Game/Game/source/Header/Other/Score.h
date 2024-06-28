@@ -1,3 +1,9 @@
+//----------------------------------------------------------------------
+// @filename Score.h
+// @author: saito ko
+// @explanation
+// 点数を管理するクラス
+//----------------------------------------------------------------------
 #pragma once
 #include <map>
 #include <string>
@@ -12,6 +18,6 @@ public:
 	int GetScore(const std::string& name) {return _score[name]; };
 	std::string GetWinner() { return GetIsDraw() ? "Draw" : _score["Goal_1"] > _score["Goal_2"] ? "Team_1" : "Team_2"; };
 protected:
-	static Score* _instance;
-	std::map<std::string,int> _score;
+	static Score* _instance;//このクラスのインスタンス
+	std::map<std::string,int> _score;// 点数を格納するmap
 };

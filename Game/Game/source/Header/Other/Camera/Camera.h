@@ -1,3 +1,9 @@
+//----------------------------------------------------------------------
+// @filename Camera.cpp
+// @author: saito ko
+// @explanation
+// カメラを制御するクラス
+//----------------------------------------------------------------------
 #pragma once
 #include "../../../AppFrame/source/System/Header/Function/Vector3D.h"
 #include <utility>
@@ -19,11 +25,11 @@ public:
 	bool SpringDamperSystem(Vector3D& nowPos,const Vector3D& targetPos, Vector3D& speed,const double time);
 
 private:
-	class PlayerManager* _player;
-	static Camera* _instance;
+	class PlayerManager* _player;//プレイヤーの情報を取得するためのポインタ
+	static Camera* _instance;//このクラスのインスタンス
 	std::pair<Vector3D, Vector3D> _pos; // <カメラ位置,注視点>
-	Vector3D _targetSpeed;
-	Vector3D _cameraSpeed;
-	bool _isGame;
+	Vector3D _targetSpeed;//カメラの移動速度
+	Vector3D _cameraSpeed;//カメラの移動速度
+	bool _isGame;//メインゲームかどうか
 };
 

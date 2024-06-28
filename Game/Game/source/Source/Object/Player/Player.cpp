@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------
-// @filename SuperManager.cpp
+// @filename Player.cpp
 // @author: saito ko
 // @explanation
 // プレイヤークラス

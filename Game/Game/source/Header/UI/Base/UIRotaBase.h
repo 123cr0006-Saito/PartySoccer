@@ -1,3 +1,9 @@
+//----------------------------------------------------------------------
+// @filename UIRotaBase.h
+// @author: saito ko
+// @explanation
+// オブジェクトを管理するクラス
+//----------------------------------------------------------------------
 #pragma once
 #include "UIBase.h"
 #include <vector>
@@ -24,8 +30,8 @@ public:
 	//--------------------------------------
 	//変数
 protected:
-	std::vector<class AnimationBase*> _animation;
-	Vector3D _center;
-	Vector3D _extrate;
-	float _angle;
+	std::vector<class AnimationBase*> _animation;//アニメーション
+	Vector3D _center;//中心
+	Vector3D _extrate;//拡大率
+	float _angle;//回転値
 };

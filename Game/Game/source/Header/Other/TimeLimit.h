@@ -1,6 +1,5 @@
 //----------------------------------------------------------------------
 // @filename TimeLimit.h
-// @date: 2024/02/27
 // @author: saito ko
 // @explanation
 // 制限時間の管理を行うクラス
@@ -11,7 +10,7 @@
 #include <string>
 class TimeLimit
 {
-	public:
+public:
 	TimeLimit();
 	~TimeLimit();
 	void SetTimeLimit(const int minutes,const int second);
@@ -33,7 +32,7 @@ class TimeLimit
 	int GetStartTime() const { return _setTime / 1000; }
 
 protected:
-	static TimeLimit* _instance;
+	static TimeLimit* _instance;// このクラスのインスタンス
 	float _startTime,_timeLimit;// 開始時間と制限時間
 	float _setTime;// 設定時間
 	float _remainingTime;// 残り時間

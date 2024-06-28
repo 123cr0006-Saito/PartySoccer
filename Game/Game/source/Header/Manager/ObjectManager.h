@@ -1,3 +1,9 @@
+//----------------------------------------------------------------------
+// @filename ObjectManager.h
+// @author: saito ko
+// @explanation
+// オブジェクトを管理するクラス
+//----------------------------------------------------------------------
 #pragma once
 #include "ManagerBase.h"
 class ObjectManager : public ManagerBase
@@ -20,9 +26,9 @@ class ObjectManager : public ManagerBase
 
 	class ObjectBase* Get(const std::string& name);
 protected:
-	std::vector<class ObjectBase*> _addObjectList;
-	std::vector<class ObjectBase*> _objectList;
-	std::vector<class ObjectBase*> _delObjectList;
-	std::vector<std::string> _delObjectNameList;
+	std::vector<class ObjectBase*> _addObjectList; //追加するオブジェクトリスト
+	std::vector<class ObjectBase*> _objectList; //オブジェクトリスト
+	std::vector<class ObjectBase*> _delObjectList; //削除するオブジェクトリスト
+	std::vector<std::string> _delObjectNameList; //削除するオブジェクト名前リスト
 };
 

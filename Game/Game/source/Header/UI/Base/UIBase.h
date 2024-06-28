@@ -1,3 +1,9 @@
+//----------------------------------------------------------------------
+// @filename UIBase.h
+// @author: saito ko
+// @explanation
+// UIの基底クラス
+//----------------------------------------------------------------------
 #pragma once
 #include "../AppFrame/source/System/Header/Function/Vector3D.h"
 #include <string>
@@ -21,12 +27,12 @@ public:
 	void SetPosX(const float x) { _pos.x = x; }
 	void SetPosY(const float y) { _pos.y = y; }
 protected:
-	static Vector3D _screenSize;
-	std::string _name;
-	int _handle;
-	int _layer;
-	Vector3D _pos;
-	float _alpha;
+	static Vector3D _screenSize;//画面サイズ
+	std::string _name;//名前
+	int _handle;//画像ハンドル
+	int _layer;//描画順
+	Vector3D _pos;//座標
+	float _alpha;//透明度
 private:
-	float _expansionRate;
+	float _expansionRate;//拡大率
 };

@@ -1,3 +1,9 @@
+//----------------------------------------------------------------------
+// @filename ModeTitle.h
+// @author: saito ko
+// @explanation
+// タイトル画面を描画するクラス
+//----------------------------------------------------------------------
 #pragma once
 #include "../AppFrame/source/Mode/ModeBase.h"
 #include "../../Header/UI/Base/UIRotaBase.h"
@@ -12,8 +18,8 @@ public:
 	virtual bool	Process()override;
 	virtual bool	Render()override;
 protected:
-	class XInput* _input;
-	class SuperManager* _superManager;
-	std::vector<std::string> _uiName;
+	class XInput* _input; //入力クラス
+	class SuperManager* _superManager;//スーパーマネージャー
+	std::vector<std::string> _uiName;//UIの名前
 };
 

@@ -2,7 +2,7 @@
 // @filename ModeTitle.cpp
 // @author: saito ko
 // @explanation
-// オブジェクトを管理するクラス
+// // タイトル画面を描画するクラス
 //----------------------------------------------------------------------
 #include "../../Header/Mode/ModeTitle.h"
 #include "../AppFrame/source/CFile/CFile.h"

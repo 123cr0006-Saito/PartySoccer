@@ -1,3 +1,9 @@
+//----------------------------------------------------------------------
+// @filename CollisionManager.h
+// @author: saito ko
+// @explanation
+// 当たり判定とそのリアクションを行うクラス
+//----------------------------------------------------------------------
 #pragma once
 #include "ManagerBase.h"
 #include "../Object/Base/ObjectBase.h"
@@ -21,9 +27,9 @@ public:
 	bool CollisionCheckForBall(CollisionBase*);
 
 protected:
-	std::vector<CollisionBase*> _addCollisionList;
-	std::vector<CollisionBase*> _collisionList;
-	std::vector<CollisionBase*> _delCollisionList;
-	std::vector<std::string> _delCollisionNameList;
+	std::vector<CollisionBase*> _addCollisionList; //追加する当たり判定のリスト
+	std::vector<CollisionBase*> _collisionList; //当たり判定のリスト
+	std::vector<CollisionBase*> _delCollisionList; //削除する当たり判定のリスト
+	std::vector<std::string> _delCollisionNameList; //削除する当たり判定の名前のリスト
 };
 

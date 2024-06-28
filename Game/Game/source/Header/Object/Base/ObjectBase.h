@@ -1,3 +1,9 @@
+//----------------------------------------------------------------------
+// @filename ObjectBase.h
+// @author: saito ko
+// @explanation
+// オブジェクトの基底クラス
+//----------------------------------------------------------------------
 #pragma once
 #include "dxlib.h"
 #include "../AppFrame/source/System/Header/Function/Vector3D.h"
@@ -20,9 +26,9 @@ public:
 	virtual void SetForwardVec(const Vector3D& forward) { _forwardVec = forward; }
 	
 protected:
-	Vector3D _pos;
-	Vector3D _oldPos;
-	Vector3D _forwardVec;
-	std::string _name;
+	Vector3D _pos; // 座標
+	Vector3D _oldPos; // 1フレーム前の座標
+	Vector3D _forwardVec; // 前方ベクトル
+	std::string _name;// 名前
 };
 

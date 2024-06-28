@@ -1,9 +1,14 @@
+//----------------------------------------------------------------------
+// @filename SuperManager.h
+// @author: saito ko
+// @explanation
+// マネージャークラスを管理するクラス
+//----------------------------------------------------------------------
 #pragma once
 #include <vector>
 #include <string>
 #include <tuple>
 #include <utility>
-
 class SuperManager 
 {
 public:
@@ -20,10 +25,10 @@ public:
 	static SuperManager* GetInstance() { return _instance;}
 	void Skip() { _isProcessSkip = true; }
 protected:
-	static SuperManager* _instance;
-	bool _isSort;
-	std::vector<std::tuple<std::string,int,class ManagerBase*>> _superManager;
-	std::vector<std::string> _delSuperManager;
-	bool _isProcessSkip;
+	static SuperManager* _instance; // インスタンス
+	bool _isSort;// ソートをするかどうかのフラグ
+	std::vector<std::tuple<std::string,int,class ManagerBase*>> _superManager;// マネージャークラスのリスト
+	std::vector<std::string> _delSuperManager;// 削除するマネージャークラスのリスト
+	bool _isProcessSkip;// 処理を飛ばすかどうかのフラグ
 };
 

@@ -57,7 +57,7 @@ bool ModeGame::Initialize() {
 	// éûä‘êßå¿Çä«óùÇ∑ÇÈÉNÉâÉXÇçÏê¨
 	_timeLimit = NEW TimeLimit();
 	// éûä‘êßå¿Çê›íË
-	_timeLimit->SetTimeLimit(2, 0);
+	_timeLimit->SetTimeLimit(2,0);
 	_timeLimit->Stop();
 	//UIÇÃê∂ê¨
 	LoadUI();

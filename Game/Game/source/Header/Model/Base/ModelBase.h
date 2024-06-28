@@ -1,3 +1,9 @@
+//----------------------------------------------------------------------
+// @filename ModelBase.h
+// @author: saito ko
+// @explanation
+// 3Dモデルを管理する基底クラス
+//----------------------------------------------------------------------
 #pragma once
 #include "DxLib.h"
 #include <string>
@@ -32,12 +38,12 @@ public:
 	//-----------------------------------------------------
 
 protected:
-	int _modelHandle;
-	std::string _name;
-	int _layer;
+	int _modelHandle;//モデルハンドル
+	std::string _name;//モデル名
+	int _layer;//描画順のレイヤー
 
-	int _vertexShader;
-	int _pixelShader;
-	bool _isShader;
+	int _vertexShader;//頂点シェーダーハンドル
+	int _pixelShader;//ピクセルシェーダーハンドル
+	bool _isShader;//シェーダーを使用するか
 };
 

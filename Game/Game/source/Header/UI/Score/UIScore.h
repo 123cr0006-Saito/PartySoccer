@@ -1,6 +1,12 @@
+//----------------------------------------------------------------------
+// @filename UIScore.h
+// @author: saito ko
+// @explanation
+// スコアを描画するUIクラス
+//----------------------------------------------------------------------
 #pragma once
 #include "../Base/UIRotaBase.h"
-#include <unordered_map>
+#include <array>
 class UIScore : public UIRotaBase
 {
 public:
@@ -9,7 +15,7 @@ public:
 	virtual void Update()override;
 	virtual void Draw()override;
 protected:
-	class Score* _score;
-	std::string _teamName;
-	std::unordered_map<int, int> _scoreHandle;
+	class Score* _score;//スコアクラス
+	std::string _teamName;//チーム名
+	std::array<int, 10> _scoreHandle;//スコアのハンドル
 };

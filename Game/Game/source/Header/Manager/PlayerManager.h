@@ -1,7 +1,11 @@
+//----------------------------------------------------------------------
+// @filename PlayerManager.h
+// @author: saito ko
+// @explanation
+// プレイヤーを管理するクラス
+//----------------------------------------------------------------------
 #pragma once
 #include "ManagerBase.h"
-// @brief プレイヤーの管理クラス
-// セレクト画面で決定したキャラクターを管理するクラス　パッドの数でプレイヤーの数を設定
 class PlayerManager : public ManagerBase
 {
 	public:
@@ -22,7 +26,6 @@ class PlayerManager : public ManagerBase
 	bool Draw()override;
 	
 protected:
-	std::vector<class Player*> _player;
-	std::vector<class Vector3D> _originPos;
+	std::vector<class Player*> _player;//プレイヤーのリスト
 };
 

@@ -1,6 +1,11 @@
+//----------------------------------------------------------------------
+// @filename LocationAnim.h
+// @author: saito ko
+// @explanation
+// 指定のパラメーターの値を変更するアニメーションクラス
+//----------------------------------------------------------------------
 #pragma once
 #include <string>
-
 #include "AnimationBase.h"
 class LocationAnim : public AnimationBase
 {
@@ -17,6 +22,6 @@ public:
 	void ChangeExtrateX(float, float, int, int);
 	void ChangeExtrateY(float, float, int, int);
 protected:
-	std::vector<std::pair<void (LocationAnim::*)(float, float, int, int), std::tuple<float, float, int, int>>> _changeValueList;
+	std::vector<std::pair<void (LocationAnim::*)(float, float, int, int), std::tuple<float, float, int, int>>> _changeValueList; //変更する値と関数を格納するリスト
 };
 

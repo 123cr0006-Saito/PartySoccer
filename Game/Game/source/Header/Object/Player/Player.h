@@ -1,3 +1,9 @@
+//----------------------------------------------------------------------
+// @filename Player.h
+// @author: saito ko
+// @explanation
+// プレイヤークラス
+//----------------------------------------------------------------------
 #pragma once
 #include "../Base/ObjectBase.h"
 #include "../../AppFrame/source/System/Header/Collision/MyStructure.h"

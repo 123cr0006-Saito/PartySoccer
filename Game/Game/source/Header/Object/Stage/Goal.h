@@ -1,3 +1,10 @@
+//----------------------------------------------------------------------
+// @filename Goal.h
+// @author: saito ko
+// @explanation
+// ゴールクラス
+//----------------------------------------------------------------------
+#pragma once
 #include "../Base/ObjectBase.h"
 #include "../AppFrame/source/System/Header/Collision/MyStructure.h"
 class Goal : public ObjectBase {
@@ -10,6 +17,6 @@ public:
 
 	OBB* GetOBB() const { return _obb; }
 protected:
-	OBB* _obb;
-	class ModelBase* _model;
+	OBB* _obb;// 当たり判定
+	class ModelBase* _model;// モデル
 };

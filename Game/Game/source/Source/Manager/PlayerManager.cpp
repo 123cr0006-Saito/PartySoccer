@@ -25,7 +25,6 @@ PlayerManager::PlayerManager() {
 //----------------------------------------------------------------------
 PlayerManager::~PlayerManager(){
 	_player.clear();
-	_originPos.clear();
 };
 //----------------------------------------------------------------------
 // @brief 終了処理
@@ -80,7 +79,7 @@ void PlayerManager::DelAll(){
 		delete list;
 	}
 	_player.clear();
-	_originPos.clear();
+
 };
 //----------------------------------------------------------------------
 // @brief プレイヤーの位置　スタミナ　シュート力を初期化

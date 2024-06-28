@@ -1,3 +1,9 @@
+//----------------------------------------------------------------------
+// @filename UIManager.h
+// @author: saito ko
+// @explanation
+// オブジェクトを管理するクラス
+//----------------------------------------------------------------------
 #pragma once
 #include "ManagerBase.h"
 class UIManager : public ManagerBase
@@ -17,8 +23,8 @@ class UIManager : public ManagerBase
 	void Sort();
 
 protected:
-	std::vector<class UIBase*> _addUiList;
-	std::vector<class UIBase*> _uiList;
-	std::vector<class UIBase*> _delUiList;
-	std::vector<std::string> _delUiNameList;
+	std::vector<class UIBase*> _uiList;//UIのリスト
+	std::vector<class UIBase*> _addUiList;//追加するUIのリスト
+	std::vector<class UIBase*> _delUiList;//削除するUIのリスト
+	std::vector<std::string> _delUiNameList;//削除するUIの名前リスト
 };

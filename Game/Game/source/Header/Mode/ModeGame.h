@@ -1,9 +1,8 @@
 //----------------------------------------------------------------------
 // @filename ModeGame.h
-// @date: 2023/12/14
 // @author: saito ko
 // @explanation
-// ボスバトル以外のステージを管理するクラス
+// ゲーム本編を管理するクラス
 //----------------------------------------------------------------------
 #pragma once
 #include "appframe.h"
@@ -15,7 +14,6 @@ class ModeGame : public ModeBase
 	typedef ModeBase base;
 
 public:
-
 	ModeGame();
 	virtual bool Initialize()override;
 	virtual bool Terminate()override;
@@ -27,13 +25,13 @@ public:
 	void ReSetGame();
 	std::vector<std::tuple<std::string, Vector3D, Vector3D>> LoadObjectParam(const std::string& fileName);
 protected:
-	class SuperManager* _superManager;
-	class Player* _player;
-	class Camera* _camera;
-	class Score* _score;
-	class TimeLimit* _timeLimit;
-	std::vector<std::string> _objectName;
+	class SuperManager* _superManager;//スーパーマネージャークラス
+	class Player* _player;//プレイヤークラス
+	class Camera* _camera;//カメラクラス
+	class Score* _score;//点数クラス
+	class TimeLimit* _timeLimit;//時間制限クラス
+	std::vector<std::string> _objectName;//読み込んだオブジェクトの名前を格納する変数
 
-	bool _isAddBall;
-	int _currentTime;
+	bool _isAddBall;//ボールを追加するかどうか
+	int _currentTime;//現在の時間
 };

@@ -2,7 +2,7 @@
 // @filename Stage.cpp
 // @author: saito ko
 // @explanation
-// オブジェクトを管理するクラス
+// ステージクラス
 //----------------------------------------------------------------------
 #include "../../../Header/Object/Stage/Stage.h"
 #include "../../../Header/Manager/RenderManager.h"

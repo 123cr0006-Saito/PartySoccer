@@ -42,14 +42,14 @@ ModeGoal::ModeGoal(const std::string& name){
 	}
 	//UIを追加
 	for(auto&& list : _ui){
-		_superManager->GetManager("uiManager")->Add(list.second);
+		_superManager->GetManager("uiManager")->Add(list);
 
 		// チームの得点を設定
-		if(list.first == "Goal_1"){
-			list.second->SetHandle(_numHandle[_nowScore[0]]);
+		if(list->GetName() == "Goal_1") {
+			list->SetHandle(_numHandle[_nowScore[0]]);
 		}
-		else if(list.first == "Goal_2"){
-			list.second->SetHandle(_numHandle[_nowScore[1]]);
+		else if(list->GetName() == "Goal_2") {
+			list->SetHandle(_numHandle[_nowScore[1]]);
 		}
 	}
 
@@ -114,7 +114,7 @@ void ModeGoal::LoadUI(){
 				ui->SetAnimation(anim);
 			}
 
-			_ui.emplace_back(name,ui);
+			_ui.emplace_back(ui);
 			count++;
 		}
 	}
@@ -128,7 +128,7 @@ void ModeGoal::LoadUI(){
 //----------------------------------------------------------------------
 bool ModeGoal::Terminate(){
 	for (auto&& list : _ui) {
-		_superManager->GetManager("uiManager")->DeleteName(list.first);
+		_superManager->GetManager("uiManager")->Delete(list);
 	}
 	return true;
 };
@@ -154,8 +154,8 @@ void ModeGoal::AnimationProcess(){
 
 	// 1.8秒後、点数の画像を更新
 	for(auto&& list : _ui){
-		if(list.first == _name){
-			list.second->SetHandle(_numHandle[_score->GetScore(_name)]);
+		if(list->GetName() == _name) {
+			list->SetHandle(_numHandle[_score->GetScore(_name)]);
 		}
 	}
 	//3.3秒

@@ -2,7 +2,7 @@
 // @filename Camera.cpp
 // @author: saito ko
 // @explanation
-// プレイヤーの中心にカメラを追従させるクラス
+// カメラを制御するクラス
 //----------------------------------------------------------------------
 #include "../../../Header/Other/Camera/Camera.h"
 #include "../.../../AppFrame/source/System/Header/Function/Timer.h"

@@ -2,7 +2,7 @@
 // @filename ModeSelectPlayer.cpp
 // @author: saito ko
 // @explanation
-// オブジェクトを管理するクラス
+// // プレイヤーのモデルと数を選択するクラス
 //----------------------------------------------------------------------
 #include "../../Header/Mode/ModeSelectPlayer.h"
 #include "../../Header/Manager/SuperManager.h"

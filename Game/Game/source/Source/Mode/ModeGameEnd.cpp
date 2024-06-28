@@ -26,7 +26,7 @@ ModeGameEnd::ModeGameEnd(){
 // @return –³‚µ
 //----------------------------------------------------------------------
 ModeGameEnd::~ModeGameEnd(){
-	SuperManager::GetInstance()->GetManager("uiManager")->DeleteName(_ui.first);
+
 };
 //----------------------------------------------------------------------
 // @brief ‰Šú‰»ˆ—
@@ -35,10 +35,9 @@ ModeGameEnd::~ModeGameEnd(){
 bool ModeGameEnd::Initialize(){
 	_currentTime = GetNowCount();
 	// I—¹UI‚ğì¬
-	UIGameEnd* ui = new UIGameEnd();
-	LocationAnim* anim = new LocationAnim(ui, "Data/UIAnimation/GameEndAnimation.csv");
-	ui->SetAnimation(anim);
-	_ui = std::make_pair("GameEnd",ui);
+	_ui = NEW UIGameEnd();
+	LocationAnim* anim = new LocationAnim(_ui, "Data/UIAnimation/GameEndAnimation.csv");
+	_ui->SetAnimation(anim);
 	return true;
 };
 //----------------------------------------------------------------------
@@ -47,7 +46,7 @@ bool ModeGameEnd::Initialize(){
 //----------------------------------------------------------------------
 bool ModeGameEnd::Terminate(){
 	// UI‚ğíœ
-	SuperManager::GetInstance()->GetManager("uiManager")->DeleteName(_ui.first);
+	SuperManager::GetInstance()->GetManager("uiManager")->DeleteName(_ui->GetName());
 	return true;
 };
 //----------------------------------------------------------------------

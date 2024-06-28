@@ -15,8 +15,7 @@ AnimationBase::AnimationBase(UIRotaBase* ui):
  _ui(ui),
  _currentTime(GetNowCount()),
  _endTime(0),
- _delayTime(0),
- _isEnd(false)
+ _delayTime(0)
 {
 };
 //----------------------------------------------------------------------
