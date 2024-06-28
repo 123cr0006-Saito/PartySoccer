@@ -17,8 +17,7 @@ Camera* Camera::_instance = nullptr;
 // @return 無し
 //----------------------------------------------------------------------
 Camera::Camera() :
-	_isGame(false),
-	_currentTime(GetNowCount())
+	_isGame(false)
 {
 	if (_instance != nullptr) {
 		DebugError();
@@ -73,11 +72,13 @@ void Camera::UpdateGame(){
 	}
 
 	Vector3D targetPos = pos / player.size();
-	_pos.first = targetPos + Vector3D(0, 3500, -3000) *2;
+	Vector3D cameraPos = targetPos + Vector3D(0, 7000, -6000); // ターゲットから離したい距離分を足す
 
-	SpringDamperSystem(targetPos);
+	double elapsedTime = Timer::GetInstance()->TimeElapsed();
+    SpringDamperSystem(_pos.first,cameraPos, _cameraSpeed,elapsedTime);
+	SpringDamperSystem(_pos.second,targetPos,_targetSpeed, elapsedTime);
 
-	SetCameraPositionAndTarget_UpVecY(_pos.first.toVECTOR(), (_pos.second + (targetPos - _pos.second) / 1.3f).toVECTOR());
+	SetCameraPositionAndTarget_UpVecY(_pos.first.toVECTOR(), _pos.second.toVECTOR());
 };
 //----------------------------------------------------------------------
 // @brief メインゲームかどうかを設定
@@ -86,26 +87,22 @@ void Camera::UpdateGame(){
 //----------------------------------------------------------------------
 void Camera::SetIsGame(bool isGame) {
 	_isGame = isGame; 
-	_holdPos.first = _pos.first;
-	_holdPos.second = _pos.second;
-	_currentTime = GetNowCount();
 };
 //----------------------------------------------------------------------
 // @brief カメラの追従システム
 // @return 成功したかどうか
 //----------------------------------------------------------------------
-bool Camera::SpringDamperSystem(Vector3D targetPos){
+bool Camera::SpringDamperSystem(Vector3D& nowPos,const Vector3D& targetPos, Vector3D& speed,const double time){
 	float springConstant = 100.0f;
 	float dampingConstant = 20.0f;
-	double elapsedTime = Timer::GetInstance()->TimeElapsed();
 
-	Vector3D pos = _pos.second - targetPos;
+	Vector3D pos = nowPos - targetPos;
 	Vector3D springForce = pos * -springConstant; // バネの力 -kx 弾性力
-	Vector3D dampingForce = _speed * -dampingConstant; // ダンパの力 -cv 抵抗力
+	Vector3D dampingForce = speed * -dampingConstant; // ダンパの力 -cv 抵抗力
 	Vector3D force = springForce + dampingForce; // 合力
 
-	_speed += force * elapsedTime;
-	_pos.second += _speed * elapsedTime;
+	speed += force * time;
+	nowPos += speed * time;
 
 	return true;
 };
@@ -116,5 +113,7 @@ bool Camera::SpringDamperSystem(Vector3D targetPos){
 bool Camera::Draw(){
 	printfDx("x:%f y:%f z:%f\n",_pos.first.x, _pos.first.y, _pos.first.z);
 	printfDx("x:%f y:%f z:%f\n", _pos.second.x, _pos.second.y, _pos.second.z);
+	printfDx("x:%f y:%f z:%f\n", _cameraSpeed.x, _cameraSpeed.y, _cameraSpeed.z);
+	printfDx("x:%f y:%f z:%f\n", _targetSpeed.x, _targetSpeed.y, _targetSpeed.z);
 	return true;
 };

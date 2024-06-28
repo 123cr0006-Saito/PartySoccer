@@ -242,5 +242,8 @@ bool ModeGame::Process() {
 //----------------------------------------------------------------------
 bool ModeGame::Render() {
 	base::Render();
+#ifdef _DEBUG
+	_camera->Draw();
+#endif
 	return true;
 }
